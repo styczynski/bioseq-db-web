@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C++ API</title>
+<meta name="description" content="C++ API reference">
+<link rel="canonical" href="https://bioseqdb.com/v0.1/reference/cpp/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta property="og:title" content="C++ API">
+<meta property="og:description" content="C++ API reference">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bioseqdb.com/v0.1/reference/cpp/">
+<meta property="og:image" content="https://bioseqdb.com/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/media/social_card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/media/social_card.png">
+<link rel="icon" href="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/favicon.svg">
+<link rel="stylesheet" href="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/css/site.css">
+<link rel="stylesheet" href="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/vendor/prism/prism.min.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","name":"C++ API","description":"C++ API reference","url":"https://bioseqdb.com/v0.1/reference/cpp/","isPartOf":"Bioseq","image":"https://bioseqdb.com/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Reference","item":"/v0.1/reference/"},{"@type":"ListItem","position":4,"name":"C++ API","item":"/v0.1/reference/cpp/"}]}]}</script>
+
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <nav class="site-nav" aria-label="Primary">
+    <a class="brand" href="/">Bioseq</a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-primary" aria-label="Toggle navigation menu">
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+    </button>
+    <div class="nav-primary" id="nav-primary">
+      <ul class="nav-links">
+        <li><a href="/v0.1/">Documentation</a></li>
+        <li><a href="/v0.1/tutorials/">Tutorials</a></li>
+        <li><a href="/v0.1/reference/">Reference</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="search-button" id="search-button" href="/v0.1/reference/" role="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-dialog">
+          <span class="search-button-label">Search</span>
+          <kbd class="search-button-kbd" aria-hidden="true">Ctrl K</kbd>
+        </a>
+        <details class="version-selector" id="version-selector">
+          <summary class="version-current">v0.1</summary>
+          <div class="version-menu">
+            <ul class="version-list" id="version-list" data-versions="/versions.json">
+              <li><a href="/v0.1/" aria-current="true">v0.1</a></li>
+            </ul>
+            <a class="version-all" href="/versions/">All versions</a>
+          </div>
+        </details>
+        <a class="repo-link" href="https://github.com/styczynski/bioseqdb" rel="noreferrer">GitHub</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<dialog class="search-dialog" id="search-dialog" data-search-index="/v0.1/search-index.json" aria-label="Search documentation">
+  <form class="search-form" method="dialog" role="search">
+    <label class="search-label" for="search-input">Search documentation</label>
+    <input type="search" id="search-input" class="search-input" role="combobox" aria-expanded="true" aria-controls="search-results" aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Search tutorials, SQL, and C++ reference">
+    <button type="submit" class="search-close" value="close">Close</button>
+  </form>
+  <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
+  <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
+  <p class="search-fallback"><a href="/v0.1/reference/">Browse the full reference index</a></p>
+</dialog>
+<div class="layout layout-doc">
+  
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/v0.1/">v0.1</a></li>
+    
+      <li><a href="/v0.1/reference/">Reference</a></li>
+    
+      <li><a href="/v0.1/reference/cpp/">C++ API</a></li>
+    
+    </ol>
+  </nav>
+  
+  
+  <aside class="doc-nav" aria-label="Documentation navigation">
+    <nav>
+    
+      <p class="doc-nav-title">Tutorials</p>
+      <ul>
+      
+        <li><a href="/v0.1/tutorials/sequence_column_type/">The bioseq.seq column type</a></li>
+      
+      </ul>
+    
+      <p class="doc-nav-title">Reference</p>
+      <ul>
+      
+        <li><a href="/v0.1/reference/cpp/">C++</a></li>
+      
+        <li><a href="/v0.1/reference/sql/">SQL</a></li>
+      
+      </ul>
+    
+    </nav>
+  </aside>
+  
+  <main id="main">
+
+<article class="entity-index">
+  <h1>C++ API</h1>
+  
+  <ul class="entity-list">
+  
+    <li><a href="/v0.1/reference/cpp/class/io-compact-sequence-view-dab38192a3cf24d8/"><code>bioseq::io::compact_sequence_view</code></a> <span class="kind">class</span> — View of one record&#39;s packed sequence inside a batch&#39;s shared</li>
+  
+    <li><a href="/v0.1/reference/cpp/class/io-sequence-batch-9dd2b131a8e4a9ed/"><code>bioseq::io::sequence_batch</code></a> <span class="kind">class</span> — A batch of records delivered to the user&#39;s handler.</li>
+  
+    <li><a href="/v0.1/reference/cpp/concept/io-sequence-batch-handler-f9bd946f12e76f2a/"><code>bioseq::io::sequence_batch_handler</code></a> <span class="kind">concept</span> — Concept matching the spec §3.5: a handler that accepts a batch rvalue.</li>
+  
+    <li><a href="/v0.1/reference/cpp/enum/io-read-backend-6700d4ceb9db6b37/"><code>bioseq::io::read_backend</code></a> <span class="kind">enum</span> — Which I/O backend the dispatcher in</li>
+  
+    <li><a href="/v0.1/reference/cpp/enumerator/read-backend-gzip-a59606fe7b893ee6/"><code>bioseq::io::read_backend::GZIP</code></a> <span class="kind">enum_value</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/enumerator/read-backend-mmap-40ee9a517c879579/"><code>bioseq::io::read_backend::MMAP</code></a> <span class="kind">enum_value</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/enumerator/read-backend-parallel-gzip-cf3b0475221e3562/"><code>bioseq::io::read_backend::PARALLEL_GZIP</code></a> <span class="kind">enum_value</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/enumerator/read-backend-posix-read-cdd1b424de765592/"><code>bioseq::io::read_backend::POSIX_READ</code></a> <span class="kind">enum_value</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/enumerator/read-backend-unknown-080f774187beedb0/"><code>bioseq::io::read_backend::UNKNOWN</code></a> <span class="kind">enum_value</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/compact-sequence-view-begin-6b6f840ec9ae2b11/"><code>bioseq::io::compact_sequence_view::begin</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/compact-sequence-view-cbegin-9d9fac842bbdb82e/"><code>bioseq::io::compact_sequence_view::cbegin</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/compact-sequence-view-cend-c3750c6b1dc19bb2/"><code>bioseq::io::compact_sequence_view::cend</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/compact-sequence-view-compact-sequence-view-r-326b7e91c7e3b174/"><code>bioseq::io::compact_sequence_view::compact_sequence_view&lt;R&gt;</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/compact-sequence-view-compact-sequence-view-r-5597ad28ee1495d9/"><code>bioseq::io::compact_sequence_view::compact_sequence_view&lt;R&gt;</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/compact-sequence-view-data-463259bacc5e05ac/"><code>bioseq::io::compact_sequence_view::data</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/compact-sequence-view-end-3955c3b6b075c771/"><code>bioseq::io::compact_sequence_view::end</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/compact-sequence-view-operator-b7cd704c4884afd9/"><code>bioseq::io::compact_sequence_view::operator[]</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/compact-sequence-view-padding-c5adfeb5813c64a9/"><code>bioseq::io::compact_sequence_view::padding</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/compact-sequence-view-size-580fbd56c7a7d3dd/"><code>bioseq::io::compact_sequence_view::size</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/detail-find-fasta-record-boundary-1bf2310c14b05698/"><code>bioseq::io::detail::find_fasta_record_boundary</code></a> <span class="kind">function</span> — Find the position of the next FASTA record boundary at or after</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/detail-find-fastq-record-boundary-b791a63a2ed6cb28/"><code>bioseq::io::detail::find_fastq_record_boundary</code></a> <span class="kind">function</span> — Find the position of the next FASTQ record boundary at or after</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/detail-run-pipeline-for-source-05f1559fccf190d1/"><code>bioseq::io::detail::run_pipeline_for_source</code></a> <span class="kind">function</span> — Mode-aware dispatcher.</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/detail-run-sync-pipeline-23a8be69197e010d/"><code>bioseq::io::detail::run_sync_pipeline</code></a> <span class="kind">function</span> — Run the synchronous read loop with a concrete source.</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/detail-run-sync-pipeline-mmap-direct-9f46dda448ced407/"><code>bioseq::io::detail::run_sync_pipeline_mmap_direct</code></a> <span class="kind">function</span> — Synchronous pipeline specialised for</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/detail-run-sync-pipeline-mmap-parallel-038653faf9387f30/"><code>bioseq::io::detail::run_sync_pipeline_mmap_parallel</code></a> <span class="kind">function</span> — Run a parallel sharded mmap pipeline.</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/detail-run-sync-stream-67e66047af7a5e60/"><code>bioseq::io::detail::run_sync_stream</code></a> <span class="kind">function</span> — DOC0286 §4.3 — single-threaded streaming read loop.</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/detail-with-selected-source-82e129432e2f4879/"><code>bioseq::io::detail::with_selected_source</code></a> <span class="kind">function</span> — DOC0295 §9.5 (F21) — the single source-selection dispatch shared by</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/io-read-backend-name-21e2080ac3b9de3f/"><code>bioseq::io::read_backend_name</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/io-read-decompressed-prefix-719650ef2976ad14/"><code>bioseq::io::read_decompressed_prefix</code></a> <span class="kind">function</span> — DOC0295 §9.5 — read at most</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/io-read-sequences-file-601824bc6325b58a/"><code>bioseq::io::read_sequences_file</code></a> <span class="kind">function</span> — Public entry point.</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/io-read-sequences-files-a8d8c462e698b18a/"><code>bioseq::io::read_sequences_files</code></a> <span class="kind">function</span> — Plural-API convenience: read a sequence of files in declaration order, accumulating record counts.</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/io-sample-sequence-headers-e0730ad335709fe3/"><code>bioseq::io::sample_sequence_headers</code></a> <span class="kind">function</span> — DOC0295 §9.5 — sample up to</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-clear-3b7f29ff40af137d/"><code>bioseq::io::sequence_batch::clear</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-empty-33d43cd4d142b6f6/"><code>bioseq::io::sequence_batch::empty</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-header-5eefa9ecb89a71f1/"><code>bioseq::io::sequence_batch::header</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-header-offsets-14de089f7c20f520/"><code>bioseq::io::sequence_batch::header_offsets</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-header-storage-878a8e1229f2c199/"><code>bioseq::io::sequence_batch::header_storage</code></a> <span class="kind">function</span> — Mutable accessors used by the FSM emit-record callbacks.</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-prepare-3bcb87b2d37b485a/"><code>bioseq::io::sequence_batch::prepare</code></a> <span class="kind">function</span> — Initialise the offset prefix arrays so the first record&#39;s offset is 0.</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-quality-54373f88903d4d13/"><code>bioseq::io::sequence_batch::quality</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-quality-offsets-ca2ae8338564c7de/"><code>bioseq::io::sequence_batch::quality_offsets</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-quality-storage-3e2d7efd86e54433/"><code>bioseq::io::sequence_batch::quality_storage</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-reserve-storage-ca0627c66804076b/"><code>bioseq::io::sequence_batch::reserve_storage</code></a> <span class="kind">function</span> — Reserve the storage buffers up front so the per-record append path runs without reallocs once steady state is reached.</li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-seq-offsets-48eba5a7fd0209fc/"><code>bioseq::io::sequence_batch::seq_offsets</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-seq-paddings-5481381f62fb2610/"><code>bioseq::io::sequence_batch::seq_paddings</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-seq-storage-6be96def44e715ad/"><code>bioseq::io::sequence_batch::seq_storage</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-sequence-ec48c439406c95b9/"><code>bioseq::io::sequence_batch::sequence</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/sequence-batch-size-526cb8fdfe00fcc4/"><code>bioseq::io::sequence_batch::size</code></a> <span class="kind">function</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/function/io-stream-sequences-file-5618699210e76387/"><code>bioseq::io::stream_sequences_file</code></a> <span class="kind">function</span> — DOC0286 §4.3 — bounded streaming read of a FASTA/FASTQ file into the caller&#39;s</li>
+  
+    <li><a href="/v0.1/reference/cpp/namespace/bioseq-8fce0e2924c84b4e/"><code>bioseq</code></a> <span class="kind">namespace</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/namespace/bioseq-io-533c7fc1b61fc46a/"><code>bioseq::io</code></a> <span class="kind">namespace</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/namespace/io-detail-b88c4003cf65091f/"><code>bioseq::io::detail</code></a> <span class="kind">namespace</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/struct/io-packed-sequence-chunk-b454a91de17f8f9a/"><code>bioseq::io::packed_sequence_chunk</code></a> <span class="kind">struct</span> — DOC0286 §4.3 — one bounded, column-unit-packed chunk emitted by</li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/alphabet-config-2629396b2cf28e2f/"><code>alphabet_config</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/batch-t-5aff4f44e7d7b04a/"><code>batch_t</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/compact-sequence-view-const-iterator-b1b24c213d72f4a9/"><code>bioseq::io::compact_sequence_view::const_iterator</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/compact-sequence-view-iterator-0b7635ec1bbc01a9/"><code>bioseq::io::compact_sequence_view::iterator</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/compact-sequence-view-storage-unit-c7a7e99aeb49c32f/"><code>bioseq::io::compact_sequence_view::storage_unit</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/compact-sequence-view-traits-34465f57907ddc76/"><code>bioseq::io::compact_sequence_view::traits</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/sequence-batch-sequence-range-t-2b7c8ada6494c6f4/"><code>bioseq::io::sequence_batch::sequence_range_t</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/sequence-batch-sequence-view-t-57f91aa7d831a410/"><code>bioseq::io::sequence_batch::sequence_view_t</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/sequence-batch-storage-unit-c2dd81f3610b4728/"><code>bioseq::io::sequence_batch::storage_unit</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/result-t-a97ba336401882ed/"><code>result_t</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/sequence-traits-23f423bc3dd5eefe/"><code>sequence_traits</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/source-t-893d3e346557c241/"><code>source_t</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/stream-config-1fe1f199564dbe1e/"><code>stream_config</code></a> <span class="kind">type_alias</span></li>
+  
+    <li><a href="/v0.1/reference/cpp/type_alias/stream-traits-c2b9afa27b16ad15/"><code>stream_traits</code></a> <span class="kind">type_alias</span></li>
+  
+  </ul>
+  
+</article>
+
+  </main>
+  
+</div>
+<footer class="site-footer">
+  <p>&#169; 2026 Bioseq contributors &#183; Alpha &#183; v0.1</p>
+</footer>
+<script src="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/js/main.js"></script>
+
+</body>
+</html>

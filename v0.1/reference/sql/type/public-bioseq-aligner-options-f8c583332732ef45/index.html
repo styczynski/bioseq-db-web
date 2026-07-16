@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>public.bioseq_aligner_options</title>
+<meta name="description" content="Per-call aligner tuning options (k-mer and window sizes, gap and chaining limits) for the mmsearch similarity predicate.">
+<link rel="canonical" href="https://bioseqdb.com/v0.1/reference/sql/type/public-bioseq-aligner-options-f8c583332732ef45/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta property="og:title" content="public.bioseq_aligner_options">
+<meta property="og:description" content="Per-call aligner tuning options (k-mer and window sizes, gap and chaining limits) for the mmsearch similarity predicate.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bioseqdb.com/v0.1/reference/sql/type/public-bioseq-aligner-options-f8c583332732ef45/">
+<meta property="og:image" content="https://bioseqdb.com/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/media/social_card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/media/social_card.png">
+<link rel="icon" href="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/favicon.svg">
+<link rel="stylesheet" href="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/css/site.css">
+<link rel="stylesheet" href="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/vendor/prism/prism.min.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"public.bioseq_aligner_options","description":"Per-call aligner tuning options (k-mer and window sizes, gap and chaining limits) for the mmsearch similarity predicate.","url":"https://bioseqdb.com/v0.1/reference/sql/type/public-bioseq-aligner-options-f8c583332732ef45/","isPartOf":"Bioseq","image":"https://bioseqdb.com/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Reference","item":"/v0.1/reference/"},{"@type":"ListItem","position":4,"name":"SQL","item":"/v0.1/reference/sql/"},{"@type":"ListItem","position":5,"name":"public.bioseq_aligner_options","item":"/v0.1/reference/sql/type/public-bioseq-aligner-options-f8c583332732ef45/"}]}]}</script>
+
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <nav class="site-nav" aria-label="Primary">
+    <a class="brand" href="/">Bioseq</a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-primary" aria-label="Toggle navigation menu">
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+    </button>
+    <div class="nav-primary" id="nav-primary">
+      <ul class="nav-links">
+        <li><a href="/v0.1/">Documentation</a></li>
+        <li><a href="/v0.1/tutorials/">Tutorials</a></li>
+        <li><a href="/v0.1/reference/">Reference</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="search-button" id="search-button" href="/v0.1/reference/" role="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-dialog">
+          <span class="search-button-label">Search</span>
+          <kbd class="search-button-kbd" aria-hidden="true">Ctrl K</kbd>
+        </a>
+        <details class="version-selector" id="version-selector">
+          <summary class="version-current">v0.1</summary>
+          <div class="version-menu">
+            <ul class="version-list" id="version-list" data-versions="/versions.json">
+              <li><a href="/v0.1/" aria-current="true">v0.1</a></li>
+            </ul>
+            <a class="version-all" href="/versions/">All versions</a>
+          </div>
+        </details>
+        <a class="repo-link" href="https://github.com/styczynski/bioseqdb" rel="noreferrer">GitHub</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<dialog class="search-dialog" id="search-dialog" data-search-index="/v0.1/search-index.json" aria-label="Search documentation">
+  <form class="search-form" method="dialog" role="search">
+    <label class="search-label" for="search-input">Search documentation</label>
+    <input type="search" id="search-input" class="search-input" role="combobox" aria-expanded="true" aria-controls="search-results" aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Search tutorials, SQL, and C++ reference">
+    <button type="submit" class="search-close" value="close">Close</button>
+  </form>
+  <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
+  <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
+  <p class="search-fallback"><a href="/v0.1/reference/">Browse the full reference index</a></p>
+</dialog>
+<div class="layout layout-doc">
+  
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/v0.1/">v0.1</a></li>
+    
+      <li><a href="/v0.1/reference/">Reference</a></li>
+    
+      <li><a href="/v0.1/reference/sql/">SQL</a></li>
+    
+      <li><a href="/v0.1/reference/sql/type/public-bioseq-aligner-options-f8c583332732ef45/">public.bioseq_aligner_options</a></li>
+    
+    </ol>
+  </nav>
+  
+  
+  <aside class="doc-nav" aria-label="Documentation navigation">
+    <nav>
+    
+      <p class="doc-nav-title">Tutorials</p>
+      <ul>
+      
+        <li><a href="/v0.1/tutorials/sequence_column_type/">The bioseq.seq column type</a></li>
+      
+      </ul>
+    
+      <p class="doc-nav-title">Reference</p>
+      <ul>
+      
+        <li><a href="/v0.1/reference/cpp/">C++</a></li>
+      
+        <li><a href="/v0.1/reference/sql/">SQL</a></li>
+      
+      </ul>
+    
+    </nav>
+  </aside>
+  
+  <main id="main">
+
+<article class="entity">
+  <p class="kind-badge">sql &#183; sql_type</p>
+  <h1><code>public.bioseq_aligner_options</code></h1>
+  <p class="summary">Per-call aligner tuning options (k-mer and window sizes, gap and chaining limits) for the mmsearch similarity predicate.</p>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <p class="provenance">Bioseq extension 1.0 · schema public · PostgreSQL 17.10</p>
+  
+</article>
+
+  </main>
+  
+</div>
+<footer class="site-footer">
+  <p>&#169; 2026 Bioseq contributors &#183; Alpha &#183; v0.1</p>
+</footer>
+<script src="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/js/main.js"></script>
+
+</body>
+</html>
