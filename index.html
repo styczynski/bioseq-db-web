@@ -3,58 +3,52 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bioseq</title>
-<meta name="description" content="PostgreSQL-native biological sequence analysis.">
+<title>BioseqDB</title>
+<meta name="description" content="Load FASTA and FASTQ data, store sequences beside metadata, and search them with ordinary SQL.">
 <link rel="canonical" href="https://bioseqdb.com/">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
-<meta property="og:title" content="Bioseq">
-<meta property="og:description" content="PostgreSQL-native biological sequence analysis.">
+<meta property="og:title" content="BioseqDB">
+<meta property="og:description" content="Load FASTA and FASTQ data, store sequences beside metadata, and search them with ordinary SQL.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bioseqdb.com/">
-<meta property="og:image" content="https://bioseqdb.com/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/media/social_card.png">
+<meta property="og:image" content="https://bioseqdb.com/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/media/social_card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bioseqdb.com/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/media/social_card.png">
-<link rel="icon" href="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/favicon.svg">
-<link rel="stylesheet" href="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/css/site.css">
-<link rel="stylesheet" href="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/vendor/prism/prism.min.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Bioseq","description":"PostgreSQL-native biological sequence analysis.","url":"https://bioseqdb.com/","isPartOf":"Bioseq","image":"https://bioseqdb.com/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/media/social_card.png"}</script>
+<meta name="twitter:image" content="https://bioseqdb.com/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/media/social_card.png">
+<link rel="icon" href="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/favicon.svg">
+<link rel="stylesheet" href="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/css/site.css">
+<link rel="stylesheet" href="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/vendor/prism/prism.min.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"BioseqDB","description":"Load FASTA and FASTQ data, store sequences beside metadata, and search them with ordinary SQL.","url":"https://bioseqdb.com/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/media/social_card.png"}</script>
 
 </head>
-<body>
+<body id="page-top" class="landing-page">
 <a class="skip-link" href="#main">Skip to main content</a>
-<header class="site-header">
-  <nav class="site-nav" aria-label="Primary">
-    <a class="brand" href="/">Bioseq</a>
+
+<header class="site-header landing-header">
+  <nav class="site-nav landing-nav" aria-label="Primary">
+    <a class="brand" href="/">
+      <img class="brand-mark" src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/bioseq-mark.svg" width="34" height="34" alt="">
+      <span class="brand-word">Bioseq<span>DB</span></span>
+    </a>
     <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-primary" aria-label="Toggle navigation menu">
       <span class="nav-toggle-bar" aria-hidden="true"></span>
       <span class="nav-toggle-bar" aria-hidden="true"></span>
       <span class="nav-toggle-bar" aria-hidden="true"></span>
     </button>
     <div class="nav-primary" id="nav-primary">
-      <ul class="nav-links">
-        <li><a href="/v0.1/">Documentation</a></li>
-        <li><a href="/v0.1/tutorials/">Tutorials</a></li>
-        <li><a href="/v0.1/reference/">Reference</a></li>
+      <ul class="nav-links landing-nav-links">
+        <li><a href="#workflow">Workflow</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#capabilities">Capabilities</a></li>
+        <li><a href="#scale">Scale</a></li>
       </ul>
       <div class="nav-actions">
-        <a class="search-button" id="search-button" href="/v0.1/reference/" role="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-dialog">
-          <span class="search-button-label">Search</span>
-          <kbd class="search-button-kbd" aria-hidden="true">Ctrl K</kbd>
-        </a>
-        <details class="version-selector" id="version-selector">
-          <summary class="version-current">v0.1</summary>
-          <div class="version-menu">
-            <ul class="version-list" id="version-list" data-versions="/versions.json">
-              <li><a href="/v0.1/" aria-current="true">v0.1</a></li>
-            </ul>
-            <a class="version-all" href="/versions/">All versions</a>
-          </div>
-        </details>
         <a class="repo-link" href="https://github.com/styczynski/bioseqdb" rel="noreferrer">GitHub</a>
+        <a class="docs-button" href="/v0.1/">Read the docs</a>
       </div>
     </div>
   </nav>
 </header>
+
 <dialog class="search-dialog" id="search-dialog" data-search-index="/v0.1/search-index.json" aria-label="Search documentation">
   <form class="search-form" method="dialog" role="search">
     <label class="search-label" for="search-input">Search documentation</label>
@@ -71,24 +65,31 @@
   <main id="main">
 
 <section class="landing-hero" id="top">
+  <video class="landing-hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+    <source src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/media/vials.mp4" type="video/mp4">
+  </video>
+  <div class="landing-hero-shade landing-hero-shade-side" aria-hidden="true"></div>
+  <div class="landing-hero-shade landing-hero-shade-vertical" aria-hidden="true"></div>
   <div class="landing-hero-inner">
-    <p class="eyebrow">PostgreSQL-native</p>
-    <h1 class="landing-hero-title">Bioseq</h1>
-    <p class="lede landing-hero-lede">PostgreSQL-native biological sequence analysis.</p>
+    <p class="eyebrow hero-eyebrow"><span aria-hidden="true"></span>SQL-native sequence search</p>
+    <h1 class="landing-hero-title">Search biological sequences with plain <span>SQL</span>.</h1>
+    <p class="lede landing-hero-lede">Load FASTA and FASTQ data, store sequences beside metadata, and search them with ordinary SQL.</p>
     <p class="hero-actions">
       <a class="button primary" href="/v0.1/">Read the docs</a>
       <a class="button" href="#examples">See the examples</a>
-      <a class="button" href="/v0.1/reference/">API reference</a>
     </p>
-    <div class="install-row">
-      <span class="install-prompt" aria-hidden="true">$</span>
-      <code class="install-code" id="hero-install-code">CREATE EXTENSION bioseq;</code>
-      <button type="button" class="copy-button" data-copy-target="hero-install-code" aria-label="Copy the install command">Copy</button>
+    <div class="hero-meta">
+      <div class="install-row">
+        <span class="install-prompt" aria-hidden="true">$</span>
+        <code class="install-code" id="hero-install-code">CREATE EXTENSION bioseq;</code>
+        <button type="button" class="copy-button" data-copy-target="hero-install-code" aria-label="Copy the install command">Copy</button>
+      </div>
+      
+      <p class="hero-status"><span class="status-dot" aria-hidden="true"></span>Alpha</p>
+      
     </div>
-    
-    <p class="hero-status"><span class="status-dot" aria-hidden="true"></span>Alpha</p>
-    
   </div>
+  <div class="scroll-cue" aria-hidden="true"><span>Scroll</span><span>&#9662;</span></div>
 </section>
 
 <section class="landing-section" id="query" aria-labelledby="query-heading">
@@ -157,6 +158,17 @@ ORDER BY id;</code></pre>
         <p>Bioseq supports different sequence alphabets and storage widths, chosen right in the column type modifier.</p>
       </li>
     </ul>
+  </div>
+</section>
+
+<section class="experience-strip" aria-label="Open-source project background">
+  <p><strong>Free and open source, forever.</strong> Built by a single maintainer, with experience from</p>
+  <div class="experience-logos">
+    <img src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/logos/google.png" alt="Google">
+    <img src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/logos/bytedance.png" alt="ByteDance">
+    <img src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/logos/goldman.png" alt="Goldman Sachs">
+    <img src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/logos/sumo.png" alt="Sumo Logic">
+    <img src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/logos/ef.png" alt="Entrepreneur First">
   </div>
 </section>
 
@@ -419,7 +431,7 @@ ORDER BY pk;</code></pre>
   </div>
   <figure class="media-band" data-reveal>
     <video class="media-band-video" data-media-band muted loop playsinline controls preload="metadata" width="1280" height="720">
-      <source src="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/media/cinematic_band.mp4" type="video/mp4">
+      <source src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/media/cinematic_band.mp4" type="video/mp4">
       <p class="media-band-fallback">A short loop of Bioseq's vectorized and GPU-accelerated search paths. <a href="/v0.1/">Read how the engine works</a>.</p>
     </video>
     <figcaption class="media-band-caption">The search runs on vectorized CPU paths, Vulkan-backed GPU paths, and parallel scans, right where the data lives.</figcaption>
@@ -488,11 +500,49 @@ ORDER BY pk;</code></pre>
   </main>
   
 </div>
+
 <footer class="site-footer">
-  <p>&#169; 2026 Bioseq contributors &#183; Alpha &#183; v0.1</p>
+  <div class="footer-watermark" aria-hidden="true">BioseqDB</div>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-intro">
+        <a class="brand footer-brand" href="/">
+          <img class="brand-mark" src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/bioseq-mark.svg" width="32" height="32" alt="">
+          <span class="brand-word">Bioseq<span>DB</span></span>
+          <span class="docs-badge">Docs</span>
+        </a>
+        <p>SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
+        <span class="open-source-badge"><span aria-hidden="true"></span>Free &amp; open source</span>
+      </div>
+      <div class="footer-column">
+        <p class="footer-title">Documentation</p>
+        <a href="/v0.1/">Documentation home</a>
+        <a href="/v0.1/tutorials/">Tutorials</a>
+        <a href="/v0.1/reference/">API reference</a>
+      </div>
+      <div class="footer-column">
+        <p class="footer-title">Explore</p>
+        <a href="/#workflow">Workflow</a>
+        <a href="/#examples">Examples</a>
+        <a href="/#capabilities">Capabilities</a>
+        <a href="/#scale">Scale</a>
+      </div>
+      <div class="footer-column">
+        <p class="footer-title">Project</p>
+        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer">GitHub</a>
+        <a href="/versions/">All versions</a>
+        <span class="footer-status">Alpha &#183; v0.1</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&#169; 2026 Bioseq contributors</span>
+      <nav aria-label="Footer"><a href="https://github.com/styczynski/bioseqdb" rel="noreferrer">License</a><a href="#page-top">Back to top &#8593;</a></nav>
+    </div>
+  </div>
 </footer>
-<script src="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/vendor/prism/prism.min.js"></script>
-<script type="module" src="/assets/761aec2a4c34e491ab200133521300afb704fb39e2686d38d170e8e8658eb241/js/main.js"></script>
+
+<script src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/js/main.js"></script>
 
 </body>
 </html>
