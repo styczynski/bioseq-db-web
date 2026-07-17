@@ -11,13 +11,13 @@
 <meta property="og:description" content="Store and query biological sequences with the bioseq.seq column type.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bioseqdb.com/v0.1/tutorials/sequence_column_type/">
-<meta property="og:image" content="https://bioseqdb.com/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/media/social_card.png">
+<meta property="og:image" content="https://bioseqdb.com/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/media/social_card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bioseqdb.com/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/media/social_card.png">
-<link rel="icon" href="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/favicon.svg">
-<link rel="stylesheet" href="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/css/site.css">
-<link rel="stylesheet" href="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/vendor/prism/prism.min.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"The bioseq.seq column type","description":"Store and query biological sequences with the bioseq.seq column type.","url":"https://bioseqdb.com/v0.1/tutorials/sequence_column_type/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/"},{"@type":"ListItem","position":4,"name":"The bioseq.seq column type","item":"/v0.1/tutorials/sequence_column_type/"}]}]}</script>
+<meta name="twitter:image" content="https://bioseqdb.com/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/media/social_card.png">
+<link rel="icon" href="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/favicon.svg">
+<link rel="stylesheet" href="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/css/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"The bioseq.seq column type","description":"Store and query biological sequences with the bioseq.seq column type.","url":"https://bioseqdb.com/v0.1/tutorials/sequence_column_type/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/"},{"@type":"ListItem","position":4,"name":"The bioseq.seq column type","item":"/v0.1/tutorials/sequence_column_type/"}]}]}</script>
 
 </head>
 <body id="page-top" class="docs-page">
@@ -26,7 +26,7 @@
 <header class="site-header docs-header">
   <nav class="site-nav" aria-label="Primary">
     <a class="brand" href="/">
-      <img class="brand-mark" src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/bioseq-mark.svg" width="30" height="30" alt="">
+      <img class="brand-mark" src="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/bioseq-mark.svg" width="30" height="30" alt="">
       <span class="brand-word">Bioseq<span>DB</span></span>
       <span class="docs-badge">Docs</span>
     </a>
@@ -43,10 +43,10 @@
         <li><a href="/v0.1/reference/">Reference</a></li>
       </ul>
       <div class="nav-actions">
-        <a class="search-button" id="search-button" href="/v0.1/reference/" role="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-dialog">
+        <button type="button" class="search-button" id="search-button" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-dialog">
           <span class="search-button-label">Search</span>
           <kbd class="search-button-kbd" aria-hidden="true">Ctrl K</kbd>
-        </a>
+        </button>
         <details class="version-selector" id="version-selector">
           <summary class="version-current">v0.1</summary>
           <div class="version-menu">
@@ -117,8 +117,8 @@
   <p class="article-kicker">Tutorial</p>
   <h1>The bioseq.seq column type</h1>
   <p class="description">Store and query biological sequences with the bioseq.seq column type.</p>
-  <div class="tutorial-body"><h2 id="the-bioseq-seq-column-type">The bioseq.seq column type</h2><p>Bioseq stores biological sequences in a compact PostgreSQL value called<br><a class="entity-ref" href="/v0.1/reference/sql/type/bioseq-seq-8c069b667ce622ef/" data-entity-id="sql:type:bioseq.seq" data-entity-data-url="/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json">the sequence type</a>. The alphabet and maximum length are part of<br>the type modifier, so a column declaration records exactly what a column may<br>hold. The shorthand <code>#bioseq.seq</code> refers to the same type throughout this page.</p><aside class="admonition admonition-note"><p class="admonition-label">note</p><p>Sequence length is part of the type modifier. <code>bioseq.seq('dna4', 64)</code> stores<br>DNA sequences of up to 64 bases over the four-letter <code>dna4</code> alphabet.</p></aside><h2 id="declaring-a-sequence-column">Declaring a sequence column</h2><p>A <code>bioseq.seq</code> column names its alphabet and maximum length directly in the type<br>modifier, exactly like <code>numeric(precision, scale)</code> records precision.</p><figure class="doc-code"><figcaption class="doc-code-bar"><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy-target="code-731c1fc1948861a5-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre><code id="code-731c1fc1948861a5-0">CREATE TABLE reads (sequence <mark class="anno" data-anno="1">bioseq.seq('dna4', 64)</mark>);
-</code></pre><ol class="anno-cards"><li class="anno-card"><span class="anno-card-num" aria-hidden="true">1</span><div class="anno-card-body"><p class="anno-card-title">The bioseq.seq column type</p><p>The alphabet and maximum length are encoded in the PostgreSQL type modifier.</p></div></li></ol></figure><h2 id="round-tripping-sequence-values">Round-tripping sequence values</h2><p>The example below creates a small table, inserts two reads, and reads them back<br>with their length and a per-symbol count. Use <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/" data-entity-id="sql:function:bioseq.len(bioseq.seq)" data-entity-data-url="/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json">sql:bioseq.len</a> for<br>the length in symbol units and <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-symbol-count-57d215dc4755c7c6/" data-entity-id="sql:function:bioseq.symbol_count(bioseq.seq,text)" data-entity-data-url="/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json">sql:bioseq.symbol_count</a> to<br>count occurrences of one symbol.</p><figure class="doc-code"><figcaption class="doc-code-bar"><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy-target="code-c384e90707cc6423-1" aria-label="Copy code to clipboard">Copy</button></figcaption><pre><code id="code-c384e90707cc6423-1" class="language-sql" data-entity-ranges="[{&quot;start&quot;:53,&quot;len&quot;:10,&quot;id&quot;:&quot;sql:function:bioseq.len(bioseq.seq)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json&quot;},{&quot;start&quot;:105,&quot;len&quot;:19,&quot;id&quot;:&quot;sql:function:bioseq.symbol_count(bioseq.seq,text)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-symbol-count-57d215dc4755c7c6/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json&quot;}]">SELECT id,
+  <div class="tutorial-body"><h2 id="the-bioseq-seq-column-type">The bioseq.seq column type</h2><p>Bioseq stores biological sequences in a compact PostgreSQL value called<br><a class="entity-ref" href="/v0.1/reference/sql/type/bioseq-seq-8c069b667ce622ef/" data-entity-id="sql:type:bioseq.seq" data-entity-data-url="/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json">bioseq.seq</a>. The alphabet and maximum length are part of<br>the type modifier, so a column declaration records exactly what a column may<br>hold. The shorthand <code>#bioseq.seq</code> refers to the same type throughout this page.</p><aside class="admonition admonition-note"><p class="admonition-label">note</p><p>Sequence length is part of the type modifier. <code>bioseq.seq('dna4', 64)</code> stores<br>DNA sequences of up to 64 bases over the four-letter <code>dna4</code> alphabet.</p></aside><h2 id="declaring-a-sequence-column">Declaring a sequence column</h2><p>A <code>bioseq.seq</code> column names its alphabet and maximum length directly in the type<br>modifier, exactly like <code>numeric(precision, scale)</code> records precision.</p><figure class="doc-code"><figcaption class="doc-code-bar"><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy-target="code-731c1fc1948861a5-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre><code id="code-731c1fc1948861a5-0">CREATE TABLE reads (sequence <mark class="anno" data-anno="1">bioseq.seq('dna4', 64)</mark>);
+</code></pre><ol class="anno-cards"><li class="anno-card"><span class="anno-card-num" aria-hidden="true">1</span><div class="anno-card-body"><p class="anno-card-title">The bioseq.seq column type</p><p>The alphabet and maximum length are encoded in the PostgreSQL type modifier.</p></div></li></ol></figure><h2 id="round-tripping-sequence-values">Round-tripping sequence values</h2><p>The example below creates a small table, inserts two reads, and reads them back<br>with their length and a per-symbol count. Use <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/" data-entity-id="sql:function:bioseq.len(bioseq.seq)" data-entity-data-url="/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json">bioseq.len</a> for<br>the length in symbol units and <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-symbol-count-57d215dc4755c7c6/" data-entity-id="sql:function:bioseq.symbol_count(bioseq.seq,text)" data-entity-data-url="/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json">bioseq.symbol_count</a> to<br>count occurrences of one symbol.</p><figure class="doc-code"><figcaption class="doc-code-bar"><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy-target="code-c384e90707cc6423-1" aria-label="Copy code to clipboard">Copy</button></figcaption><pre><code id="code-c384e90707cc6423-1" class="language-sql" data-entity-ranges="[{&quot;start&quot;:53,&quot;len&quot;:10,&quot;id&quot;:&quot;sql:function:bioseq.len(bioseq.seq)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json&quot;},{&quot;start&quot;:105,&quot;len&quot;:19,&quot;id&quot;:&quot;sql:function:bioseq.symbol_count(bioseq.seq,text)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-symbol-count-57d215dc4755c7c6/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json&quot;}]">SELECT id,
        sequence::text AS sequence,
        bioseq.len(sequence) AS length
        -- TEMPORARY: bioseq.symbol_count(sequence, 'A') AS a_count
@@ -159,7 +159,7 @@ ORDER BY sequence;</code></pre></figure><table class="result-table"><tr><th scop
     <div class="footer-grid">
       <div class="footer-intro">
         <a class="brand footer-brand" href="/">
-          <img class="brand-mark" src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/bioseq-mark.svg" width="32" height="32" alt="">
+          <img class="brand-mark" src="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/bioseq-mark.svg" width="32" height="32" alt="">
           <span class="brand-word">Bioseq<span>DB</span></span>
           <span class="docs-badge">Docs</span>
         </a>
@@ -193,8 +193,8 @@ ORDER BY sequence;</code></pre></figure><table class="result-table"><tr><th scop
   </div>
 </footer>
 
-<script src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/vendor/prism/prism.min.js"></script>
-<script type="module" src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/js/main.js"></script>
+<script src="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/js/main.js"></script>
 
 </body>
 </html>

@@ -11,13 +11,13 @@
 <meta property="og:description" content="Per-call aligner tuning options (k-mer and window sizes, gap and chaining limits) for the mmsearch similarity predicate.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bioseqdb.com/v0.1/reference/sql/type/public-bioseq-aligner-options-f8c583332732ef45/">
-<meta property="og:image" content="https://bioseqdb.com/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/media/social_card.png">
+<meta property="og:image" content="https://bioseqdb.com/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/media/social_card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bioseqdb.com/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/media/social_card.png">
-<link rel="icon" href="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/favicon.svg">
-<link rel="stylesheet" href="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/css/site.css">
-<link rel="stylesheet" href="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/vendor/prism/prism.min.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"public.bioseq_aligner_options","description":"Per-call aligner tuning options (k-mer and window sizes, gap and chaining limits) for the mmsearch similarity predicate.","url":"https://bioseqdb.com/v0.1/reference/sql/type/public-bioseq-aligner-options-f8c583332732ef45/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Reference","item":"/v0.1/reference/"},{"@type":"ListItem","position":4,"name":"SQL","item":"/v0.1/reference/sql/"},{"@type":"ListItem","position":5,"name":"public.bioseq_aligner_options","item":"/v0.1/reference/sql/type/public-bioseq-aligner-options-f8c583332732ef45/"}]}]}</script>
+<meta name="twitter:image" content="https://bioseqdb.com/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/media/social_card.png">
+<link rel="icon" href="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/favicon.svg">
+<link rel="stylesheet" href="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/css/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"public.bioseq_aligner_options","description":"Per-call aligner tuning options (k-mer and window sizes, gap and chaining limits) for the mmsearch similarity predicate.","url":"https://bioseqdb.com/v0.1/reference/sql/type/public-bioseq-aligner-options-f8c583332732ef45/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Reference","item":"/v0.1/reference/"},{"@type":"ListItem","position":4,"name":"SQL","item":"/v0.1/reference/sql/"},{"@type":"ListItem","position":5,"name":"public.bioseq_aligner_options","item":"/v0.1/reference/sql/type/public-bioseq-aligner-options-f8c583332732ef45/"}]}]}</script>
 
 </head>
 <body id="page-top" class="docs-page">
@@ -26,7 +26,7 @@
 <header class="site-header docs-header">
   <nav class="site-nav" aria-label="Primary">
     <a class="brand" href="/">
-      <img class="brand-mark" src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/bioseq-mark.svg" width="30" height="30" alt="">
+      <img class="brand-mark" src="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/bioseq-mark.svg" width="30" height="30" alt="">
       <span class="brand-word">Bioseq<span>DB</span></span>
       <span class="docs-badge">Docs</span>
     </a>
@@ -43,10 +43,10 @@
         <li><a href="/v0.1/reference/">Reference</a></li>
       </ul>
       <div class="nav-actions">
-        <a class="search-button" id="search-button" href="/v0.1/reference/" role="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-dialog">
+        <button type="button" class="search-button" id="search-button" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-dialog">
           <span class="search-button-label">Search</span>
           <kbd class="search-button-kbd" aria-hidden="true">Ctrl K</kbd>
-        </a>
+        </button>
         <details class="version-selector" id="version-selector">
           <summary class="version-current">v0.1</summary>
           <div class="version-menu">
@@ -142,7 +142,7 @@
     <div class="footer-grid">
       <div class="footer-intro">
         <a class="brand footer-brand" href="/">
-          <img class="brand-mark" src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/bioseq-mark.svg" width="32" height="32" alt="">
+          <img class="brand-mark" src="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/bioseq-mark.svg" width="32" height="32" alt="">
           <span class="brand-word">Bioseq<span>DB</span></span>
           <span class="docs-badge">Docs</span>
         </a>
@@ -176,8 +176,8 @@
   </div>
 </footer>
 
-<script src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/vendor/prism/prism.min.js"></script>
-<script type="module" src="/assets/c561680d6bf82feaa1f834eecce46de8b49e5930a69abd01243da27394f40679/js/main.js"></script>
+<script src="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/js/main.js"></script>
 
 </body>
 </html>
