@@ -11,56 +11,20 @@
 <meta property="og:description" content="Store and query biological sequences with the bioseq.seq column type.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bioseqdb.com/v0.1/tutorials/sequence_column_type/">
-<meta property="og:image" content="https://bioseqdb.com/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/media/social_card.png">
+<meta property="og:image" content="https://bioseqdb.com/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/media/social_card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bioseqdb.com/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/media/social_card.png">
-<link rel="icon" href="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/favicon.svg">
-<link rel="stylesheet" href="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/vendor/prism/prism.min.css">
-<link rel="stylesheet" href="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/css/site.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"The bioseq.seq column type","description":"Store and query biological sequences with the bioseq.seq column type.","url":"https://bioseqdb.com/v0.1/tutorials/sequence_column_type/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/"},{"@type":"ListItem","position":4,"name":"The bioseq.seq column type","item":"/v0.1/tutorials/sequence_column_type/"}]}]}</script>
+<meta name="twitter:image" content="https://bioseqdb.com/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/media/social_card.png">
+<link rel="icon" href="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/favicon.svg">
+<link rel="stylesheet" href="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/css/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"The bioseq.seq column type","description":"Store and query biological sequences with the bioseq.seq column type.","url":"https://bioseqdb.com/v0.1/tutorials/sequence_column_type/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/"},{"@type":"ListItem","position":4,"name":"The bioseq.seq column type","item":"/v0.1/tutorials/sequence_column_type/"}]}]}</script>
+
+<link rel="stylesheet" href="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/css/docs-design.css">
+<script type="module" src="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/js/docs-design.mjs"></script>
 
 </head>
-<body id="page-top" class="docs-page">
-<a class="skip-link" href="#main">Skip to main content</a>
+<body id="page-top" class="docs-design-page">
 
-<header class="site-header docs-header">
-  <nav class="site-nav" aria-label="Primary">
-    <a class="brand" href="/">
-      <img class="brand-mark" src="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/bioseq-mark.svg" width="30" height="30" alt="">
-      <span class="brand-word">Bioseq<span>DB</span></span>
-      <span class="docs-badge">Docs</span>
-    </a>
-    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-primary" aria-label="Toggle navigation menu">
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
-    </button>
-    <div class="nav-primary" id="nav-primary">
-      <ul class="nav-links">
-        <li><a href="/v0.1/">Docs</a></li>
-        <li><a href="/">Product</a></li>
-        <li><a href="/v0.1/tutorials/">Tutorials</a></li>
-        <li><a href="/v0.1/reference/">Reference</a></li>
-      </ul>
-      <div class="nav-actions">
-        <button type="button" class="search-button" id="search-button" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-dialog">
-          <span class="search-button-label">Search</span>
-          <kbd class="search-button-kbd" aria-hidden="true">Ctrl K</kbd>
-        </button>
-        <details class="version-selector" id="version-selector">
-          <summary class="version-current">v0.1</summary>
-          <div class="version-menu">
-            <ul class="version-list" id="version-list" data-versions="/versions.json">
-              <li><a href="/v0.1/" aria-current="true">v0.1</a></li>
-            </ul>
-            <a class="version-all" href="/versions/">All versions</a>
-          </div>
-        </details>
-        <a class="repo-link button-quiet" href="https://github.com/styczynski/bioseqdb" rel="noreferrer">GitHub</a>
-      </div>
-    </div>
-  </nav>
-</header>
 
 <dialog class="search-dialog" id="search-dialog" data-search-index="/v0.1/search-index.json" aria-label="Search documentation">
   <form class="search-form" method="dialog" role="search">
@@ -74,127 +38,319 @@
 </dialog>
 <div class="layout layout-doc">
   
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <ol>
-    
-      <li><a href="/">Home</a></li>
-    
-      <li><a href="/v0.1/">v0.1</a></li>
-    
-      <li><a href="/v0.1/tutorials/">Tutorials</a></li>
-    
-      <li><a href="/v0.1/tutorials/sequence_column_type/">The bioseq.seq column type</a></li>
-    
-    </ol>
-  </nav>
-  
-  
-  <aside class="doc-nav" aria-label="Documentation navigation">
-    <nav>
-    
-      <p class="doc-nav-title">Tutorials</p>
-      <ul>
-      
-        <li><a href="/v0.1/tutorials/sequence_column_type/">The bioseq.seq column type</a></li>
-      
-      </ul>
-    
-      <p class="doc-nav-title">Reference</p>
-      <ul>
-      
-        <li><a href="/v0.1/reference/cpp/">C++</a></li>
-      
-        <li><a href="/v0.1/reference/sql/">SQL</a></li>
-      
-      </ul>
-    
-    </nav>
-  </aside>
   
   <main id="main">
 
-<article class="tutorial">
-  <p class="article-kicker">Tutorial</p>
-  <h1>The bioseq.seq column type</h1>
-  <p class="description">Store and query biological sequences with the bioseq.seq column type.</p>
-  <div class="tutorial-body"><h2 id="the-bioseq-seq-column-type">The bioseq.seq column type</h2><p>Bioseq stores biological sequences in a compact PostgreSQL value called<br><a class="entity-ref" href="/v0.1/reference/sql/type/bioseq-seq-8c069b667ce622ef/" data-entity-id="sql:type:bioseq.seq" data-entity-data-url="/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json">bioseq.seq</a>. The alphabet and maximum length are part of<br>the type modifier, so a column declaration records exactly what a column may<br>hold. The shorthand <code>#bioseq.seq</code> refers to the same type throughout this page.</p><aside class="admonition admonition-note"><p class="admonition-label">note</p><p>Sequence length is part of the type modifier. <code>bioseq.seq('dna4', 64)</code> stores<br>DNA sequences of up to 64 bases over the four-letter <code>dna4</code> alphabet.</p></aside><h2 id="declaring-a-sequence-column">Declaring a sequence column</h2><p>A <code>bioseq.seq</code> column names its alphabet and maximum length directly in the type<br>modifier, exactly like <code>numeric(precision, scale)</code> records precision.</p><figure class="doc-code"><figcaption class="doc-code-bar"><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy-target="code-731c1fc1948861a5-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre><code id="code-731c1fc1948861a5-0">CREATE TABLE reads (sequence <mark class="anno" data-anno="1">bioseq.seq('dna4', 64)</mark>);
-</code></pre><ol class="anno-cards"><li class="anno-card"><span class="anno-card-num" aria-hidden="true">1</span><div class="anno-card-body"><p class="anno-card-title">The bioseq.seq column type</p><p>The alphabet and maximum length are encoded in the PostgreSQL type modifier.</p></div></li></ol></figure><h2 id="round-tripping-sequence-values">Round-tripping sequence values</h2><p>The example below creates a small table, inserts two reads, and reads them back<br>with their length and a per-symbol count. Use <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/" data-entity-id="sql:function:bioseq.len(bioseq.seq)" data-entity-data-url="/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json">bioseq.len</a> for<br>the length in symbol units and <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-symbol-count-57d215dc4755c7c6/" data-entity-id="sql:function:bioseq.symbol_count(bioseq.seq,text)" data-entity-data-url="/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json">bioseq.symbol_count</a> to<br>count occurrences of one symbol.</p><figure class="doc-code"><figcaption class="doc-code-bar"><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy-target="code-c384e90707cc6423-1" aria-label="Copy code to clipboard">Copy</button></figcaption><pre><code id="code-c384e90707cc6423-1" class="language-sql" data-entity-ranges="[{&quot;start&quot;:53,&quot;len&quot;:10,&quot;id&quot;:&quot;sql:function:bioseq.len(bioseq.seq)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json&quot;},{&quot;start&quot;:105,&quot;len&quot;:19,&quot;id&quot;:&quot;sql:function:bioseq.symbol_count(bioseq.seq,text)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-symbol-count-57d215dc4755c7c6/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.28c445494e61b74c8003a3fd0ef35f51b8d62df376b700ba7da7ebe753135b4a.json&quot;}]">SELECT id,
-       sequence::text AS sequence,
-       bioseq.len(sequence) AS length
-       -- TEMPORARY: bioseq.symbol_count(sequence, 'A') AS a_count
-       -- aborts the backend (SIGABRT); see COUNT_BUG.md. Restore this
-       -- column once symbol_count is fixed.
-FROM tutorial_reads
-ORDER BY id;</code></pre></figure><table class="result-table"><tr><th scope="col">id</th><th scope="col">sequence</th><th scope="col">length</th></tr><tr><td>1</td><td>ACGT</td><td>4</td></tr><tr><td>2</td><td>TTAA</td><td>4</td></tr></table><p><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.10</em></p><aside class="admonition admonition-warning"><p class="admonition-label">warning</p><p>This query scans every row. Add a predicate on an indexed column before<br>running it against a large table.</p></aside><h2 id="ordering-by-sequence">Ordering by sequence</h2><p>Sequence values order lexicographically by their decoded symbols, so an<br><code>ORDER BY</code> on a <code>bioseq.seq</code> column is stable and deterministic.</p><figure class="doc-code"><figcaption class="doc-code-bar"><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy-target="code-6ef7f11dea3d60c1-2" aria-label="Copy code to clipboard">Copy</button></figcaption><pre><code id="code-6ef7f11dea3d60c1-2" class="language-sql">SELECT sequence::text AS sequence
-FROM tutorial_ordered
-ORDER BY sequence;</code></pre></figure><table class="result-table"><tr><th scope="col">sequence</th></tr><tr><td>AAAA</td></tr><tr><td>ACGT</td></tr><tr><td>TTAA</td></tr></table><p><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.10</em></p></div>
-  <nav class="pager" aria-label="Tutorial pagination">
-    
-    
-  </nav>
-</article>
+<div data-screen-label="BioseqDB documentation" class="dd-s0001">
+
+  <!-- ============ TOP NAV ============ -->
+  <header id="dnav" class="dd-s0002">
+    <div class="dd-s0003">
+      <button data-menu aria-label="Menu" class="dd-s0004">
+        <span class="dd-s0005"></span><span class="dd-s0005"></span><span class="dd-s0005"></span>
+      </button>
+      <a data-nav data-page="installation" href="/v0.1/" class="dd-s0006">
+        <img src="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/bioseq-mark.svg" width="30" height="30" alt="BioseqDB logo" class="dd-s0007">
+        <span class="dd-s0008">Bioseq<span class="dd-s0009">DB</span></span>
+        <span data-docsbadge class="dd-s0010">DOCS</span>
+      </a>
+
+      <nav data-topnav class="dd-s0011">
+        <a href="/v0.1/" data-nav data-page="installation" class="dd-s0012">Docs</a>
+        <a href="/" class="dd-s0013">Product</a>
+        <a href="/" class="dd-s0013">Blog</a>
+      </nav>
+
+      <!-- SEARCH -->
+      <div data-search-wrap class="dd-s0014">
+        <div data-search-box class="dd-s0015">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" class="dd-s0016"><circle cx="7" cy="7" r="5" stroke="#7d94a6" stroke-width="1.6"/><line x1="10.6" y1="10.6" x2="14" y2="14" stroke="#7d94a6" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="doc-search" type="text" placeholder="Search docs, functions, types…" autocomplete="off" spellcheck="false" class="dd-s0017">
+          <kbd class="dd-s0018">/</kbd>
+        </div>
+        <div id="search-dd" class="dd-s0019"></div>
+      </div>
+
+      <!-- VERSION -->
+      <div data-ver-wrap class="dd-s0020">
+        <button id="ver-btn" class="dd-s0021">
+          <span class="dd-s0022"></span>v0.9 <span class="dd-s0023">alpha</span>
+          <span data-caret class="dd-s0024"></span>
+        </button>
+        <div id="ver-menu" class="dd-s0025">
+          <a data-ver class="dd-s0026">v0.9 alpha <span class="dd-s0027">current</span></a>
+          <a data-ver class="dd-s0028 dd-h001">v0.8</a>
+          <a data-ver class="dd-s0028 dd-h001">main <span class="dd-s0029">nightly</span></a>
+        </div>
+      </div>
+
+      <a data-ghbtn href="https://github.com/styczynski/bioseqdb" class="dd-s0030">GitHub</a>
+    </div>
+  </header>
+
+  <!-- ============ BODY GRID ============ -->
+  <div data-bodygrid class="dd-s0031">
+
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <aside id="sidebar" class="dd-s0032">
+
+      <div data-chapter data-chap="getting-started">
+        <button data-chap-toggle class="dd-s0033">
+          <span data-caret class="dd-s0034"></span>Getting started
+        </button>
+        <div data-chap-list class="dd-s0035">
+          <a data-nav data-page="installation" href="/v0.1/" class="dd-s0036">Installation</a>
+          <a data-nav data-page="quickstart" href="/v0.1/" class="dd-s0036">Quick start</a>
+        </div>
+      </div>
+
+      <div data-chapter data-chap="tutorials">
+        <button data-chap-toggle class="dd-s0033">
+          <span data-caret class="dd-s0034"></span>Tutorials
+        </button>
+        <div data-chap-list class="dd-s0035">
+          <a data-nav data-page="tutorial-loading" href="#tutorial-loading" class="dd-s0036">Loading &amp; searching sequences</a>
+        </div>
+      </div>
+
+      <div data-chapter data-chap="reference">
+        <button data-chap-toggle class="dd-s0033">
+          <span data-caret class="dd-s0034"></span>API reference
+        </button>
+        <div data-chap-list class="dd-s0035">
+          <a data-nav data-page="api-sql" href="/v0.1/" class="dd-s0036">SQL functions</a>
+          <a data-nav data-page="api-cpp" href="/v0.1/" class="dd-s0036">C++ core types</a>
+        </div>
+      </div>
+
+      <div class="dd-s0037">
+        <a href="https://github.com/styczynski/bioseqdb" class="dd-s0038">Edit on GitHub</a>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="doc-main" class="dd-s0039">
+
+<section id="tutorial-loading" data-page-panel="tutorial-loading" data-screen-label="Docs · Loading &amp; searching" class="dd-s0040">
+        <div data-reveal class="dd-s0041">
+          <div data-breadcrumb class="dd-s0042"><span class="dd-s0023">Tutorials</span><span class="dd-s0043">/</span><span class="dd-s0044">Loading &amp; searching sequences</span></div>
+          <h1 class="dd-s0045">Loading &amp; searching sequences</h1>
+          <p class="dd-s0046">A complete pass through the everyday workflow: model a sequence column, stream a file into it, and search it with plain SQL. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <div class="dd-s0047">
+            <span class="dd-s0048"><span class="dd-s0049"></span>~12 min read</span>
+            <span class="dd-s0048">SQL · C++</span>
+            <span class="dd-s0050">Intermediate</span>
+          </div>
+        </div>
+
+        <h2 class="hx dd-s0051" id="overview" data-toc data-title="Overview">Overview<a data-hash href="#overview" class="dd-s0052">#</a></h2>
+        <p class="dd-s0053">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. In BioseqDB the sequence lives beside its metadata, so <a data-entity="mmsearch" data-goto="api-sql#mmsearch-fn" href="/v0.1/" class="dd-s0054 dd-h002"><span class="dd-s0055">ƒ</span>mmsearch()</a> and an ordinary predicate coexist in a single query. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</p>
+        <p class="dd-s0056">This tutorial uses a single table, <span class="dd-s0057">reads</span>, throughout. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+
+        <h2 class="hx dd-s0051" id="seq-type" data-toc data-title="The bioseq.seq type">The <span class="dd-s0058">bioseq.seq</span> column type<a data-hash href="#seq-type" class="dd-s0052">#</a></h2>
+        <p class="dd-s0059">The <a data-entity="bioseq.seq" data-goto="api-sql#seq-type" href="/v0.1/" class="dd-s0060 dd-h003"><span class="dd-s0055">T</span>bioseq.seq</a> type is parameterised by an alphabet and a seed width. Its anatomy:</p>
+
+        <div class="dd-s0061">
+          <div class="dd-s0062">
+            <span class="dd-s0063">bioseq.seq</span><span class="dd-s0064">(</span><span class="dd-s0065">'dna4'</span><span class="dd-s0064">,&nbsp;</span><span class="dd-s0066">64</span><span class="dd-s0064">)</span>
+          </div>
+          <div data-split class="dd-s0067">
+            <div class="dd-s0068">
+              <div class="dd-s0069">alphabet</div>
+              <p class="dd-s0070">Which letters are legal and how densely they pack. <span class="dd-s0071">'dna4'</span> packs 2 bits per base.</p>
+            </div>
+            <div class="dd-s0072">
+              <div class="dd-s0073">seed width (k)</div>
+              <p class="dd-s0074">The k-mer width the index seeds with. Larger k is more specific; smaller k is more sensitive.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dd-s0075">
+          <span class="dd-s0076">i</span>
+          <p class="dd-s0077"><strong class="dd-s0078">Note.</strong> The alphabet and seed width are fixed at column-creation time. Sequences you insert are validated and packed against them on the way in.</p>
+        </div>
+
+        <h2 class="hx dd-s0051" id="streaming" data-toc data-title="Streaming FASTA & FASTQ">Streaming FASTA &amp; FASTQ<a data-hash href="#streaming" class="dd-s0052">#</a></h2>
+        <p class="dd-s0079"><a data-entity="bioseq.load" data-goto="api-sql#load-fn" href="/v0.1/" class="dd-s0054 dd-h002"><span class="dd-s0055">ƒ</span>bioseq.load()</a> reads records incrementally, so memory stays flat regardless of file size. Read the call left-to-right:</p>
+
+        <div data-split class="dd-s0080">
+          <div data-term class="dd-s0081">
+            <div class="dd-s0082">
+              <span class="dd-s0083"></span><span class="dd-s0084"></span><span class="dd-s0085"></span>
+              <span class="dd-s0086">load_mapped.sql</span>
+              <button data-copy class="dd-s0087 dd-h004">Copy</button>
+            </div>
+            <pre data-code class="dd-s0088"><code><span class="dd-s0089">SELECT</span> <span class="dd-s0090">bioseq.load</span>(
+  <span class="dd-s0091">'reads'</span>::<span class="dd-s0092">regclass</span>,           <span class="dd-s0064">-- target table</span>
+  <span class="dd-s0091">'/data/run_042.fastq'</span>,     <span class="dd-s0064">-- source path</span>
+  <span class="dd-s0091">'auto'</span>,                    <span class="dd-s0064">-- detect fasta/fastq</span>
+  <span class="dd-s0089">ARRAY</span>[
+    (<span class="dd-s0091">'sample_id'</span>, <span class="dd-s0091">'sample'</span>)::<span class="dd-s0063">bioseq.column_mapping</span>,
+    (<span class="dd-s0091">'run_name'</span>,  <span class="dd-s0091">'run'</span>)::<span class="dd-s0063">bioseq.column_mapping</span>
+  ]
+);</code></pre>
+          </div>
+          <div class="dd-s0093">
+            <div class="dd-s0094">
+              <div class="dd-s0095">regclass</div>
+              <p class="dd-s0096">Pass the table as a <span class="dd-s0097">regclass</span> so the loader resolves its columns and the sequence type.</p>
+            </div>
+            <div class="dd-s0098">
+              <div class="dd-s0099">column_mapping[]</div>
+              <p class="dd-s0100">Each tuple binds a table column to a header field, so metadata arrives typed alongside each sequence.</p>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="hx dd-s0051" id="header-mapping" data-toc data-title="Mapping header fields">Mapping header fields to columns<a data-hash href="#header-mapping" class="dd-s0052">#</a></h2>
+        <p class="dd-s0059">Sequitur header lines carry key–value fields. A mapping projects them into typed columns. Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+
+        <div class="dd-s0101">
+          <span class="dd-s0102">×</span>
+          <p class="dd-s0103"><strong class="dd-s0104">Type mismatches abort the load.</strong> If a mapped header value cannot cast to the column type, <span class="dd-s0105">bioseq.load</span> rolls back the whole transaction. Validate header formats before a bulk import.</p>
+        </div>
+
+        <h2 class="hx dd-s0051" id="mmsearch" data-toc data-title="Searching with mmsearch">Searching with <span class="dd-s0106">mmsearch</span><a data-hash href="#mmsearch" class="dd-s0052">#</a></h2>
+        <p class="dd-s0079">Once loaded, project the alignment accessors right beside the row. Each accessor takes the row's primary key and returns a facet of the match found by <a data-entity="mmsearch" data-goto="api-sql#mmsearch-fn" href="/v0.1/" class="dd-s0054 dd-h002"><span class="dd-s0055">ƒ</span>mmsearch()</a>.</p>
+
+        <div data-term class="dd-s0107">
+          <div class="dd-s0082">
+            <span class="dd-s0083"></span><span class="dd-s0084"></span><span class="dd-s0085"></span>
+            <span class="dd-s0086">alignment.sql</span>
+            <button data-copy class="dd-s0087 dd-h004">Copy</button>
+          </div>
+          <pre data-code class="dd-s0108"><code><span class="dd-s0089">SELECT</span> pk,
+       <span class="dd-s0063">bioseq.query_start</span>(pk)  <span class="dd-s0089">AS</span> qs,
+       <span class="dd-s0063">bioseq.query_end</span>(pk)    <span class="dd-s0089">AS</span> qe,
+       <span class="dd-s0063">bioseq.target_start</span>(pk) <span class="dd-s0089">AS</span> ts,
+       <span class="dd-s0063">bioseq.target_end</span>(pk)   <span class="dd-s0089">AS</span> te,
+       <span class="dd-s0063">bioseq.cigar</span>(pk)        <span class="dd-s0089">AS</span> cg
+<span class="dd-s0089">FROM</span>   reads
+<span class="dd-s0089">WHERE</span>  <span class="dd-s0090">mmsearch</span>(seq0, <span class="dd-s0091">'ACGTACGTACGT'</span>::<span class="dd-s0063">bioseq.seq</span>(<span class="dd-s0091">'dna4'</span>, 64))
+<span class="dd-s0089">ORDER BY</span> pk;</code></pre>
+          <div class="dd-s0109">
+            <div class="dd-s0110">Result · 3 rows</div>
+            <table class="dd-s0111">
+              <thead><tr>
+                <th class="dd-s0112">pk</th>
+                <th class="dd-s0113">qs</th>
+                <th class="dd-s0113">qe</th>
+                <th class="dd-s0113">ts</th>
+                <th class="dd-s0113">te</th>
+                <th class="dd-s0114">cg</th>
+              </tr></thead>
+              <tbody>
+                <tr><td class="dd-s0115">1042</td><td class="dd-s0116">0</td><td class="dd-s0116">12</td><td class="dd-s0116">318</td><td class="dd-s0116">330</td><td class="dd-s0117">12=</td></tr>
+                <tr><td class="dd-s0115">2087</td><td class="dd-s0116">0</td><td class="dd-s0116">12</td><td class="dd-s0116">1204</td><td class="dd-s0116">1216</td><td class="dd-s0117">8=1X3=</td></tr>
+                <tr><td class="dd-s0115">3765</td><td class="dd-s0116">2</td><td class="dd-s0116">12</td><td class="dd-s0116">77</td><td class="dd-s0116">89</td><td class="dd-s0117">10=2X</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h2 class="hx dd-s0051" id="alignments" data-toc data-title="Inspecting alignments">Inspecting alignments<a data-hash href="#alignments" class="dd-s0052">#</a></h2>
+        <p class="dd-s0059">The <span class="dd-s0118">cg</span> column is a CIGAR string: <span class="dd-s0057">=</span> matches, <span class="dd-s0057">X</span> mismatches, <span class="dd-s0057">I/D</span> indels. Nam libero tempore, cum soluta nobis est eligendi optio.</p>
+
+        <div class="dd-s0119">
+          <span class="dd-s0120">!</span>
+          <p class="dd-s0121"><strong class="dd-s0122">Accessors are scan-scoped.</strong> Alignment accessors only return values for rows produced by an <span class="dd-s0123">mmsearch</span> scan in the same query. Called elsewhere, they return <span class="dd-s0123">NULL</span>.</p>
+        </div>
+
+        <!-- pager -->
+        <div data-pager class="dd-s0124">
+          <div data-split class="dd-s0125">
+            <a data-nav data-page="quickstart" href="/v0.1/" class="dd-s0126 dd-h005"><span class="dd-s0127">← Previous</span><span class="dd-s0128">Quick start</span></a>
+            <a data-nav data-page="api-sql" href="/v0.1/" class="dd-s0129 dd-h005"><span class="dd-s0127">Next →</span><span class="dd-s0128">SQL function reference</span></a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ===== RIGHT TOC ===== -->
+    <aside data-rightrail class="dd-s0130">
+      <div class="dd-s0131">On this page</div>
+      <div id="toc-list" class="dd-s0132"></div>
+    </aside>
+
+  </div>
+
+  <!-- ============ SITE FOOTER ============ -->
+  <footer data-screen-label="Docs · Footer" class="dd-s0133">
+    <div aria-hidden="true" class="dd-s0134">BioseqDB</div>
+
+    <div class="dd-s0135">
+      <div data-footcols class="dd-s0136">
+        <div>
+          <div class="dd-s0137">
+            <img src="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="dd-s0007">
+            <span class="dd-s0138">Bioseq<span class="dd-s0139">DB</span></span>
+            <span class="dd-s0140">DOCS</span>
+          </div>
+          <p class="dd-s0141">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
+          <span class="dd-s0142"><span class="dd-s0143"></span>Free &amp; open source</span>
+        </div>
+
+        <div>
+          <div class="dd-s0144">Documentation</div>
+          <div class="dd-s0145">
+            <a data-nav data-page="installation" href="/v0.1/" class="dd-s0146 dd-h006">Installation</a>
+            <a data-nav data-page="quickstart" href="/v0.1/" class="dd-s0146 dd-h006">Quick start</a>
+            <a data-nav data-page="tutorial-loading" href="#tutorial-loading" class="dd-s0146 dd-h006">Loading &amp; searching</a>
+            <a data-nav data-page="api-sql" href="/v0.1/" class="dd-s0146 dd-h006">SQL reference</a>
+            <a data-nav data-page="api-cpp" href="/v0.1/" class="dd-s0146 dd-h006">C++ core types</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0144">Explore</div>
+          <div class="dd-s0145">
+            <a href="/" class="dd-s0146 dd-h006">Product home</a>
+            <a href="/#workflow" class="dd-s0146 dd-h006">Workflow</a>
+            <a href="/#examples" class="dd-s0146 dd-h006">Examples</a>
+            <a href="/#index" class="dd-s0146 dd-h006">Index</a>
+            <a href="/#scale" class="dd-s0146 dd-h006">Scale</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0144">Project</div>
+          <div class="dd-s0145">
+            <a data-nav data-page="installation" href="/v0.1/" class="dd-s0146 dd-h006">Documentation</a>
+            <a href="https://github.com/styczynski/bioseqdb" class="dd-s0147">GitHub</a>
+            <span class="dd-s0148">Alpha &middot; Aug 2027</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-s0149">
+      <div class="dd-s0150"></div>
+      <div class="dd-s0151">
+        <span class="dd-s0152">&copy; 2027 BioseqDB &mdash; an independent open-source project.</span>
+        <nav class="dd-s0153">
+          <a data-noop href="#" class="dd-s0154 dd-h007">License (MIT)</a>
+          <a data-noop href="#" class="dd-s0154 dd-h007">Privacy</a>
+          <a data-totop href="#" class="dd-s0154 dd-h007">Back to top ↑</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div data-backdrop class="dd-s0155"></div>
+
+  <!-- ===== ENTITY POPOVER ===== -->
+  <div id="entity-pop" class="dd-s0156"></div>
+
+</div>
 
   </main>
   
-  <aside class="doc-toc" aria-label="On this page">
-    <p class="doc-toc-title">On this page</p>
-    <ul>
-    
-      <li class="toc-l2"><a href="#the-bioseq-seq-column-type">The bioseq.seq column type</a></li>
-    
-      <li class="toc-l2"><a href="#declaring-a-sequence-column">Declaring a sequence column</a></li>
-    
-      <li class="toc-l2"><a href="#round-tripping-sequence-values">Round-tripping sequence values</a></li>
-    
-      <li class="toc-l2"><a href="#ordering-by-sequence">Ordering by sequence</a></li>
-    
-    </ul>
-  </aside>
-  
 </div>
 
-<footer class="site-footer">
-  <div class="footer-watermark" aria-hidden="true">BioseqDB</div>
-  <div class="footer-inner">
-    <div class="footer-grid">
-      <div class="footer-intro">
-        <a class="brand footer-brand" href="/">
-          <img class="brand-mark" src="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/bioseq-mark.svg" width="32" height="32" alt="">
-          <span class="brand-word">Bioseq<span>DB</span></span>
-          <span class="docs-badge">Docs</span>
-        </a>
-        <p>SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
-        <span class="open-source-badge"><span aria-hidden="true"></span>Free &amp; open source</span>
-      </div>
-      <div class="footer-column">
-        <p class="footer-title">Documentation</p>
-        <a href="/v0.1/">Documentation home</a>
-        <a href="/v0.1/tutorials/">Tutorials</a>
-        <a href="/v0.1/reference/">API reference</a>
-      </div>
-      <div class="footer-column">
-        <p class="footer-title">Explore</p>
-        <a href="/#workflow">Workflow</a>
-        <a href="/#examples">Examples</a>
-        <a href="/#capabilities">Capabilities</a>
-        <a href="/#scale">Scale</a>
-      </div>
-      <div class="footer-column">
-        <p class="footer-title">Project</p>
-        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer">GitHub</a>
-        <a href="/versions/">All versions</a>
-        <span class="footer-status">Alpha &#183; v0.1</span>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&#169; 2026 Bioseq contributors</span>
-      <nav aria-label="Footer"><a href="https://github.com/styczynski/bioseqdb" rel="noreferrer">License</a><a href="#page-top">Back to top &#8593;</a></nav>
-    </div>
-  </div>
-</footer>
-
-<script src="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/vendor/prism/prism.min.js"></script>
-<script type="module" src="/assets/0acb2aaa3408e6287b80103723c1a1e3caf7159c8e7df42ca0c3d5ec03e1efd1/js/main.js"></script>
+<script src="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/js/main.js"></script>
 
 </body>
 </html>
