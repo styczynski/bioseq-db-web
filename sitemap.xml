@@ -71,15 +71,20 @@
   <url><loc>https://bioseqdb.com/v0.1/reference/cpp/type_alias/stream-config-1fe1f199564dbe1e/</loc></url>
   <url><loc>https://bioseqdb.com/v0.1/reference/cpp/type_alias/stream-traits-c2b9afa27b16ad15/</loc></url>
   <url><loc>https://bioseqdb.com/v0.1/reference/</loc></url>
+  <url><loc>https://bioseqdb.com/v0.1/reference/sql/function/bioseq-cigar-2c13a882e87557f3/</loc></url>
   <url><loc>https://bioseqdb.com/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/</loc></url>
+  <url><loc>https://bioseqdb.com/v0.1/reference/sql/function/bioseq-query-end-6c2a98839d0cee3f/</loc></url>
+  <url><loc>https://bioseqdb.com/v0.1/reference/sql/function/bioseq-query-start-12e9ad13b132271e/</loc></url>
   <url><loc>https://bioseqdb.com/v0.1/reference/sql/function/bioseq-symbol-count-57d215dc4755c7c6/</loc></url>
+  <url><loc>https://bioseqdb.com/v0.1/reference/sql/function/bioseq-target-end-360d292b54a6c2ca/</loc></url>
+  <url><loc>https://bioseqdb.com/v0.1/reference/sql/function/bioseq-target-start-7f5c101237c7c3f3/</loc></url>
   <url><loc>https://bioseqdb.com/v0.1/reference/sql/function/public-mmsearch-843c61c24e9f9655/</loc></url>
   <url><loc>https://bioseqdb.com/v0.1/reference/sql/function/public-mmsearch-de0f2ad5c1b0a7d9/</loc></url>
   <url><loc>https://bioseqdb.com/v0.1/reference/sql/</loc></url>
   <url><loc>https://bioseqdb.com/v0.1/reference/sql/overload_group/public-mmsearch-45d61d6e6585598c/</loc></url>
   <url><loc>https://bioseqdb.com/v0.1/reference/sql/type/bioseq-seq-8c069b667ce622ef/</loc></url>
   <url><loc>https://bioseqdb.com/v0.1/reference/sql/type/public-bioseq-aligner-options-f8c583332732ef45/</loc></url>
-  <url><loc>https://bioseqdb.com/v0.1/tutorials/</loc></url>
   <url><loc>https://bioseqdb.com/v0.1/tutorials/sequence_column_type/</loc></url>
+  <url><loc>https://bioseqdb.com/v0.1/tutorials/similarity_search/</loc></url>
   <url><loc>https://bioseqdb.com/versions/</loc></url>
 </urlset>

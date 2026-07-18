@@ -11,203 +11,213 @@
 <meta property="og:description" content="stream_traits">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bioseqdb.com/v0.1/reference/cpp/type_alias/stream-traits-c2b9afa27b16ad15/">
-<meta property="og:image" content="https://bioseqdb.com/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/media/social_card.png">
+<meta property="og:image" content="https://bioseqdb.com/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/media/social_card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bioseqdb.com/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/media/social_card.png">
-<link rel="icon" href="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/favicon.svg">
-<link rel="stylesheet" href="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/vendor/prism/prism.min.css">
-<link rel="stylesheet" href="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/css/site.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"stream_traits","description":"stream_traits","url":"https://bioseqdb.com/v0.1/reference/cpp/type_alias/stream-traits-c2b9afa27b16ad15/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Reference","item":"/v0.1/reference/"},{"@type":"ListItem","position":4,"name":"C++","item":"/v0.1/reference/cpp/"},{"@type":"ListItem","position":5,"name":"stream_traits","item":"/v0.1/reference/cpp/type_alias/stream-traits-c2b9afa27b16ad15/"}]}]}</script>
-
+<meta name="twitter:title" content="stream_traits">
+<meta name="twitter:description" content="stream_traits">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/media/social_card.png">
+<link rel="icon" href="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/favicon.svg">
+<link rel="stylesheet" href="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/css/site.css">
+<link rel="stylesheet" href="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/css/docs-design.css">
 </head>
-<body id="page-top" class="docs-page">
-<a class="skip-link" href="#main">Skip to main content</a>
+<body id="page-top" class="docs-design-page">
+<a class="skip-link" href="#doc-main">Skip to main content</a>
 
-<header class="site-header docs-header">
-  <nav class="site-nav" aria-label="Primary">
-    <a class="brand" href="/">
-      <img class="brand-mark" src="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/bioseq-mark.svg" width="30" height="30" alt="">
-      <span class="brand-word">Bioseq<span>DB</span></span>
-      <span class="docs-badge">Docs</span>
-    </a>
-    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-primary" aria-label="Toggle navigation menu">
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
-      <span class="nav-toggle-bar" aria-hidden="true"></span>
-    </button>
-    <div class="nav-primary" id="nav-primary">
-      <ul class="nav-links">
-        <li><a href="/v0.1/">Docs</a></li>
-        <li><a href="/">Product</a></li>
-        <li><a href="/v0.1/tutorials/">Tutorials</a></li>
-        <li><a href="/v0.1/reference/">Reference</a></li>
-      </ul>
-      <div class="nav-actions">
-        <button type="button" class="search-button" id="search-button" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-dialog">
-          <span class="search-button-label">Search</span>
-          <kbd class="search-button-kbd" aria-hidden="true">Ctrl K</kbd>
-        </button>
-        <details class="version-selector" id="version-selector">
-          <summary class="version-current">v0.1</summary>
-          <div class="version-menu">
-            <ul class="version-list" id="version-list" data-versions="/versions.json">
-              <li><a href="/v0.1/" aria-current="true">v0.1</a></li>
-            </ul>
-            <a class="version-all" href="/versions/">All versions</a>
-          </div>
-        </details>
-        <a class="repo-link button-quiet" href="https://github.com/styczynski/bioseqdb" rel="noreferrer">GitHub</a>
+<div data-screen-label="BioseqDB documentation" class="dd-s0001">
+
+  <!-- ============ TOP NAV ============ -->
+  <header id="dnav" class="dd-s0002">
+    <div class="dd-s0003">
+      <button data-menu aria-label="Menu" class="dd-s0004">
+        <span class="dd-s0005"></span><span class="dd-s0005"></span><span class="dd-s0005"></span>
+      </button>
+      <a data-nav href="/v0.1/tutorials/sequence_column_type/" class="dd-s0006">
+        <img src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/bioseq-mark.svg" width="30" height="30" alt="BioseqDB logo" class="dd-s0007">
+        <span class="dd-s0008">Bioseq<span class="dd-s0009">DB</span></span>
+        <span data-docsbadge class="dd-s0010">DOCS</span>
+      </a>
+
+      <nav data-topnav class="dd-s0011">
+        <a href="/v0.1/tutorials/sequence_column_type/" data-nav class="dd-s0012">Docs</a>
+        <a href="/" class="dd-s0013">Product</a>
+        <a href="/versions/" class="dd-s0013">Versions</a>
+      </nav>
+
+      <!-- SEARCH -->
+      <div data-search-wrap class="dd-s0014">
+        <div data-search-box class="dd-s0015">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" class="dd-s0016"><circle cx="7" cy="7" r="5" stroke="#7d94a6" stroke-width="1.6"/><line x1="10.6" y1="10.6" x2="14" y2="14" stroke="#7d94a6" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="doc-search" role="combobox" aria-autocomplete="list" aria-controls="search-dd" aria-expanded="false" data-search-index="/v0.1/search-index.json" type="text" placeholder="Search docs, functions, types…" autocomplete="off" spellcheck="false" class="dd-s0017">
+          <kbd class="dd-s0018">/</kbd>
+        </div>
+        <div id="search-dd" role="listbox" aria-label="Search results" class="dd-s0019"></div>
       </div>
+
+      <!-- VERSION -->
+      <div data-ver-wrap class="dd-s0020">
+        <button id="ver-btn" class="dd-s0021">
+          <span class="dd-s0022"></span>v0.1 <span class="docs-version-status">Alpha</span>
+          <span data-caret class="dd-s0024"></span>
+        </button>
+        <div id="ver-menu" data-versions-url="/versions.json" class="dd-s0025">
+          <a data-ver href="/v0.1/tutorials/sequence_column_type/" aria-current="page" class="dd-s0026">v0.1 <span class="docs-version-current">current</span></a>
+          <a data-ver-all href="/versions/" class="dd-s0028">All versions</a>
+        </div>
+      </div>
+
+      <a data-ghbtn href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0030">GitHub</a>
     </div>
-  </nav>
-</header>
+  </header>
 
-<dialog class="search-dialog" id="search-dialog" data-search-index="/v0.1/search-index.json" aria-label="Search documentation">
-  <form class="search-form" method="dialog" role="search">
-    <label class="search-label" for="search-input">Search documentation</label>
-    <input type="search" id="search-input" class="search-input" role="combobox" aria-expanded="true" aria-controls="search-results" aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Search tutorials, SQL, and C++ reference">
-    <button type="submit" class="search-close" value="close">Close</button>
-  </form>
-  <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
-  <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
-  <p class="search-fallback"><a href="/v0.1/reference/">Browse the full reference index</a></p>
-</dialog>
-<div class="layout layout-doc">
-  
-  
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <ol>
-    
-      <li><a href="/">Home</a></li>
-    
-      <li><a href="/v0.1/">v0.1</a></li>
-    
-      <li><a href="/v0.1/reference/">Reference</a></li>
-    
-      <li><a href="/v0.1/reference/cpp/">C++</a></li>
-    
-      <li><a href="/v0.1/reference/cpp/type_alias/stream-traits-c2b9afa27b16ad15/">stream_traits</a></li>
-    
-    </ol>
-  </nav>
-  
-  
-  
-  
-  <aside class="doc-nav" aria-label="Documentation navigation">
-    <nav>
-    
-      <p class="doc-nav-title">Tutorials</p>
-      <ul>
-      
-        <li><a href="/v0.1/tutorials/sequence_column_type/">The bioseq.seq column type</a></li>
-      
-      </ul>
-    
-      <p class="doc-nav-title">Reference</p>
-      <ul>
-      
-        <li><a href="/v0.1/reference/cpp/">C++</a></li>
-      
-        <li><a href="/v0.1/reference/sql/">SQL</a></li>
-      
-      </ul>
-    
-    </nav>
-  </aside>
-  
-  
-  <main id="main">
+  <!-- ============ BODY GRID ============ -->
+  <div data-bodygrid class="dd-s0031">
 
-<article class="entity">
-  <p class="kind-badge">cpp &#183; type_alias</p>
-  <h1><code>stream_traits</code></h1>
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <aside id="sidebar" class="dd-s0032">
+      
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0033">
+          <span data-caret class="dd-s0034"></span>Tutorials
+        </button>
+        <div data-chap-list class="dd-s0035">
+          <a data-doc-link href="/v0.1/tutorials/sequence_column_type/" class="dd-s0036">The bioseq.seq column type</a><a data-doc-link href="/v0.1/tutorials/similarity_search/" class="dd-s0036">Searching sequences with mmsearch</a>
+        </div>
+      </div>
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0033">
+          <span data-caret class="dd-s0034"></span>Reference
+        </button>
+        <div data-chap-list class="dd-s0035">
+          <a data-doc-link href="/v0.1/reference/cpp/" class="dd-s0036">C++</a><a data-doc-link href="/v0.1/reference/sql/" class="dd-s0036">SQL</a>
+        </div>
+      </div>
+      
+      
+      <div class="dd-s0037">
+        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0038">Edit on GitHub</a>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="doc-main" class="dd-s0039">
+      
+<article data-page-panel data-screen-label="Docs · API entity" class="dd-s0040 design-page design-entity-page">
+  <header data-reveal class="dd-s0041 design-page-header">
+    <nav aria-label="Breadcrumb" class="dd-s0042 design-breadcrumb"><a href="/">Home</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/">v0.1</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/reference/">Reference</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/reference/cpp/">C++</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/reference/cpp/type_alias/stream-traits-c2b9afa27b16ad15/">stream_traits</a><span class="dd-s0043" aria-hidden="true">/</span></nav>
+    <p class="design-kind-line"><span class="design-kind-badge">cpp &#183; type_alias</span></p>
+    <h1 class="dd-s0045 design-entity-title"><code>stream_traits</code></h1>
+    
+  </header>
+
   
-  
-  <figure class="doc-code entity-signature">
-    <figcaption class="doc-code-bar">
-      <span class="doc-code-lang">Signature</span>
-      <button type="button" class="copy-button" data-copy-target="entity-signature-code" aria-label="Copy signature to clipboard">Copy</button>
-    </figcaption>
-    <pre><code id="entity-signature-code">stream_traits</code></pre>
+  <figure data-term class="doc-code design-signature">
+    <figcaption class="doc-code-bar"><span class="doc-code-lang">Signature</span><button type="button" class="copy-button" data-copy data-copy-target="entity-signature-code">Copy</button></figcaption>
+    <pre data-code><code id="entity-signature-code">stream_traits</code></pre>
   </figure>
   
+
+  
+
+  
+  
+
+  
+  <section class="design-entity-section"><h2 class="hx design-section-heading" id="attributes" data-toc data-title="Attributes">Qualifiers<a data-hash href="#attributes" class="dd-s0052">#</a></h2><dl class="design-definition-list"><div><dt><code>exported</code></dt><dd>true</dd></div></dl></section>
   
   
   
   
-  <h2 id="attributes">Qualifiers</h2>
-  <dl class="entity-attributes">
-  
-    <dt><code>exported</code></dt><dd>true</dd>
-  
-  </dl>
-  
-  
-  
-  
-  <p class="source-link">Source: <a href="https://github.com/styczynski/bioseqdb/blob/2d806e7f23c3f6f73074972da34622d317f638e2/main/bioseq/io/public_api.cppm#L1176" rel="noreferrer">bioseq.io.public_api</a></p>
+  <p class="design-source-line">Source: <a href="https://github.com/styczynski/bioseqdb/blob/e56908f8ef73fcdd639a8f6e9e32f01eef80f76f/main/bioseq/io/public_api.cppm#L1176" rel="noreferrer">bioseq.io.public_api</a></p>
   
   
 </article>
 
-  </main>
-  
-  
-  <aside class="doc-toc" aria-label="On this page">
-    <p class="doc-toc-title">On this page</p>
-    <ul>
-    
-      <li class="toc-l2"><a href="#attributes">Qualifiers</a></li>
-    
-    </ul>
-  </aside>
-  
-  
+    </main>
+
+    <!-- ===== RIGHT TOC ===== -->
+    <aside data-rightrail class="dd-s0233">
+      <div class="dd-s0234">On this page</div>
+      <div id="toc-list" class="dd-s0235">
+        <a data-toc-link data-level="2" href="#attributes">Qualifiers</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ============ SITE FOOTER ============ -->
+  <footer data-screen-label="Docs · Footer" class="dd-s0236">
+    <div aria-hidden="true" class="dd-s0237">BioseqDB</div>
+
+    <div class="dd-s0238">
+      <div data-footcols class="dd-s0239">
+        <div>
+          <div class="dd-s0240">
+            <img src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="dd-s0007">
+            <span class="dd-s0241">Bioseq<span class="dd-s0242">DB</span></span>
+            <span class="dd-s0243">DOCS</span>
+          </div>
+          <p class="dd-s0244">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
+          <span class="dd-s0245"><span class="dd-s0246"></span>Free &amp; open source</span>
+        </div>
+
+        <div>
+          <div class="dd-s0247">Documentation</div>
+          <div class="dd-s0248">
+            
+            <a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0249 dd-h008">The bioseq.seq column type</a><a href="/v0.1/tutorials/similarity_search/" class="dd-s0249 dd-h008">Searching sequences with mmsearch</a><a href="/v0.1/reference/cpp/" class="dd-s0249 dd-h008">C++</a><a href="/v0.1/reference/sql/" class="dd-s0249 dd-h008">SQL</a>
+            
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0247">Explore</div>
+          <div class="dd-s0248">
+            <a href="/" class="dd-s0249 dd-h008">Product home</a>
+            <a href="/#workflow" class="dd-s0249 dd-h008">Workflow</a>
+            <a href="/#examples" class="dd-s0249 dd-h008">Examples</a>
+            <a href="/#index" class="dd-s0249 dd-h008">Index</a>
+            <a href="/#scale" class="dd-s0249 dd-h008">Scale</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0247">Project</div>
+          <div class="dd-s0248">
+            <a data-nav href="/v0.1/tutorials/sequence_column_type/" class="dd-s0249 dd-h008">Documentation</a>
+            <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0250">GitHub</a>
+            <span class="dd-s0251">Alpha &middot; v0.1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-s0252">
+      <div class="dd-s0253"></div>
+      <div class="dd-s0254">
+        <span class="dd-s0255">&copy; 2026 Bioseq contributors &mdash; an independent open-source project.</span>
+        <nav class="dd-s0256">
+          <a href="https://github.com/styczynski/bioseqdb/blob/main/__main/LICENSE" rel="noreferrer" class="dd-s0257 dd-h009">License (MIT)</a>
+          <a href="/versions/" class="dd-s0257 dd-h009">Versions</a>
+          <a data-totop href="#page-top" class="dd-s0257 dd-h009">Back to top ↑</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div data-backdrop class="dd-s0258"></div>
+
+  <!-- ===== ENTITY POPOVER ===== -->
+  <div id="entity-pop" class="dd-s0259"></div>
+
 </div>
 
-<footer class="site-footer">
-  <div class="footer-watermark" aria-hidden="true">BioseqDB</div>
-  <div class="footer-inner">
-    <div class="footer-grid">
-      <div class="footer-intro">
-        <a class="brand footer-brand" href="/">
-          <img class="brand-mark" src="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/bioseq-mark.svg" width="32" height="32" alt="">
-          <span class="brand-word">Bioseq<span>DB</span></span>
-          <span class="docs-badge">Docs</span>
-        </a>
-        <p>SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
-        <span class="open-source-badge"><span aria-hidden="true"></span>Free &amp; open source</span>
-      </div>
-      <div class="footer-column">
-        <p class="footer-title">Documentation</p>
-        <a href="/v0.1/">Documentation home</a>
-        <a href="/v0.1/tutorials/">Tutorials</a>
-        <a href="/v0.1/reference/">API reference</a>
-      </div>
-      <div class="footer-column">
-        <p class="footer-title">Explore</p>
-        <a href="/#workflow">Workflow</a>
-        <a href="/#examples">Examples</a>
-        <a href="/#capabilities">Capabilities</a>
-        <a href="/#scale">Scale</a>
-      </div>
-      <div class="footer-column">
-        <p class="footer-title">Project</p>
-        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer">GitHub</a>
-        <a href="/versions/">All versions</a>
-        <span class="footer-status">Alpha &#183; v0.1</span>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&#169; 2026 Bioseq contributors</span>
-      <nav aria-label="Footer"><a href="https://github.com/styczynski/bioseqdb" rel="noreferrer">License</a><a href="#page-top">Back to top &#8593;</a></nav>
-    </div>
-  </div>
-</footer>
-
-<script src="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/vendor/prism/prism.min.js"></script>
-<script type="module" src="/assets/a68b2f8ce26d6e9a79a5d029117b82db7ab789887d5903e88aaeb806cc8cc9e2/js/main.js"></script>
-
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"stream_traits","description":"stream_traits","url":"https://bioseqdb.com/v0.1/reference/cpp/type_alias/stream-traits-c2b9afa27b16ad15/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Reference","item":"/v0.1/reference/"},{"@type":"ListItem","position":4,"name":"C++","item":"/v0.1/reference/cpp/"},{"@type":"ListItem","position":5,"name":"stream_traits","item":"/v0.1/reference/cpp/type_alias/stream-traits-c2b9afa27b16ad15/"}]}]}</script>
+<script src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/js/prism-init.js"></script>
+<script src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/js/main.js"></script>
+<script type="module" src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/js/docs-design.mjs"></script>
 </body>
 </html>
