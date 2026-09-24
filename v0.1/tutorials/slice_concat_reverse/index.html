@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slice, concatenate, reverse, and measure sequences</title>
+<meta name="description" content="Work with sequence regions and transforms while keeping Bioseq values typed and compact.">
+<link rel="canonical" href="https://bioseqdb.com/v0.1/tutorials/slice_concat_reverse/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta property="og:title" content="Slice, concatenate, reverse, and measure sequences">
+<meta property="og:description" content="Work with sequence regions and transforms while keeping Bioseq values typed and compact.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bioseqdb.com/v0.1/tutorials/slice_concat_reverse/">
+<meta property="og:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Slice, concatenate, reverse, and measure sequences">
+<meta name="twitter:description" content="Work with sequence regions and transforms while keeping Bioseq values typed and compact.">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<link rel="icon" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/favicon.svg">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/site.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/docs-design.css">
+</head>
+<body id="page-top" class="docs-design-page">
+<a class="skip-link" href="#doc-main">Skip to main content</a>
+
+<div data-screen-label="BioseqDB documentation" class="dd-s0001">
+
+  <!-- ============ TOP NAV ============ -->
+  <header id="dnav" class="dd-s0002">
+    <div class="dd-s0003">
+      <button data-menu aria-label="Menu" class="dd-s0004">
+        <span class="dd-s0005"></span><span class="dd-s0005"></span><span class="dd-s0005"></span>
+      </button>
+      <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0006">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="30" height="30" alt="BioseqDB logo" class="dd-s0007">
+        <span class="dd-s0008">Bioseq<span class="dd-s0009">DB</span></span>
+        <span data-docsbadge class="dd-s0010">DOCS</span>
+      </a>
+
+      <nav data-topnav class="dd-s0011">
+        <a href="/v0.1/tutorials/quick_read_search_write/" data-nav class="dd-s0012">Docs</a>
+        <a href="/" class="dd-s0013">Product</a>
+        <a href="/benchmarks/" class="dd-s0014 dd-h001">Benchmarks</a>
+        <a href="/versions/" class="dd-s0013">Versions</a>
+      </nav>
+
+      <!-- SEARCH -->
+      <div data-search-wrap class="dd-s0015">
+        <div data-search-box class="dd-s0016">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" class="dd-s0017"><circle cx="7" cy="7" r="5" stroke="#7d94a6" stroke-width="1.6"/><line x1="10.6" y1="10.6" x2="14" y2="14" stroke="#7d94a6" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="doc-search" role="combobox" aria-autocomplete="list" aria-controls="search-dd" aria-expanded="false" data-search-index="/v0.1/search-index.json" type="text" placeholder="Search docs, functions, types…" autocomplete="off" spellcheck="false" class="dd-s0018">
+          <kbd class="dd-s0019">/</kbd>
+        </div>
+        <div id="search-dd" role="listbox" aria-label="Search results" class="dd-s0020"></div>
+      </div>
+
+      <!-- VERSION -->
+      <div data-ver-wrap class="dd-s0021">
+        <button id="ver-btn" class="dd-s0022">
+          <span class="dd-s0023"></span>v0.1 <span class="docs-version-status">Alpha</span>
+          <span data-caret class="dd-s0025"></span>
+        </button>
+        <div id="ver-menu" data-versions-url="/versions.json" class="dd-s0026">
+          <a data-ver href="/v0.1/tutorials/quick_read_search_write/" aria-current="page" class="dd-s0027">v0.1 <span class="docs-version-current">current</span></a>
+          <a data-ver-all href="/versions/" class="dd-s0029">All versions</a>
+        </div>
+      </div>
+
+      <a data-ghbtn href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0031">GitHub</a>
+    </div>
+  </header>
+
+  <!-- ============ BODY GRID ============ -->
+  <div data-bodygrid class="dd-s0032">
+
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <aside id="sidebar" class="dd-s0033">
+      
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Tutorials
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0037">Read, search, and write sequences quickly</a><a data-doc-link href="/v0.1/tutorials/sequence_column_type/" class="dd-s0037">The bioseq.seq column type</a><a data-doc-link href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0037">Columnar storage and vectorized aggregates</a><a data-doc-link href="/v0.1/tutorials/sequence_generation/" class="dd-s0037">Generate deterministic sequence tables</a><a data-doc-link href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0037">Load FASTA, FASTQ, and gzip data</a><a data-doc-link href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0037">Index lifecycle, choices, and metadata</a><a data-doc-link href="/v0.1/tutorials/similarity_search/" class="dd-s0037">Searching sequences with mmsearch</a><a data-doc-link href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0037">Slice, concatenate, reverse, and measure sequences</a><a data-doc-link href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0037">Search multiple sequence columns and join by sequence</a><a data-doc-link href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0037">Highway runtime dispatch</a><a data-doc-link href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0037">Read every Bioseq EXPLAIN section</a><a data-doc-link href="/v0.1/tutorials/query_cache/" class="dd-s0037">Caching sequence-search results</a><a data-doc-link href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0037">Query remote providers, stage sequences, and search them</a>
+        </div>
+      </div>
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Reference
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/reference/cpp/" class="dd-s0037">C++</a><a data-doc-link href="/v0.1/reference/sql/" class="dd-s0037">SQL</a>
+        </div>
+      </div>
+      
+      
+      <div class="dd-s0038">
+        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0039">Edit on GitHub</a>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="doc-main" class="dd-s0040">
+      
+<section data-page-panel data-screen-label="Docs · Tutorial" class="dd-s0040 design-page">
+  <header data-reveal class="dd-s0041 design-page-header">
+    <nav aria-label="Breadcrumb" class="dd-s0042 design-breadcrumb">
+      <a href="/">Home</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/">v0.1</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/quick_read_search_write/">Tutorials</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/slice_concat_reverse/">Slice, concatenate, reverse, and measure sequences</a><span class="dd-s0043" aria-hidden="true">/</span>
+    </nav>
+    <h1 class="dd-s0045">Slice, concatenate, reverse, and measure sequences</h1>
+    <p class="dd-s0046">Work with sequence regions and transforms while keeping Bioseq values typed and compact.</p>
+  </header>
+
+  <div class="docs-content tutorial-body"><p class="doc-paragraph">Bioseq lets SQL work with a region of a <a class="entity-ref" href="/v0.1/reference/sql/type/bioseq-seq-8c069b667ce622ef/" data-entity="sql:type:bioseq.seq" data-entity-id="sql:type:bioseq.seq" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.seq</a> value without first<br>converting the whole value to text. You can index one symbol, take a half-open<br>slice, concatenate compatible values, reverse a sequence, compute its reverse<br>complement, and ask <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/" data-entity="sql:function:bioseq.len(bioseq.seq)" data-entity-id="sql:function:bioseq.len(bioseq.seq)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.len</a> for its biological length or<br><code>bioseq.unit_len</code> for its packed length.</p><p class="doc-paragraph">This tutorial starts with exact slice rules, then combines the operations into<br>queries that remain useful for long stored values.</p><p class="doc-paragraph">Prerequisite: <a href="../similarity_search/">Searching sequences with mmsearch</a><br>introduces the coordinate helpers used to select an aligned region.</p><h2 class="hx" id="create-a-small-table-to-explore" data-toc data-title="Create a small table to explore">Create a small table to explore<a data-hash href="#create-a-small-table-to-explore" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The examples use one short sequence so every bound is easy to check:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-64ccb67c374645c3-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-64ccb67c374645c3-0" class="language-sql">CREATE TABLE slice_reads (
+    read_id integer PRIMARY KEY,
+    sequence bioseq.seq('dna4', 32) NOT NULL
+) USING bioseq;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-f10679a8186c0bf7-1" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-f10679a8186c0bf7-1" class="language-sql">SET bioseq.index.insert_maintenance.enabled = off;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-0d2cf22b0c2ee307-2" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-0d2cf22b0c2ee307-2" class="language-sql">INSERT INTO slice_reads VALUES
+    (1, 'ACGTA'),
+    (2, 'TTCCA'),
+    (3, 'GGACT');
+</code></pre></figure><p class="doc-paragraph">The first value has five symbols at positions 0 through 4.</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">Text</span><button type="button" class="copy-button" data-copy data-copy-target="code-a5d7f38bd11ef296-3" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-a5d7f38bd11ef296-3">position     0  1  2  3  4
+symbol       A  C  G  T  A
+</code></pre></figure><h2 class="hx" id="index-one-symbol" data-toc data-title="Index one symbol">Index one symbol<a data-hash href="#index-one-symbol" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Sequence indexing is zero-based:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-a39c76be0fe502be-4" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-a39c76be0fe502be-4" class="language-sql">SELECT sequence[0]::text AS first_symbol,
+       sequence[4]::text AS fifth_symbol
+FROM slice_reads
+WHERE read_id = 1;
+</code></pre></figure><p class="doc-paragraph">The result is <code>A</code> and <code>A</code>.</p><p class="doc-paragraph">Negative indexes count back from the end. <code>-1</code> is the last symbol:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-aa20d921f9097c2f-5" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-aa20d921f9097c2f-5" class="language-sql">SELECT sequence[-1]::text AS last_symbol,
+       sequence[-5]::text AS first_symbol
+FROM slice_reads
+WHERE read_id = 1;
+</code></pre></figure><p class="doc-paragraph">Both expressions return <code>A</code> for <code>ACGTA</code>.</p><p class="doc-paragraph">An index outside the value returns NULL:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-609e19eed53c6919-6" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-609e19eed53c6919-6" class="language-sql">SELECT sequence[5] IS NULL AS after_end,
+       sequence[-6] IS NULL AS before_start
+FROM slice_reads
+WHERE read_id = 1;
+</code></pre></figure><p class="doc-paragraph">This returns true for both columns. It gives a query a simple way to test an<br>optional position without reading past the sequence.</p><p class="doc-paragraph">If the sequence value itself is NULL, indexing also returns NULL. A <code>NOT NULL</code><br>column avoids that second source of missing values when it does not fit your<br>data model.</p><h2 class="hx" id="take-half-open-slices" data-toc data-title="Take half-open slices">Take half-open slices<a data-hash href="#take-half-open-slices" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">A slice includes its lower bound and excludes its upper bound. The expression<br><code>sequence[1:4]</code> returns positions 1, 2, and 3:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-0985c9562c82e734-7" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-0985c9562c82e734-7" class="language-sql">SELECT sequence[1:4]::text
+FROM slice_reads
+WHERE read_id = 1;
+</code></pre></figure><p class="doc-paragraph">The result is <code>CGT</code>.</p><p class="doc-paragraph">Omit the lower bound to start at position 0:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-f59989faf28bd7bb-8" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-f59989faf28bd7bb-8" class="language-sql">SELECT sequence[:2]::text
+FROM slice_reads
+WHERE read_id = 1;
+</code></pre></figure><p class="doc-paragraph">The result is <code>AC</code>.</p><p class="doc-paragraph">Omit the upper bound to continue to the end:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-71865cb759a5904b-9" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-71865cb759a5904b-9" class="language-sql">SELECT sequence[2:]::text
+FROM slice_reads
+WHERE read_id = 1;
+</code></pre></figure><p class="doc-paragraph">The result is <code>GTA</code>.</p><p class="doc-paragraph">The span length of <code>[lower:upper]</code> is normally <code>upper - lower</code>. Half-open<br>bounds also compose cleanly. Splitting at position 2 produces adjacent pieces<br>without duplicating or losing a symbol:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-b3e0bd6af516ac76-10" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-b3e0bd6af516ac76-10" class="language-sql">SELECT sequence[:2]::text AS left_piece,
+       sequence[2:]::text AS right_piece
+FROM slice_reads
+WHERE read_id = 1;
+</code></pre></figure><h2 class="hx" id="use-negative-slice-bounds" data-toc data-title="Use negative slice bounds">Use negative slice bounds<a data-hash href="#use-negative-slice-bounds" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Negative bounds are resolved from the end of the value. These three<br>expressions all select <code>CGT</code> from <code>ACGTA</code>:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-094ddcf97bb8b88a-11" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-094ddcf97bb8b88a-11" class="language-sql">SELECT sequence[1:4]::text AS positive_bounds,
+       sequence[1:-1]::text AS negative_upper,
+       sequence[-4:-1]::text AS negative_bounds
+FROM slice_reads
+WHERE read_id = 1;
+</code></pre></figure><p class="doc-paragraph">Use a negative upper bound when an application wants to drop a fixed suffix:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-9e96d175f401fd7c-12" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-9e96d175f401fd7c-12" class="language-sql">SELECT read_id,
+       sequence[:-2]::text AS without_last_two
+FROM slice_reads
+ORDER BY read_id;
+</code></pre></figure><p class="doc-paragraph">Use a negative lower bound for a fixed-size suffix:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-5d212d72b3d6aa5e-13" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-5d212d72b3d6aa5e-13" class="language-sql">SELECT read_id,
+       sequence[-3:]::text AS last_three
+FROM slice_reads
+ORDER BY read_id;
+</code></pre></figure><h2 class="hx" id="understand-clamping-and-empty-slices" data-toc data-title="Understand clamping and empty slices">Understand clamping and empty slices<a data-hash href="#understand-clamping-and-empty-slices" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Slice bounds are clamped to the available sequence. A large outer range<br>returns the whole value:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-dd641f627fd8f720-14" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-dd641f627fd8f720-14" class="language-sql">SELECT sequence[-100:100]::text
+FROM slice_reads
+WHERE read_id = 1;
+</code></pre></figure><p class="doc-paragraph">The result is <code>ACGTA</code>.</p><p class="doc-paragraph">A lower bound at or after the upper bound returns an empty sequence:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-5a0c6ad1c50483e3-15" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-5a0c6ad1c50483e3-15" class="language-sql">SELECT bioseq.len(sequence[3:3]) AS equal_bounds,
+       bioseq.len(sequence[4:2]) AS reversed_bounds
+FROM slice_reads
+WHERE read_id = 1;
+</code></pre></figure><p class="doc-paragraph">Both lengths are zero. The result is a typed empty sequence, not NULL.</p><p class="doc-paragraph">That distinction is useful in aggregates and transformations. An empty slice<br>can be concatenated with another compatible sequence. A NULL value propagates<br>through strict sequence operations.</p><h2 class="hx" id="omitted-bounds-are-not-null-bounds" data-toc data-title="Omitted bounds are not NULL bounds">Omitted bounds are not NULL bounds<a data-hash href="#omitted-bounds-are-not-null-bounds" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">An omitted bound means open-ended. A bound whose SQL value is NULL makes the<br>slice result NULL:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-fe09078b90b8015a-16" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-fe09078b90b8015a-16" class="language-sql">SELECT sequence[:2] IS NULL AS omitted_lower_is_null,
+       sequence[NULL::bigint:2] IS NULL AS null_lower_is_null
+FROM slice_reads
+WHERE read_id = 1;
+</code></pre></figure><p class="doc-paragraph">The first result is false and the second is true.</p><p class="doc-paragraph">This matters for parameterized slices. If a client parameter can be NULL, do<br>not expect Bioseq to interpret it as an omitted colon bound. Choose the desired<br>behavior in SQL:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-36f9ef624c915f87-17" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-36f9ef624c915f87-17" class="language-sql">SELECT CASE
+         WHEN $1::bigint IS NULL THEN sequence[:$2::bigint]
+         ELSE sequence[$1::bigint:$2::bigint]
+       END
+FROM slice_reads
+WHERE read_id = $3;
+</code></pre></figure><p class="doc-paragraph">The <code>CASE</code> makes the application's NULL policy visible.</p><h2 class="hx" id="keep-slicing-one-dimensional" data-toc data-title="Keep slicing one-dimensional">Keep slicing one-dimensional<a data-hash href="#keep-slicing-one-dimensional" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Bioseq supports one-dimensional indexing and slices with a step of one. It does<br>not expose Python-style stepped slices such as every second base. It also does<br>not treat a sequence as a multidimensional array.</p><p class="doc-paragraph">For a regular sampling operation, create positions with PostgreSQL and index<br>the sequence deliberately:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-9c683737ad9d82da-18" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-9c683737ad9d82da-18" class="language-sql">SELECT p.position,
+       r.sequence[p.position]::text AS symbol
+FROM slice_reads AS r
+CROSS JOIN LATERAL generate_series(
+    0,
+    bioseq.len(r.sequence) - 1,
+    2
+) AS p(position)
+WHERE r.read_id = 1
+ORDER BY p.position;
+</code></pre></figure><p class="doc-paragraph">This says exactly which positions become rows. It avoids implying that a<br>stepped Bioseq subscript exists.</p><h2 class="hx" id="concatenate-two-sequences" data-toc data-title="Concatenate two sequences">Concatenate two sequences<a data-hash href="#concatenate-two-sequences" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The Bioseq concatenation operator is in the <code>bioseq</code> schema. With <code>bioseq</code> on<br>the search path, two compatible sequences can use <code>||</code> directly:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ab2c9cde19d4f8e4-19" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ab2c9cde19d4f8e4-19" class="language-sql">SET search_path = bioseq, public, pg_catalog;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-5df06238e70b2acc-20" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-5df06238e70b2acc-20" class="language-sql">SELECT (
+    'AC'::bioseq.seq('dna4', 32)
+    ||
+    'GTA'::bioseq.seq('dna4', 32)
+)::text;
+</code></pre></figure><p class="doc-paragraph">The result is <code>ACGTA</code>.</p><p class="doc-paragraph">When an application keeps a restrictive search path, qualify the operator:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-6f38466a054cd008-21" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-6f38466a054cd008-21" class="language-sql">SELECT (
+    'AC'::bioseq.seq('dna4', 32)
+    OPERATOR(bioseq.||)
+    'GTA'::bioseq.seq('dna4', 32)
+)::text;
+</code></pre></figure><p class="doc-paragraph">Schema qualification is important for operators. Writing <code>bioseq.||</code> is not<br>valid PostgreSQL operator syntax. <code>OPERATOR(bioseq.||)</code> is the explicit form.</p><h2 class="hx" id="concatenate-sequences-and-text" data-toc data-title="Concatenate sequences and text">Concatenate sequences and text<a data-hash href="#concatenate-sequences-and-text" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Bioseq provides typed concatenation in both directions:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-8df641d68371fc93-22" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-8df641d68371fc93-22" class="language-sql">SELECT (
+    'ACG'::bioseq.seq('dna4', 32)
+    OPERATOR(bioseq.||)
+    'TA'::text
+)::text AS sequence_then_text;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-a848439c0aecb733-23" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-a848439c0aecb733-23" class="language-sql">SELECT (
+    'AC'::text
+    OPERATOR(bioseq.||)
+    'GTA'::bioseq.seq('dna4', 32)
+)::text AS text_then_sequence;
+</code></pre></figure><p class="doc-paragraph">Both results are <code>ACGTA</code>. The text part is checked against the sequence<br>alphabet. Appending <code>N</code> to a <code>dna4</code> value fails with SQLSTATE <code>22P02</code>:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-81a0d68588f913bb-24" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-81a0d68588f913bb-24" class="language-sql">SELECT 'ACGT'::bioseq.seq('dna4', 32)
+       OPERATOR(bioseq.||)
+       'N'::text;
+</code></pre></figure><p class="doc-paragraph">This prevents a transform from introducing a symbol that the result type<br>cannot represent.</p><h2 class="hx" id="concatenate-symbol-arrays" data-toc data-title="Concatenate symbol arrays">Concatenate symbol arrays<a data-hash href="#concatenate-symbol-arrays" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Arrays can be useful when another SQL operation already produces individual<br>symbols. Bioseq accepts text arrays and <code>bioseq.letter</code> arrays in its<br>concatenation family.</p><p class="doc-paragraph">Prepend a text array:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-2cdc4826579bc863-25" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-2cdc4826579bc863-25" class="language-sql">SELECT (
+    ARRAY['A', 'C']::text[]
+    OPERATOR(bioseq.||)
+    'GTA'::bioseq.seq('dna4', 32)
+)::text;
+</code></pre></figure><p class="doc-paragraph">Append a <code>bioseq.letter</code> array derived from another value:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-951d3c9f268fa237-26" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-951d3c9f268fa237-26" class="language-sql">SELECT (
+    'AC'::bioseq.seq('dna4', 32)
+    OPERATOR(bioseq.||)
+    bioseq.to_array('GTA'::bioseq.seq('dna4', 32))
+)::text;
+</code></pre></figure><p class="doc-paragraph">The results are <code>ACGTA</code>.</p><p class="doc-paragraph">An empty compatible piece is an identity for concatenation:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-e34655dd300c66e9-27" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-e34655dd300c66e9-27" class="language-sql">SELECT bioseq.len(
+    'ACGTA'::bioseq.seq('dna4', 32)
+    OPERATOR(bioseq.||)
+    ''::text
+) AS unchanged_length;
+</code></pre></figure><p class="doc-paragraph">The result is 5.</p><p class="doc-paragraph">Concatenation is strict. If either operand is NULL, the result is NULL:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-14d4f8959e232bed-28" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-14d4f8959e232bed-28" class="language-sql">SELECT (
+    'ACGTA'::bioseq.seq('dna4', 32)
+    OPERATOR(bioseq.||)
+    NULL::text
+) IS NULL;
+</code></pre></figure><p class="doc-paragraph">Use <code>COALESCE</code> only when treating NULL as an empty piece is truly the business<br>rule:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-9fb53a52daf6a237-29" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-9fb53a52daf6a237-29" class="language-sql">SELECT 'ACGTA'::bioseq.seq('dna4', 32)
+       OPERATOR(bioseq.||)
+       COALESCE($1::text, '');
+</code></pre></figure><h2 class="hx" id="keep-alphabets-compatible" data-toc data-title="Keep alphabets compatible">Keep alphabets compatible<a data-hash href="#keep-alphabets-compatible" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Both sequence operands must have compatible bound types. A <code>dna4</code> sequence and<br>a <code>dna5</code> sequence do not silently choose a wider common alphabet. An operation<br>across different bound alphabets fails with SQLSTATE <code>42804</code>.</p><p class="doc-paragraph">Choose the table alphabet when you design the data model. Validate external<br>text as it enters that type. Do not depend on concatenation to convert between<br>biological alphabets.</p><p class="doc-paragraph">Storage width is different from alphabet. Values with the same alphabet can be<br>cast between supported storage widths:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-317e2077fbd5c7af-30" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-317e2077fbd5c7af-30" class="language-sql">SELECT (
+    'AC'::bioseq.seq('dna4', 16)::bioseq.seq('dna4', 64)
+    OPERATOR(bioseq.||)
+    'GTA'::bioseq.seq('dna4', 64)
+)::text;
+</code></pre></figure><p class="doc-paragraph">The result remains <code>ACGTA</code>. The cast changes packed representation, not the<br>symbols.</p><h2 class="hx" id="reverse-a-sequence" data-toc data-title="Reverse a sequence">Reverse a sequence<a data-hash href="#reverse-a-sequence" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>bioseq.reverse</code> changes symbol order without complementing bases:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-746201caad7738ce-31" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-746201caad7738ce-31" class="language-sql">SELECT bioseq.reverse(
+    'ACGTA'::bioseq.seq('dna4', 32)
+)::text;
+</code></pre></figure><p class="doc-paragraph">The result is <code>ATGCA</code>.</p><p class="doc-paragraph">Use it on a stored slice:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-cdfce3645076b806-32" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-cdfce3645076b806-32" class="language-sql">SELECT read_id,
+       bioseq.reverse(sequence[1:4])::text AS reversed_middle
+FROM slice_reads
+ORDER BY read_id;
+</code></pre></figure><p class="doc-paragraph">Reversing an empty sequence returns an empty sequence. Reversing a NULL value<br>returns NULL.</p><p class="doc-paragraph">If the session search path contains only <code>pg_catalog</code> and <code>public</code>, call the<br>schema-qualified function as shown. An unqualified <code>reverse(sequence)</code> is not a<br>portable Bioseq call.</p><h2 class="hx" id="compute-a-reverse-complement" data-toc data-title="Compute a reverse complement">Compute a reverse complement<a data-hash href="#compute-a-reverse-complement" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>bioseq.reverse_complement</code> reverses the sequence and complements each symbol<br>under the bound alphabet:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-115201419e7d9295-33" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-115201419e7d9295-33" class="language-sql">SELECT bioseq.reverse_complement(
+    'ACGTA'::bioseq.seq('dna4', 32)
+)::text;
+</code></pre></figure><p class="doc-paragraph">The result is <code>TACGT</code>.</p><p class="doc-paragraph">This is useful when a stored interval has strand <code>-1</code> and the caller wants the<br>forward reading orientation:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-aebe0a19dda71fc8-34" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-aebe0a19dda71fc8-34" class="language-sql">SELECT CASE strand
+         WHEN 1 THEN sequence
+         WHEN -1 THEN bioseq.reverse_complement(sequence)
+       END AS oriented_sequence
+FROM imported_intervals;
+</code></pre></figure><p class="doc-paragraph">The example assumes that <code>strand</code> has only 1 and -1. Add an <code>ELSE</code> branch if<br>the table allows unknown or unstranded values.</p><p class="doc-paragraph">Reverse complement requires a bound alphabet with complement rules. A typmodless<br><code>bioseq.seq</code> value can carry symbols, but alphabet-dependent operations need a<br>bound type. Cast the value to the known alphabet first:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-98f2343f77c215a1-35" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-98f2343f77c215a1-35" class="language-sql">SELECT bioseq.reverse_complement(
+    $1::bioseq.seq('dna4', 32)
+);
+</code></pre></figure><h2 class="hx" id="measure-symbols-and-packed-units" data-toc data-title="Measure symbols and packed units">Measure symbols and packed units<a data-hash href="#measure-symbols-and-packed-units" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>bioseq.len</code> reports biological symbols:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ae1a11f8f6c1845c-36" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ae1a11f8f6c1845c-36" class="language-sql">SELECT bioseq.len('ACGTA'::bioseq.seq('dna4', 32));
+</code></pre></figure><p class="doc-paragraph">The result is 5.</p><p class="doc-paragraph"><code>bioseq.unit_len</code> reports packed storage units:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ed7ebf012839b31f-37" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ed7ebf012839b31f-37" class="language-sql">SELECT bioseq.unit_len('ACGTA'::bioseq.seq('dna4', 32));
+</code></pre></figure><p class="doc-paragraph">Do not compare the two without naming their units. The number of packed units<br>depends on alphabet and the active physical storage width. The number of<br>symbols does not. A build profile can normalize several accepted SQL widths to<br>one physical width, so inspect the bound column type with <code>format_type</code> before<br>using packed-unit counts to compare deployments.</p><p class="doc-paragraph">Measure a transformed expression directly:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-a12f3502a6e1f0b8-38" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-a12f3502a6e1f0b8-38" class="language-sql">SELECT bioseq.len(
+    bioseq.reverse(sequence[1:-1])
+    OPERATOR(bioseq.||)
+    'AC'::text
+) AS output_symbols
+FROM slice_reads
+WHERE read_id = 1;
+</code></pre></figure><p class="doc-paragraph">There is no need to cast the intermediate expression to text just to count it.</p><h2 class="hx" id="build-derived-targets-from-pieces" data-toc data-title="Build derived targets from pieces">Build derived targets from pieces<a data-hash href="#build-derived-targets-from-pieces" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The operations compose. This query trims one symbol from each side, reverses<br>the middle, and adds fixed adapters:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-bb6dabe7c8212714-39" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-bb6dabe7c8212714-39" class="language-sql">SELECT read_id,
+       (
+           'AC'::text
+           OPERATOR(bioseq.||)
+           bioseq.reverse(sequence[1:-1])
+           OPERATOR(bioseq.||)
+           'GT'::text
+       ) AS derived_target
+FROM slice_reads
+ORDER BY read_id;
+</code></pre></figure><p class="doc-paragraph">Keep the expression typed as <code>bioseq.seq</code> when a later Bioseq operation consumes<br>it. Cast to text only at the output boundary:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-23d1988758556c7f-40" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-23d1988758556c7f-40" class="language-sql">SELECT read_id,
+       (
+           'AC'::text
+           OPERATOR(bioseq.||)
+           bioseq.reverse(sequence[1:-1])
+           OPERATOR(bioseq.||)
+           'GT'::text
+       )::text AS derived_target_text
+FROM slice_reads
+ORDER BY read_id;
+</code></pre></figure><h2 class="hx" id="search-a-derived-region" data-toc data-title="Search a derived region">Search a derived region<a data-hash href="#search-a-derived-region" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">A sliced target can participate in a supported search shape. Keep ownership of<br>each <code>mmsearch</code> call clear, especially in joins:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ba4152df809d8677-41" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ba4152df809d8677-41" class="language-sql">SELECT read_id
+FROM slice_reads
+WHERE public.mmsearch(
+    sequence[1:-1],
+    'CGT'::bioseq.seq('dna4', 32)
+)
+ORDER BY read_id;
+</code></pre></figure><p class="doc-paragraph">For application work, use a query long enough for the selected search<br>pipeline and dataset. The short literal above illustrates the typed expression,<br>not a recommended alignment threshold.</p><p class="doc-paragraph">The multi-sequence tutorial shows how to give separate search predicates<br>separate target frontiers. Do not stack two <code>mmsearch</code> calls on the same target<br>frontier in one Boolean expression. That unsupported shape fails instead of<br>guessing which search owns the projected match state.</p><h2 class="hx" id="see-when-payload-materialization-happens" data-toc data-title="See when payload materialization happens">See when payload materialization happens<a data-hash href="#see-when-payload-materialization-happens" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Explain a metadata-only length first:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-164d727d513cc5ec-42" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-164d727d513cc5ec-42" class="language-sql">EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT bioseq.len(sequence[1:-1])
+FROM slice_reads;
+</code></pre></figure><p class="doc-paragraph">Then explain a query that sends text to the client:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ac78d91392925fe8-43" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ac78d91392925fe8-43" class="language-sql">EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT sequence[1:-1]::text
+FROM slice_reads;
+</code></pre></figure><p class="doc-paragraph">Bioseq can describe source-backed lazy expressions through these EXPLAIN<br>sections:</p><ul><li><code>Projection Mode</code></li><li><code>Source Pieces</code></li><li><code>Estimated Piece Boundaries</code></li><li><code>Slice Recipe</code></li><li><code>Slice Materialization</code></li></ul><p class="doc-paragraph">The recipe shows the expression graph. Each recipe node can report stable ID,<br>opcode, expression, dependencies, and lower or upper bounds. It describes what<br>must be computed without claiming that every payload was already copied.</p><p class="doc-paragraph">The materialization section explains where a concrete value was required. A<br>materialization item can name the variable, expression, mechanism, reason,<br>dependencies, encoding, and cache scope. With costs enabled it can include<br>estimated symbols and bytes. With <code>ANALYZE</code> it can add actual calls, input and<br>output symbols, input and output bytes, reused calls, retained bytes, and time.</p><p class="doc-paragraph">A length over a lazy slice can remain metadata-only. Casting the slice to text<br>is a client output boundary and requires symbols to be produced. Read the<br>reported mechanism and reason instead of inferring materialization from the SQL<br>spelling alone.</p><h2 class="hx" id="a-runnable-operation-table" data-toc data-title="A runnable operation table">A runnable operation table<a data-hash href="#a-runnable-operation-table" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">This example puts the core rules in one result:</p><figure class="doc-code" data-term data-sql-example="slice_concat_reverse"><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-784ef84f8e04b3e8-44" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-784ef84f8e04b3e8-44" class="language-sql">SELECT sequence[0]::text AS first_symbol,
+       sequence[-1]::text AS last_symbol,
+       sequence[1:4]::text AS middle,
+       sequence[-100:100]::text AS clamped,
+       bioseq.len(sequence[4:2]) AS empty_length,
+       (
+           sequence[:2]
+           OPERATOR(bioseq.||)
+           sequence[2:]
+       )::text AS rejoined,
+       bioseq.reverse(sequence)::text AS reversed,
+       bioseq.reverse_complement(sequence)::text AS reverse_complement,
+       bioseq.len(sequence) AS symbols,
+       bioseq.unit_len(sequence) AS packed_units
+FROM slice_operation_reads
+WHERE read_id = 1;</code></pre><div class="terminal-result" data-result><div class="terminal-result-label">Result · 1 row</div><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">first_symbol<br><code>text</code></th><th scope="col">last_symbol<br><code>text</code></th><th scope="col">middle<br><code>text</code></th><th scope="col">clamped<br><code>text</code></th><th scope="col">empty_length<br><code>bigint</code></th><th scope="col">rejoined<br><code>text</code></th><th scope="col">reversed<br><code>text</code></th><th scope="col">reverse_complement<br><code>text</code></th><th scope="col">symbols<br><code>bigint</code></th><th scope="col">packed_units<br><code>bigint</code></th></tr></thead><tbody><tr><td>A</td><td>A</td><td>CGT</td><td>ACGTA</td><td>0</td><td>ACGTA</td><td>ATGCA</td><td>TACGT</td><td>5</td><td>1</td></tr></tbody></table></div></figure><p class="doc-paragraph"><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.11</em></p><p class="doc-paragraph">For the stored value <code>ACGTA</code>, the symbol operations have these stable results:</p><table><tr><td>Column</td><td>Result</td></tr><tr><td><code>first_symbol</code></td><td><code>A</code></td></tr><tr><td><code>last_symbol</code></td><td><code>A</code></td></tr><tr><td><code>middle</code></td><td><code>CGT</code></td></tr><tr><td><code>clamped</code></td><td><code>ACGTA</code></td></tr><tr><td><code>empty_length</code></td><td><code>0</code></td></tr><tr><td><code>rejoined</code></td><td><code>ACGTA</code></td></tr><tr><td><code>reversed</code></td><td><code>ATGCA</code></td></tr><tr><td><code>reverse_complement</code></td><td><code>TACGT</code></td></tr><tr><td><code>symbols</code></td><td><code>5</code></td></tr></table><p class="doc-paragraph"><code>packed_units</code> is deliberately not fixed in this table. It follows the active<br>alphabet and physical width. The other values describe symbols and stay the<br>same across compatible storage widths.</p><h2 class="hx" id="common-mistakes" data-toc data-title="Common mistakes">Common mistakes<a data-hash href="#common-mistakes" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">If a slice is unexpectedly NULL, check whether a bound parameter is NULL. An<br>omitted bound is open-ended. A NULL bound is a NULL input.</p><p class="doc-paragraph">If <code>||</code> is not found, inspect <code>search_path</code> and use<br><code>OPERATOR(bioseq.||)</code>. The operator belongs to the <code>bioseq</code> schema.</p><p class="doc-paragraph">If concatenation rejects a symbol, validate the text against the sequence<br>alphabet. <code>dna4</code> cannot accept <code>N</code>.</p><p class="doc-paragraph">If an operation reports incompatible types, compare alphabets first. Storage<br>width can be converted within the same alphabet. Different bound alphabets do<br>not silently merge.</p><p class="doc-paragraph">If reverse complement rejects a typmodless value, cast it to the alphabet that<br>the data is known to follow.</p><p class="doc-paragraph">If a plan copies more data than expected, remove full-text projections and<br>inspect <code>Slice Materialization</code>. Ask for length, counts, or a smaller slice when<br>that is what the client needs.</p><h2 class="hx" id="clean-up" data-toc data-title="Clean up">Clean up<a data-hash href="#clean-up" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Drop the scratch table when you finish:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-321e525605f2b607-45" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-321e525605f2b607-45" class="language-sql">DROP TABLE slice_reads;
+</code></pre></figure><p class="doc-paragraph">Next: apply typed sequence expressions to paired reads and parameterized joins<br>in <a href="../multiple_sequence_columns_and_joins/">Search multiple sequence columns and join by sequence</a>.</p></div>
+
+  
+  <nav class="dd-s0084" aria-label="Previous and next tutorial">
+    <div class="dd-s0085">
+      <a href="/v0.1/tutorials/similarity_search/" class="dd-s0106 dd-h005"><span class="dd-s0087">&#8592; Previous</span><span class="dd-s0088">Searching sequences with mmsearch</span></a>
+      <a href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0086 dd-h005"><span class="dd-s0087">Next &#8594;</span><span class="dd-s0088">Search multiple sequence columns and join by sequence</span></a>
+    </div>
+  </nav>
+  
+</section>
+
+    </main>
+
+    <!-- ===== RIGHT TOC ===== -->
+    <aside data-rightrail class="dd-s0234">
+      <div class="dd-s0235">On this page</div>
+      <div id="toc-list" class="dd-s0236">
+        <a data-toc-link data-level="2" href="#create-a-small-table-to-explore">Create a small table to explore</a><a data-toc-link data-level="2" href="#index-one-symbol">Index one symbol</a><a data-toc-link data-level="2" href="#take-half-open-slices">Take half-open slices</a><a data-toc-link data-level="2" href="#use-negative-slice-bounds">Use negative slice bounds</a><a data-toc-link data-level="2" href="#understand-clamping-and-empty-slices">Understand clamping and empty slices</a><a data-toc-link data-level="2" href="#omitted-bounds-are-not-null-bounds">Omitted bounds are not NULL bounds</a><a data-toc-link data-level="2" href="#keep-slicing-one-dimensional">Keep slicing one-dimensional</a><a data-toc-link data-level="2" href="#concatenate-two-sequences">Concatenate two sequences</a><a data-toc-link data-level="2" href="#concatenate-sequences-and-text">Concatenate sequences and text</a><a data-toc-link data-level="2" href="#concatenate-symbol-arrays">Concatenate symbol arrays</a><a data-toc-link data-level="2" href="#keep-alphabets-compatible">Keep alphabets compatible</a><a data-toc-link data-level="2" href="#reverse-a-sequence">Reverse a sequence</a><a data-toc-link data-level="2" href="#compute-a-reverse-complement">Compute a reverse complement</a><a data-toc-link data-level="2" href="#measure-symbols-and-packed-units">Measure symbols and packed units</a><a data-toc-link data-level="2" href="#build-derived-targets-from-pieces">Build derived targets from pieces</a><a data-toc-link data-level="2" href="#search-a-derived-region">Search a derived region</a><a data-toc-link data-level="2" href="#see-when-payload-materialization-happens">See when payload materialization happens</a><a data-toc-link data-level="2" href="#a-runnable-operation-table">A runnable operation table</a><a data-toc-link data-level="2" href="#common-mistakes">Common mistakes</a><a data-toc-link data-level="2" href="#clean-up">Clean up</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ============ SITE FOOTER ============ -->
+  <footer data-screen-label="Docs · Footer" class="dd-s0237">
+    <div aria-hidden="true" class="dd-s0238">BioseqDB</div>
+
+    <div class="dd-s0239">
+      <div data-footcols class="dd-s0240">
+        <div>
+          <div class="dd-s0241">
+            <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="dd-s0007">
+            <span class="dd-s0242">Bioseq<span class="dd-s0243">DB</span></span>
+            <span class="dd-s0244">DOCS</span>
+          </div>
+          <p class="dd-s0245">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
+          <span class="dd-s0246"><span class="dd-s0247"></span>Free &amp; open source</span>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Documentation</div>
+          <div class="dd-s0249">
+            
+            <a href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Read, search, and write sequences quickly</a><a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0250 dd-h009">The bioseq.seq column type</a><a href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0250 dd-h009">Columnar storage and vectorized aggregates</a><a href="/v0.1/tutorials/sequence_generation/" class="dd-s0250 dd-h009">Generate deterministic sequence tables</a><a href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0250 dd-h009">Load FASTA, FASTQ, and gzip data</a><a href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0250 dd-h009">Index lifecycle, choices, and metadata</a><a href="/v0.1/tutorials/similarity_search/" class="dd-s0250 dd-h009">Searching sequences with mmsearch</a><a href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0250 dd-h009">Slice, concatenate, reverse, and measure sequences</a><a href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0250 dd-h009">Search multiple sequence columns and join by sequence</a><a href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0250 dd-h009">Highway runtime dispatch</a><a href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0250 dd-h009">Read every Bioseq EXPLAIN section</a><a href="/v0.1/tutorials/query_cache/" class="dd-s0250 dd-h009">Caching sequence-search results</a><a href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0250 dd-h009">Query remote providers, stage sequences, and search them</a><a href="/v0.1/reference/cpp/" class="dd-s0250 dd-h009">C++</a><a href="/v0.1/reference/sql/" class="dd-s0250 dd-h009">SQL</a>
+            
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Explore</div>
+          <div class="dd-s0249">
+            <a href="/" class="dd-s0250 dd-h009">Product home</a>
+            <a href="/#workflow" class="dd-s0250 dd-h009">Workflow</a>
+            <a href="/#examples" class="dd-s0250 dd-h009">Examples</a>
+            <a href="/#index" class="dd-s0250 dd-h009">Index</a>
+            <a href="/#scale" class="dd-s0250 dd-h009">Scale</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Project</div>
+          <div class="dd-s0249">
+            <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Documentation</a>
+            <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0251">GitHub</a>
+            <span class="dd-s0252">Alpha &middot; v0.1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-s0253">
+      <div class="dd-s0254"></div>
+      <div class="dd-s0255">
+        <span class="dd-s0256">&copy; 2026 Bioseq contributors &mdash; an independent open-source project.</span>
+        <nav class="dd-s0257">
+          <a href="https://github.com/styczynski/bioseqdb/blob/main/LICENSE" rel="noreferrer" class="dd-s0258 dd-h010">License (MIT)</a>
+          <a href="/versions/" class="dd-s0258 dd-h010">Versions</a>
+          <a data-totop href="#page-top" class="dd-s0258 dd-h010">Back to top ↑</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div data-backdrop class="dd-s0259"></div>
+
+  <!-- ===== ENTITY POPOVER ===== -->
+  <div id="entity-pop" class="dd-s0260"></div>
+
+</div>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"Slice, concatenate, reverse, and measure sequences","description":"Work with sequence regions and transforms while keeping Bioseq values typed and compact.","url":"https://bioseqdb.com/v0.1/tutorials/slice_concat_reverse/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/quick_read_search_write/"},{"@type":"ListItem","position":4,"name":"Slice, concatenate, reverse, and measure sequences","item":"/v0.1/tutorials/slice_concat_reverse/"}]}]}</script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/prism-init.js"></script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/main.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/docs-design.mjs"></script>
+</body>
+</html>

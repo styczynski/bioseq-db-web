@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Columnar storage and vectorized aggregates</title>
+<meta name="description" content="Model scalar and sequence columns together, inspect Bioseq storage, and select the exact supported vector aggregate route.">
+<link rel="canonical" href="https://bioseqdb.com/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta property="og:title" content="Columnar storage and vectorized aggregates">
+<meta property="og:description" content="Model scalar and sequence columns together, inspect Bioseq storage, and select the exact supported vector aggregate route.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bioseqdb.com/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/">
+<meta property="og:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Columnar storage and vectorized aggregates">
+<meta name="twitter:description" content="Model scalar and sequence columns together, inspect Bioseq storage, and select the exact supported vector aggregate route.">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<link rel="icon" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/favicon.svg">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/site.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/docs-design.css">
+</head>
+<body id="page-top" class="docs-design-page">
+<a class="skip-link" href="#doc-main">Skip to main content</a>
+
+<div data-screen-label="BioseqDB documentation" class="dd-s0001">
+
+  <!-- ============ TOP NAV ============ -->
+  <header id="dnav" class="dd-s0002">
+    <div class="dd-s0003">
+      <button data-menu aria-label="Menu" class="dd-s0004">
+        <span class="dd-s0005"></span><span class="dd-s0005"></span><span class="dd-s0005"></span>
+      </button>
+      <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0006">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="30" height="30" alt="BioseqDB logo" class="dd-s0007">
+        <span class="dd-s0008">Bioseq<span class="dd-s0009">DB</span></span>
+        <span data-docsbadge class="dd-s0010">DOCS</span>
+      </a>
+
+      <nav data-topnav class="dd-s0011">
+        <a href="/v0.1/tutorials/quick_read_search_write/" data-nav class="dd-s0012">Docs</a>
+        <a href="/" class="dd-s0013">Product</a>
+        <a href="/benchmarks/" class="dd-s0014 dd-h001">Benchmarks</a>
+        <a href="/versions/" class="dd-s0013">Versions</a>
+      </nav>
+
+      <!-- SEARCH -->
+      <div data-search-wrap class="dd-s0015">
+        <div data-search-box class="dd-s0016">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" class="dd-s0017"><circle cx="7" cy="7" r="5" stroke="#7d94a6" stroke-width="1.6"/><line x1="10.6" y1="10.6" x2="14" y2="14" stroke="#7d94a6" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="doc-search" role="combobox" aria-autocomplete="list" aria-controls="search-dd" aria-expanded="false" data-search-index="/v0.1/search-index.json" type="text" placeholder="Search docs, functions, types…" autocomplete="off" spellcheck="false" class="dd-s0018">
+          <kbd class="dd-s0019">/</kbd>
+        </div>
+        <div id="search-dd" role="listbox" aria-label="Search results" class="dd-s0020"></div>
+      </div>
+
+      <!-- VERSION -->
+      <div data-ver-wrap class="dd-s0021">
+        <button id="ver-btn" class="dd-s0022">
+          <span class="dd-s0023"></span>v0.1 <span class="docs-version-status">Alpha</span>
+          <span data-caret class="dd-s0025"></span>
+        </button>
+        <div id="ver-menu" data-versions-url="/versions.json" class="dd-s0026">
+          <a data-ver href="/v0.1/tutorials/quick_read_search_write/" aria-current="page" class="dd-s0027">v0.1 <span class="docs-version-current">current</span></a>
+          <a data-ver-all href="/versions/" class="dd-s0029">All versions</a>
+        </div>
+      </div>
+
+      <a data-ghbtn href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0031">GitHub</a>
+    </div>
+  </header>
+
+  <!-- ============ BODY GRID ============ -->
+  <div data-bodygrid class="dd-s0032">
+
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <aside id="sidebar" class="dd-s0033">
+      
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Tutorials
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0037">Read, search, and write sequences quickly</a><a data-doc-link href="/v0.1/tutorials/sequence_column_type/" class="dd-s0037">The bioseq.seq column type</a><a data-doc-link href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0037">Columnar storage and vectorized aggregates</a><a data-doc-link href="/v0.1/tutorials/sequence_generation/" class="dd-s0037">Generate deterministic sequence tables</a><a data-doc-link href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0037">Load FASTA, FASTQ, and gzip data</a><a data-doc-link href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0037">Index lifecycle, choices, and metadata</a><a data-doc-link href="/v0.1/tutorials/similarity_search/" class="dd-s0037">Searching sequences with mmsearch</a><a data-doc-link href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0037">Slice, concatenate, reverse, and measure sequences</a><a data-doc-link href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0037">Search multiple sequence columns and join by sequence</a><a data-doc-link href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0037">Highway runtime dispatch</a><a data-doc-link href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0037">Read every Bioseq EXPLAIN section</a><a data-doc-link href="/v0.1/tutorials/query_cache/" class="dd-s0037">Caching sequence-search results</a><a data-doc-link href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0037">Query remote providers, stage sequences, and search them</a>
+        </div>
+      </div>
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Reference
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/reference/cpp/" class="dd-s0037">C++</a><a data-doc-link href="/v0.1/reference/sql/" class="dd-s0037">SQL</a>
+        </div>
+      </div>
+      
+      
+      <div class="dd-s0038">
+        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0039">Edit on GitHub</a>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="doc-main" class="dd-s0040">
+      
+<section data-page-panel data-screen-label="Docs · Tutorial" class="dd-s0040 design-page">
+  <header data-reveal class="dd-s0041 design-page-header">
+    <nav aria-label="Breadcrumb" class="dd-s0042 design-breadcrumb">
+      <a href="/">Home</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/">v0.1</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/quick_read_search_write/">Tutorials</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/">Columnar storage and vectorized aggregates</a><span class="dd-s0043" aria-hidden="true">/</span>
+    </nav>
+    <h1 class="dd-s0045">Columnar storage and vectorized aggregates</h1>
+    <p class="dd-s0046">Model scalar and sequence columns together, inspect Bioseq storage, and select the exact supported vector aggregate route.</p>
+  </header>
+
+  <div class="docs-content tutorial-body"><p class="doc-paragraph">A <code>USING bioseq</code> table stores ordinary PostgreSQL values and biological<br>sequences in a column-oriented layout. A query can read only the columns it<br>needs, skip chunk groups using scalar metadata, and process an eligible<br>aggregate as batches. These are separate decisions. Columnar storage does not<br>make every expression or aggregate vectorized.</p><p class="doc-paragraph">This tutorial shows the boundary from SQL:</p><ol><li>Design a mixed scalar and sequence table</li><li>Choose table storage settings before creating it</li><li>Understand the administrator-only sequence shard inspection boundary</li><li>Run the exact aggregate shape that selects <code>VectorAggNode</code></li><li>Recognize plan shapes that stay on PostgreSQL's ordinary aggregate path</li></ol><p class="doc-paragraph">Prerequisite: <a href="../sequence_column_type/">The bioseq.seq column type</a> explains<br>alphabets and packed widths used by the declarations on this page.</p><h2 class="hx" id="understand-the-visible-storage-boundaries" data-toc data-title="Understand the visible storage boundaries">Understand the visible storage boundaries<a data-hash href="#understand-the-visible-storage-boundaries" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">PostgreSQL still presents rows. <code>INSERT</code>, <code>SELECT</code>, transactions, constraints,<br>and joins use normal SQL. The <code>bioseq</code> table access method changes the physical<br>organization behind those rows.</p><p class="doc-paragraph">Scalar values are collected into stripes and chunk groups. Each column has its<br>own presence and value streams. Bioseq records scalar min/max information for<br>eligible filters and compresses value streams independently. A scan can<br>therefore project <code>sample_id</code> and <code>read_count</code> without also converting a large<br>sequence to text.</p><p class="doc-paragraph">Sequence payloads use sidecar shard relations. The parent row retains the<br>logical sequence value and its source identity. <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/" data-entity="sql:function:bioseq.len(bioseq.seq)" data-entity-id="sql:function:bioseq.len(bioseq.seq)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.len</a> reports the<br>number of biological symbols. <code>bioseq.unit_len</code> reports packed storage<br>units.<br>Neither number is a row count or a byte count.</p><p class="doc-paragraph">Multiple sequence columns have separate column numbers and shard families.<br>They can use different bound alphabets or requested widths, but a search still<br>requires compatible target and query alphabets.</p><h2 class="hx" id="choose-storage-settings-before-table-creation" data-toc data-title="Choose storage settings before table creation">Choose storage settings before table creation<a data-hash href="#choose-storage-settings-before-table-creation" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The main user-facing settings are:</p><table><tr><td>Setting</td><td>Meaning</td><td>Current default</td><td>Scope</td></tr><tr><td><code>bioseq.storage.stripe.row_limit</code></td><td>Maximum rows collected in a stripe</td><td><code>150000</code></td><td>Captured as a table option</td></tr><tr><td><code>bioseq.storage.chunk_group.row_limit</code></td><td>Maximum rows in one chunk group</td><td><code>10000</code></td><td>Captured as a table option</td></tr><tr><td><code>bioseq.storage.compression.algorithm</code></td><td>Compression for new column chunks</td><td><code>zstd</code>, else <code>lz4</code>, else <code>pglz</code>, as compiled</td><td>Captured as a table option</td></tr><tr><td><code>bioseq.storage.compression.level</code></td><td>Compression level</td><td><code>3</code></td><td>Captured as a table option</td></tr><tr><td><code>bioseq.storage.sequence_shard.max_size_gib</code></td><td>Sequence shard rollover size</td><td><code>1024</code></td><td>Superuser setting used for later shard allocation</td></tr></table><p class="doc-paragraph"><code>none</code> and <code>pglz</code> are always recognized compression choices. <code>lz4</code> and <code>zstd</code><br>exist only when the extension was built with those libraries. Read the active<br>value with <code>SHOW</code> before selecting one.</p><p class="doc-paragraph">Set storage options before <code>CREATE TABLE</code> when you want a table to capture a<br>non-default choice:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-b98785c9cb6da79a-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-b98785c9cb6da79a-0" class="language-sql">SET bioseq.storage.compression.algorithm = 'pglz';
+SET bioseq.storage.compression.level = 3;
+
+CREATE TABLE run_measurements (
+    read_id bigint PRIMARY KEY,
+    sample_id text NOT NULL,
+    read_count integer NOT NULL,
+    collected_on date NOT NULL,
+    forward_read bioseq.seq('dna4', 32) NOT NULL,
+    reverse_read bioseq.seq('dna4', 32)
+) USING bioseq;
+
+RESET bioseq.storage.compression.level;
+RESET bioseq.storage.compression.algorithm;
+</code></pre></figure><p class="doc-paragraph">The stripe and chunk-group settings accept values from 1,000 to 100,000,000.<br>Smaller groups create more metadata and more opportunities to skip work.<br>Larger groups reduce metadata overhead but make each admitted group broader.<br>Choose them for the table's filter and ingest pattern, not for one isolated<br>query.</p><p class="doc-paragraph">Compression is a storage choice, not a promise that every chunk becomes<br>smaller. Bioseq can retain an uncompressed representation when compression is<br>not useful for that chunk.</p><h2 class="hx" id="change-stored-table-options-deliberately" data-toc data-title="Change stored table options deliberately">Change stored table options deliberately<a data-hash href="#change-stored-table-options-deliberately" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The table owner can change the four captured relation options with<br><code>pg_catalog.alter_bioseq_table_set</code>:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-d5e0501136847944-1" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-d5e0501136847944-1" class="language-sql">SELECT pg_catalog.alter_bioseq_table_set(
+    'run_measurements'::regclass,
+    stripe_row_limit =&gt; 20000,
+    chunk_group_row_limit =&gt; 2000,
+    compression =&gt; 'pglz',
+    compression_level =&gt; 3
+);
+</code></pre></figure><p class="doc-paragraph">The function takes an <code>ACCESS EXCLUSIVE</code> lock and leaves omitted options<br>unchanged. The new values govern later column writes. They do not recompress or<br>regroup chunks that the table already contains. Build a replacement relation<br>and reload it when every chunk must use one new physical policy.</p><p class="doc-paragraph"><code>pg_catalog.alter_bioseq_table_reset</code> copies the current GUC value for<br>each selected option back into the table metadata:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-693d4d4444c5537f-2" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-693d4d4444c5537f-2" class="language-sql">SELECT pg_catalog.alter_bioseq_table_reset(
+    'run_measurements'::regclass,
+    stripe_row_limit =&gt; true,
+    chunk_group_row_limit =&gt; true,
+    compression =&gt; true,
+    compression_level =&gt; true
+);
+</code></pre></figure><p class="doc-paragraph">Set the intended session defaults before calling the reset function. A reset<br>does not mean that older chunks are rewritten.</p><h2 class="hx" id="project-only-what-the-query-needs" data-toc data-title="Project only what the query needs">Project only what the query needs<a data-hash href="#project-only-what-the-query-needs" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Start with a scalar projection and filter:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-903b73202b3fcc99-3" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-903b73202b3fcc99-3" class="language-sql">EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT sample_id, read_count
+FROM run_measurements
+WHERE read_count &gt;= 1000;
+</code></pre></figure><p class="doc-paragraph">For an owned columnar scan, read these properties:</p><ul><li><code>Bioseq Projected Columns</code> lists values supplied by the scan</li><li><code>Bioseq Chunk Group Filters</code> lists scalar predicates admitted for pruning</li><li><code>Bioseq Chunk Groups Removed by Filter</code> reports actual pruning with<br><code>ANALYZE</code></li><li><code>Bioseq Vectorized Filter</code> names a filter evaluated over batches</li></ul><p class="doc-paragraph">A predicate can be useful for chunk pruning without being a vectorized<br>expression. A sequence conversion such as <code>forward_read::text</code> also forces<br>payload work that a metadata-only projection avoids.</p><p class="doc-paragraph">PostgreSQL statistics guide scalar selectivity and join choices, but the current<br>release has an <code>ANALYZE</code> limitation on Bioseq tables containing stored sequences:<br>the sampling path can fail with <code>sequence hydration requires an explicit snapshot</code>. This tutorial omits <code>ANALYZE</code>; it does not claim that statistics<br>collection on these tables is working. The scalar aggregate below does not<br>require sequence hydration. This limitation needs a separate table-access-method<br>snapshot-lifecycle fix, not a change to vector aggregate arithmetic.</p><h2 class="hx" id="cache-decompressed-columns-within-one-scan" data-toc data-title="Cache decompressed columns within one scan">Cache decompressed columns within one scan<a data-hash href="#cache-decompressed-columns-within-one-scan" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>bioseq.column_cache.enabled</code> controls a backend-local cache of decompressed<br>column chunks. It is on by default. When enabled, one Bioseq scan can reuse a<br>chunk that it reads again through the same relation, stripe, chunk group, and<br>column. The cache is cleared when that scan ends, so it is not a result cache<br>across SQL statements.</p><p class="doc-paragraph"><code>bioseq.column_cache.capacity_mb</code> defaults to 200 MiB and accepts values from<br>20 through 20,000 MiB. Set the capacity before the statement that first uses<br>the cache in that scan:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-67ee160f46e2e274-4" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-67ee160f46e2e274-4" class="language-sql">SET bioseq.column_cache.capacity_mb = 200;
+SET bioseq.column_cache.enabled = on;
+
+EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT forward_read[0:64]::text
+FROM run_measurements
+WHERE sample_id = 'run-042';
+
+RESET bioseq.column_cache.enabled;
+RESET bioseq.column_cache.capacity_mb;
+</code></pre></figure><p class="doc-paragraph">With the cache enabled, the <code>BioseqScan</code> section reports <code>Cache Hits</code>, <code>Cache Misses</code>, <code>Cache Evictions</code>, <code>Cache Writes</code>, peak and ending bytes, and the<br>ending entry count. Read those counters from the analyzed statement. A later<br>statement starts a new scan and cannot claim reuse from this one.</p><p class="doc-paragraph">This is separate from the optional <code>bioseq_cache</code> extension. The column cache<br>holds decompressed column data during a scan. The query-cache tutorial covers<br>shared completed results, concurrent producers, TTL, and relation invalidation.</p><h2 class="hx" id="use-the-supported-vector-aggregate-registry" data-toc data-title="Use the supported vector aggregate registry">Use the supported vector aggregate registry<a data-hash href="#use-the-supported-vector-aggregate-registry" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The current vector aggregate registry is deliberately small:</p><table><tr><td>Aggregate</td><td>Supported input types</td></tr><tr><td><code>count(*)</code></td><td>no input expression</td></tr><tr><td><code>count(column)</code></td><td>a direct column value</td></tr><tr><td><code>sum</code>, <code>avg</code>, <code>min</code>, <code>max</code></td><td><code>smallint</code>, <code>integer</code>, <code>bigint</code></td></tr><tr><td><code>min</code>, <code>max</code></td><td><code>date</code></td></tr></table><p class="doc-paragraph">The eligible plan is a plain aggregate directly above one <code>BioseqScan</code>.<br><code>bioseq.vectorization.enabled</code> must be on. Grouped aggregates, joins,<br><code>DISTINCT</code>, aggregate <code>FILTER</code> clauses, slice projections, and aggregates over<br>an owned <code>mmsearch</code> result stay on a safe ordinary path.</p><p class="doc-paragraph">The following fixture is nonempty and uses no NULL aggregate inputs. It makes<br>the current vector route easy to identify without relying on its known<br>empty/all-NULL edge behavior.</p><figure class="doc-code" data-term data-sql-example="columnar_vector_aggregate"><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-135d9884329dac28-5" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-135d9884329dac28-5" class="language-sql">EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT count(*) AS rows,
+       sum(read_count) AS reads,
+       avg(bases) AS average_bases,
+       min(collected_on) AS first_day,
+       max(collected_on) AS last_day
+FROM tutorial_columnar_runs;
+
+SELECT count(*) AS rows,
+       sum(read_count) AS reads,
+       avg(bases) AS average_bases,
+       min(collected_on) AS first_day,
+       max(collected_on) AS last_day
+FROM tutorial_columnar_runs;</code></pre></figure><p class="doc-paragraph"><em>Result 1</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">QUERY PLAN<br><code>text</code></th></tr></thead><tbody><tr><td>Custom Scan (VectorAggNode) (actual time=0.139..0.140 rows=1 loops=1)</td></tr><tr><td>  Output: (vcount(*)), (vsum(read_count)), (vavg(bases)), (vmin(collected_on)), (vmax(collected_on))</td></tr><tr><td>  -&gt;  Custom Scan (BioseqScan) on public.tutorial_columnar_runs (actual time=0.122..0.129 rows=1 loops=1)</td></tr><tr><td>        Output: read_count, bases, collected_on</td></tr><tr><td>        Bioseq Projected Columns: read_count, bases, collected_on</td></tr><tr><td>        -&gt;  Cache</td></tr><tr><td>              Cache Hits: 0</td></tr><tr><td>              Cache Misses: 3</td></tr><tr><td>              Cache Evictions: 0</td></tr><tr><td>              Cache Writes: 3</td></tr><tr><td>              Cache Maximum Size: 64</td></tr><tr><td>              Cache Ending Size: 64</td></tr><tr><td>              Total Cache Entries: 3</td></tr><tr><td>Planning Time: 0.329 ms</td></tr><tr><td>Execution Time: 0.570 ms</td></tr></tbody></table><p class="doc-paragraph"><em>Result 2</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">rows<br><code>bigint</code></th><th scope="col">reads<br><code>bigint</code></th><th scope="col">average_bases<br><code>numeric</code></th><th scope="col">first_day<br><code>date</code></th><th scope="col">last_day<br><code>date</code></th></tr></thead><tbody><tr><td>4</td><td>96</td><td>32.0000000000000000</td><td>2026-01-02</td><td>2026-01-05</td></tr></tbody></table><p class="doc-paragraph"><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.11</em></p><p class="doc-paragraph">The first result must contain <code>Custom Scan (VectorAggNode)</code> with a<br><code>BioseqScan</code> child. The second result is the aggregate value returned to the<br>application. A NULL <code>seq1</code> does not remove the parent row and does not make the<br><code>seq0</code> payload part of the aggregate.</p><h2 class="hx" id="know-why-a-query-stays-scalar" data-toc data-title="Know why a query stays scalar">Know why a query stays scalar<a data-hash href="#know-why-a-query-stays-scalar" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">This grouped query is useful SQL, but it is not an eligible plain aggregate:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-f11f728e9b6b012c-6" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-f11f728e9b6b012c-6" class="language-sql">SELECT sample_id, sum(read_count)
+FROM tutorial_columnar_runs
+GROUP BY sample_id
+ORDER BY sample_id;
+</code></pre></figure><p class="doc-paragraph">This aggregate also stays ordinary because the slice owner publishes scalar<br>PostgreSQL values:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-932da927e39ce64f-7" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-932da927e39ce64f-7" class="language-sql">SELECT max(bioseq.len(seq0[0:16]))
+FROM tutorial_columnar_runs;
+</code></pre></figure><p class="doc-paragraph">Likewise, do not expect a generic user-defined aggregate, a numeric expression<br>that is absent from the generated registry, or <code>count(DISTINCT sample_id)</code> to<br>select <code>VectorAggNode</code>. The fallback is the normal PostgreSQL aggregate. It is<br>not an error.</p><h2 class="hx" id="treat-null-and-empty-inputs-as-a-current-limitation" data-toc data-title="Treat NULL and empty inputs as a current limitation">Treat NULL and empty inputs as a current limitation<a data-hash href="#treat-null-and-empty-inputs-as-a-current-limitation" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The current vector aggregate implementation does not yet match PostgreSQL's<br>empty and all-NULL results for every registered integer and date aggregate.<br>For example, some integer sums can expose their zero transition state and some<br>min/max functions can expose their initial extrema.</p><p class="doc-paragraph">Do not enable this route for a query whose correctness depends on those edge<br>cases. Either keep <code>bioseq.vectorization.enabled</code> off for that statement or<br>write a query shape that stays on PostgreSQL's aggregate path. The runnable<br>example uses non-NULL inputs so it demonstrates the supported route without<br>presenting the edge behavior as a contract.</p><h2 class="hx" id="administrator-only-shard-inspection" data-toc data-title="Administrator-only shard inspection">Administrator-only shard inspection<a data-hash href="#administrator-only-shard-inspection" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>bioseq.list_seq_storage_shards</code> reports shard and sidecar relation identity,<br>column number, bucket, shard number, bytes written, and rollover state. It<br>currently runs with the caller's privileges and reads<br>the private shard catalog. Owning the parent table or having EXECUTE on the<br>function is not sufficient: an ordinary role without internal-catalog access<br>receives <code>permission denied for table seq_sub_table</code>.</p><p class="doc-paragraph">The following is an administrator-only diagnostic, not part of the restricted<br>role's runnable example above. It must be run against an existing table by an<br>administrator with the necessary catalog access:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-7aef504b53056f2b-8" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-7aef504b53056f2b-8" class="language-sql">SELECT column_attno, bucket_idx, shard_idx, bytes_written, is_full
+FROM bioseq.list_seq_storage_shards('run_measurements'::regclass)
+ORDER BY column_attno, bucket_idx, shard_idx;
+</code></pre></figure><p class="doc-paragraph">Do not grant broad internal-catalog access merely to enable this diagnostic.<br>Use PostgreSQL's <code>pg_relation_size</code> on a returned relation when an appropriately<br>privileged operator needs byte totals.</p><p class="doc-paragraph">Do not query private storage catalogs in application monitoring. Their schemas<br>can change independently of the public tutorial surface.</p><p class="doc-paragraph">For index sizes and update ages, use the index metadata interface covered in<br>the index-lifecycle tutorial. Storage shards describe sequence payload. Index<br>metadata describes persisted search aids. They answer different questions.</p><h2 class="hx" id="maintain-the-parent-and-sequence-shards" data-toc data-title="Maintain the parent and sequence shards">Maintain the parent and sequence shards<a data-hash href="#maintain-the-parent-and-sequence-shards" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Ordinary <code>VACUUM</code> maintains the Bioseq parent relation. Sequence payload also<br>has shard and sidecar relations. Use the public<br><code>bioseq.vacuum_seq_storage</code> procedure when those relations need their own<br><code>VACUUM ANALYZE</code> pass:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-3f56d2d363b66216-9" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-3f56d2d363b66216-9" class="language-sql">VACUUM (ANALYZE) run_measurements;
+CALL bioseq.vacuum_seq_storage('run_measurements'::regclass);
+</code></pre></figure><p class="doc-paragraph">Call the procedure as a top-level statement. It is deliberately non-atomic and<br>cannot run inside an explicit <code>BEGIN</code> block. It may commit between shard pairs,<br>so an error can leave earlier pairs maintained. Correct the error and call it<br>again. A table with no allocated sequence shards is a no-op.</p><p class="doc-paragraph">This procedure does not rebuild minimizer or symbol-count indexes. Use the<br>index maintenance API in the next lifecycle tutorial for those persisted<br>forms.</p><h2 class="hx" id="operational-sequence" data-toc data-title="Operational sequence">Operational sequence<a data-hash href="#operational-sequence" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">For a new columnar table:</p><ol><li>Bind each sequence column to the intended alphabet and width</li><li>Set non-default compression, stripe, or chunk-group values before creation</li><li>Load representative rows and run <code>ANALYZE</code></li><li>Explain the real projection, filter, and aggregate shapes</li><li>Verify <code>VectorAggNode</code> only for queries covered by the exact registry</li><li>Inspect public shard metadata and relation sizes when sizing storage</li><li>Schedule parent and sequence-shard maintenance for write-heavy tables</li><li>Keep an ordinary-plan comparison for NULL-sensitive aggregate workloads</li></ol><p class="doc-paragraph">Next: use <a href="../sequence_generation/">Generate deterministic sequence tables</a> to<br>create small inputs for storage, search, and dispatch experiments.</p></div>
+
+  
+  <nav class="dd-s0084" aria-label="Previous and next tutorial">
+    <div class="dd-s0085">
+      <a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0106 dd-h005"><span class="dd-s0087">&#8592; Previous</span><span class="dd-s0088">The bioseq.seq column type</span></a>
+      <a href="/v0.1/tutorials/sequence_generation/" class="dd-s0086 dd-h005"><span class="dd-s0087">Next &#8594;</span><span class="dd-s0088">Generate deterministic sequence tables</span></a>
+    </div>
+  </nav>
+  
+</section>
+
+    </main>
+
+    <!-- ===== RIGHT TOC ===== -->
+    <aside data-rightrail class="dd-s0234">
+      <div class="dd-s0235">On this page</div>
+      <div id="toc-list" class="dd-s0236">
+        <a data-toc-link data-level="2" href="#understand-the-visible-storage-boundaries">Understand the visible storage boundaries</a><a data-toc-link data-level="2" href="#choose-storage-settings-before-table-creation">Choose storage settings before table creation</a><a data-toc-link data-level="2" href="#change-stored-table-options-deliberately">Change stored table options deliberately</a><a data-toc-link data-level="2" href="#project-only-what-the-query-needs">Project only what the query needs</a><a data-toc-link data-level="2" href="#cache-decompressed-columns-within-one-scan">Cache decompressed columns within one scan</a><a data-toc-link data-level="2" href="#use-the-supported-vector-aggregate-registry">Use the supported vector aggregate registry</a><a data-toc-link data-level="2" href="#know-why-a-query-stays-scalar">Know why a query stays scalar</a><a data-toc-link data-level="2" href="#treat-null-and-empty-inputs-as-a-current-limitation">Treat NULL and empty inputs as a current limitation</a><a data-toc-link data-level="2" href="#administrator-only-shard-inspection">Administrator-only shard inspection</a><a data-toc-link data-level="2" href="#maintain-the-parent-and-sequence-shards">Maintain the parent and sequence shards</a><a data-toc-link data-level="2" href="#operational-sequence">Operational sequence</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ============ SITE FOOTER ============ -->
+  <footer data-screen-label="Docs · Footer" class="dd-s0237">
+    <div aria-hidden="true" class="dd-s0238">BioseqDB</div>
+
+    <div class="dd-s0239">
+      <div data-footcols class="dd-s0240">
+        <div>
+          <div class="dd-s0241">
+            <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="dd-s0007">
+            <span class="dd-s0242">Bioseq<span class="dd-s0243">DB</span></span>
+            <span class="dd-s0244">DOCS</span>
+          </div>
+          <p class="dd-s0245">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
+          <span class="dd-s0246"><span class="dd-s0247"></span>Free &amp; open source</span>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Documentation</div>
+          <div class="dd-s0249">
+            
+            <a href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Read, search, and write sequences quickly</a><a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0250 dd-h009">The bioseq.seq column type</a><a href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0250 dd-h009">Columnar storage and vectorized aggregates</a><a href="/v0.1/tutorials/sequence_generation/" class="dd-s0250 dd-h009">Generate deterministic sequence tables</a><a href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0250 dd-h009">Load FASTA, FASTQ, and gzip data</a><a href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0250 dd-h009">Index lifecycle, choices, and metadata</a><a href="/v0.1/tutorials/similarity_search/" class="dd-s0250 dd-h009">Searching sequences with mmsearch</a><a href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0250 dd-h009">Slice, concatenate, reverse, and measure sequences</a><a href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0250 dd-h009">Search multiple sequence columns and join by sequence</a><a href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0250 dd-h009">Highway runtime dispatch</a><a href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0250 dd-h009">Read every Bioseq EXPLAIN section</a><a href="/v0.1/tutorials/query_cache/" class="dd-s0250 dd-h009">Caching sequence-search results</a><a href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0250 dd-h009">Query remote providers, stage sequences, and search them</a><a href="/v0.1/reference/cpp/" class="dd-s0250 dd-h009">C++</a><a href="/v0.1/reference/sql/" class="dd-s0250 dd-h009">SQL</a>
+            
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Explore</div>
+          <div class="dd-s0249">
+            <a href="/" class="dd-s0250 dd-h009">Product home</a>
+            <a href="/#workflow" class="dd-s0250 dd-h009">Workflow</a>
+            <a href="/#examples" class="dd-s0250 dd-h009">Examples</a>
+            <a href="/#index" class="dd-s0250 dd-h009">Index</a>
+            <a href="/#scale" class="dd-s0250 dd-h009">Scale</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Project</div>
+          <div class="dd-s0249">
+            <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Documentation</a>
+            <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0251">GitHub</a>
+            <span class="dd-s0252">Alpha &middot; v0.1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-s0253">
+      <div class="dd-s0254"></div>
+      <div class="dd-s0255">
+        <span class="dd-s0256">&copy; 2026 Bioseq contributors &mdash; an independent open-source project.</span>
+        <nav class="dd-s0257">
+          <a href="https://github.com/styczynski/bioseqdb/blob/main/LICENSE" rel="noreferrer" class="dd-s0258 dd-h010">License (MIT)</a>
+          <a href="/versions/" class="dd-s0258 dd-h010">Versions</a>
+          <a data-totop href="#page-top" class="dd-s0258 dd-h010">Back to top ↑</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div data-backdrop class="dd-s0259"></div>
+
+  <!-- ===== ENTITY POPOVER ===== -->
+  <div id="entity-pop" class="dd-s0260"></div>
+
+</div>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"Columnar storage and vectorized aggregates","description":"Model scalar and sequence columns together, inspect Bioseq storage, and select the exact supported vector aggregate route.","url":"https://bioseqdb.com/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/quick_read_search_write/"},{"@type":"ListItem","position":4,"name":"Columnar storage and vectorized aggregates","item":"/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/"}]}]}</script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/prism-init.js"></script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/main.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/docs-design.mjs"></script>
+</body>
+</html>

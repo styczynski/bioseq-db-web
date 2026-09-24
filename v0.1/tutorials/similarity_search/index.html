@@ -11,15 +11,15 @@
 <meta property="og:description" content="Run an index-backed sequence search and inspect its real alignment coordinates.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bioseqdb.com/v0.1/tutorials/similarity_search/">
-<meta property="og:image" content="https://bioseqdb.com/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/media/social_card.png">
+<meta property="og:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Searching sequences with mmsearch">
 <meta name="twitter:description" content="Run an index-backed sequence search and inspect its real alignment coordinates.">
-<meta name="twitter:image" content="https://bioseqdb.com/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/media/social_card.png">
-<link rel="icon" href="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/favicon.svg">
-<link rel="stylesheet" href="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/vendor/prism/prism.min.css">
-<link rel="stylesheet" href="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/css/site.css">
-<link rel="stylesheet" href="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/css/docs-design.css">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<link rel="icon" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/favicon.svg">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/site.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/docs-design.css">
 </head>
 <body id="page-top" class="docs-design-page">
 <a class="skip-link" href="#doc-main">Skip to main content</a>
@@ -32,106 +32,322 @@
       <button data-menu aria-label="Menu" class="dd-s0004">
         <span class="dd-s0005"></span><span class="dd-s0005"></span><span class="dd-s0005"></span>
       </button>
-      <a data-nav href="/v0.1/tutorials/sequence_column_type/" class="dd-s0006">
-        <img src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/bioseq-mark.svg" width="30" height="30" alt="BioseqDB logo" class="dd-s0007">
+      <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0006">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="30" height="30" alt="BioseqDB logo" class="dd-s0007">
         <span class="dd-s0008">Bioseq<span class="dd-s0009">DB</span></span>
         <span data-docsbadge class="dd-s0010">DOCS</span>
       </a>
 
       <nav data-topnav class="dd-s0011">
-        <a href="/v0.1/tutorials/sequence_column_type/" data-nav class="dd-s0012">Docs</a>
+        <a href="/v0.1/tutorials/quick_read_search_write/" data-nav class="dd-s0012">Docs</a>
         <a href="/" class="dd-s0013">Product</a>
+        <a href="/benchmarks/" class="dd-s0014 dd-h001">Benchmarks</a>
         <a href="/versions/" class="dd-s0013">Versions</a>
       </nav>
 
       <!-- SEARCH -->
-      <div data-search-wrap class="dd-s0014">
-        <div data-search-box class="dd-s0015">
-          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" class="dd-s0016"><circle cx="7" cy="7" r="5" stroke="#7d94a6" stroke-width="1.6"/><line x1="10.6" y1="10.6" x2="14" y2="14" stroke="#7d94a6" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <input id="doc-search" role="combobox" aria-autocomplete="list" aria-controls="search-dd" aria-expanded="false" data-search-index="/v0.1/search-index.json" type="text" placeholder="Search docs, functions, types…" autocomplete="off" spellcheck="false" class="dd-s0017">
-          <kbd class="dd-s0018">/</kbd>
+      <div data-search-wrap class="dd-s0015">
+        <div data-search-box class="dd-s0016">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" class="dd-s0017"><circle cx="7" cy="7" r="5" stroke="#7d94a6" stroke-width="1.6"/><line x1="10.6" y1="10.6" x2="14" y2="14" stroke="#7d94a6" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="doc-search" role="combobox" aria-autocomplete="list" aria-controls="search-dd" aria-expanded="false" data-search-index="/v0.1/search-index.json" type="text" placeholder="Search docs, functions, types…" autocomplete="off" spellcheck="false" class="dd-s0018">
+          <kbd class="dd-s0019">/</kbd>
         </div>
-        <div id="search-dd" role="listbox" aria-label="Search results" class="dd-s0019"></div>
+        <div id="search-dd" role="listbox" aria-label="Search results" class="dd-s0020"></div>
       </div>
 
       <!-- VERSION -->
-      <div data-ver-wrap class="dd-s0020">
-        <button id="ver-btn" class="dd-s0021">
-          <span class="dd-s0022"></span>v0.1 <span class="docs-version-status">Alpha</span>
-          <span data-caret class="dd-s0024"></span>
+      <div data-ver-wrap class="dd-s0021">
+        <button id="ver-btn" class="dd-s0022">
+          <span class="dd-s0023"></span>v0.1 <span class="docs-version-status">Alpha</span>
+          <span data-caret class="dd-s0025"></span>
         </button>
-        <div id="ver-menu" data-versions-url="/versions.json" class="dd-s0025">
-          <a data-ver href="/v0.1/tutorials/sequence_column_type/" aria-current="page" class="dd-s0026">v0.1 <span class="docs-version-current">current</span></a>
-          <a data-ver-all href="/versions/" class="dd-s0028">All versions</a>
+        <div id="ver-menu" data-versions-url="/versions.json" class="dd-s0026">
+          <a data-ver href="/v0.1/tutorials/quick_read_search_write/" aria-current="page" class="dd-s0027">v0.1 <span class="docs-version-current">current</span></a>
+          <a data-ver-all href="/versions/" class="dd-s0029">All versions</a>
         </div>
       </div>
 
-      <a data-ghbtn href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0030">GitHub</a>
+      <a data-ghbtn href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0031">GitHub</a>
     </div>
   </header>
 
   <!-- ============ BODY GRID ============ -->
-  <div data-bodygrid class="dd-s0031">
+  <div data-bodygrid class="dd-s0032">
 
     <!-- ===== LEFT SIDEBAR ===== -->
-    <aside id="sidebar" class="dd-s0032">
+    <aside id="sidebar" class="dd-s0033">
       
       
       <div data-chapter>
-        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0033">
-          <span data-caret class="dd-s0034"></span>Tutorials
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Tutorials
         </button>
-        <div data-chap-list class="dd-s0035">
-          <a data-doc-link href="/v0.1/tutorials/sequence_column_type/" class="dd-s0036">The bioseq.seq column type</a><a data-doc-link href="/v0.1/tutorials/similarity_search/" class="dd-s0036">Searching sequences with mmsearch</a>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0037">Read, search, and write sequences quickly</a><a data-doc-link href="/v0.1/tutorials/sequence_column_type/" class="dd-s0037">The bioseq.seq column type</a><a data-doc-link href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0037">Columnar storage and vectorized aggregates</a><a data-doc-link href="/v0.1/tutorials/sequence_generation/" class="dd-s0037">Generate deterministic sequence tables</a><a data-doc-link href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0037">Load FASTA, FASTQ, and gzip data</a><a data-doc-link href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0037">Index lifecycle, choices, and metadata</a><a data-doc-link href="/v0.1/tutorials/similarity_search/" class="dd-s0037">Searching sequences with mmsearch</a><a data-doc-link href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0037">Slice, concatenate, reverse, and measure sequences</a><a data-doc-link href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0037">Search multiple sequence columns and join by sequence</a><a data-doc-link href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0037">Highway runtime dispatch</a><a data-doc-link href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0037">Read every Bioseq EXPLAIN section</a><a data-doc-link href="/v0.1/tutorials/query_cache/" class="dd-s0037">Caching sequence-search results</a><a data-doc-link href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0037">Query remote providers, stage sequences, and search them</a>
         </div>
       </div>
       
       <div data-chapter>
-        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0033">
-          <span data-caret class="dd-s0034"></span>Reference
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Reference
         </button>
-        <div data-chap-list class="dd-s0035">
-          <a data-doc-link href="/v0.1/reference/cpp/" class="dd-s0036">C++</a><a data-doc-link href="/v0.1/reference/sql/" class="dd-s0036">SQL</a>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/reference/cpp/" class="dd-s0037">C++</a><a data-doc-link href="/v0.1/reference/sql/" class="dd-s0037">SQL</a>
         </div>
       </div>
       
       
-      <div class="dd-s0037">
-        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0038">Edit on GitHub</a>
+      <div class="dd-s0038">
+        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0039">Edit on GitHub</a>
       </div>
     </aside>
 
     <!-- ===== MAIN CONTENT ===== -->
-    <main id="doc-main" class="dd-s0039">
+    <main id="doc-main" class="dd-s0040">
       
 <section data-page-panel data-screen-label="Docs · Tutorial" class="dd-s0040 design-page">
   <header data-reveal class="dd-s0041 design-page-header">
     <nav aria-label="Breadcrumb" class="dd-s0042 design-breadcrumb">
-      <a href="/">Home</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/">v0.1</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/sequence_column_type/">Tutorials</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/similarity_search/">Searching sequences with mmsearch</a><span class="dd-s0043" aria-hidden="true">/</span>
+      <a href="/">Home</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/">v0.1</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/quick_read_search_write/">Tutorials</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/similarity_search/">Searching sequences with mmsearch</a><span class="dd-s0043" aria-hidden="true">/</span>
     </nav>
     <h1 class="dd-s0045">Searching sequences with mmsearch</h1>
     <p class="dd-s0046">Run an index-backed sequence search and inspect its real alignment coordinates.</p>
   </header>
 
-  <div class="docs-content tutorial-body"><p class="doc-paragraph"><a class="entity-ref" href="/v0.1/reference/sql/overload_group/public-mmsearch-45d61d6e6585598c/" data-entity="sql:overload_group:public.mmsearch" data-entity-id="sql:overload_group:public.mmsearch" data-entity-data-url="/v0.1/entities.32b5538472ea4e8df7e7ae7c37fe3d7ace3065f5c99fcabdefecc1e6624ea7c7.json">public.mmsearch</a> is a PostgreSQL predicate: put it in a<br><code>WHERE</code> clause over a <code>USING bioseq</code> table and Bioseq plans a sequence-aware<br>custom scan. The example on this page uses the canonical five-row fixture and<br>probe exercised by Bioseq's integration and SQL tests.</p><aside class="admonition admonition-important" data-callout="important"><span class="admonition-icon" aria-hidden="true"></span><div class="admonition-body"><p class="admonition-label">Important</p><p class="doc-paragraph">The hidden setup runs <code>EXPLAIN (FORMAT JSON)</code> for the exact visible predicate<br>and aborts publication unless PostgreSQL selects <code>Custom Scan</code> with the<br><code>BioseqScan</code> provider. The result table below is captured from that verified<br>execution; it is not authored as expected output.</p></div></aside><h2 class="hx" id="search-the-canonical-fixture" data-toc data-title="Search the canonical fixture">Search the canonical fixture<a data-hash href="#search-the-canonical-fixture" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The query returns each matching primary key together with query and target<br>coordinates and the alignment's CIGAR string. Those projections come from<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-query-start-12e9ad13b132271e/" data-entity="sql:function:bioseq.query_start(anyelement)" data-entity-id="sql:function:bioseq.query_start(anyelement)" data-entity-data-url="/v0.1/entities.32b5538472ea4e8df7e7ae7c37fe3d7ace3065f5c99fcabdefecc1e6624ea7c7.json">bioseq.query_start</a>, <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-query-end-6c2a98839d0cee3f/" data-entity="sql:function:bioseq.query_end(anyelement)" data-entity-id="sql:function:bioseq.query_end(anyelement)" data-entity-data-url="/v0.1/entities.32b5538472ea4e8df7e7ae7c37fe3d7ace3065f5c99fcabdefecc1e6624ea7c7.json">bioseq.query_end</a>,<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-target-start-7f5c101237c7c3f3/" data-entity="sql:function:bioseq.target_start(anyelement)" data-entity-id="sql:function:bioseq.target_start(anyelement)" data-entity-data-url="/v0.1/entities.32b5538472ea4e8df7e7ae7c37fe3d7ace3065f5c99fcabdefecc1e6624ea7c7.json">bioseq.target_start</a>, <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-target-end-360d292b54a6c2ca/" data-entity="sql:function:bioseq.target_end(anyelement)" data-entity-id="sql:function:bioseq.target_end(anyelement)" data-entity-data-url="/v0.1/entities.32b5538472ea4e8df7e7ae7c37fe3d7ace3065f5c99fcabdefecc1e6624ea7c7.json">bioseq.target_end</a>, and<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-cigar-2c13a882e87557f3/" data-entity="sql:function:bioseq.cigar(anyelement)" data-entity-id="sql:function:bioseq.cigar(anyelement)" data-entity-data-url="/v0.1/entities.32b5538472ea4e8df7e7ae7c37fe3d7ace3065f5c99fcabdefecc1e6624ea7c7.json">bioseq.cigar</a>.</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-730d6b2cb15e1596-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-730d6b2cb15e1596-0" class="language-sql" data-entity-ranges="[{&quot;start&quot;:58,&quot;len&quot;:18,&quot;id&quot;:&quot;sql:function:bioseq.query_start(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-query-start-12e9ad13b132271e/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.32b5538472ea4e8df7e7ae7c37fe3d7ace3065f5c99fcabdefecc1e6624ea7c7.json&quot;},{&quot;start&quot;:104,&quot;len&quot;:16,&quot;id&quot;:&quot;sql:function:bioseq.query_end(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-query-end-6c2a98839d0cee3f/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.32b5538472ea4e8df7e7ae7c37fe3d7ace3065f5c99fcabdefecc1e6624ea7c7.json&quot;},{&quot;start&quot;:146,&quot;len&quot;:19,&quot;id&quot;:&quot;sql:function:bioseq.target_start(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-target-start-7f5c101237c7c3f3/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.32b5538472ea4e8df7e7ae7c37fe3d7ace3065f5c99fcabdefecc1e6624ea7c7.json&quot;},{&quot;start&quot;:194,&quot;len&quot;:17,&quot;id&quot;:&quot;sql:function:bioseq.target_end(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-target-end-360d292b54a6c2ca/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.32b5538472ea4e8df7e7ae7c37fe3d7ace3065f5c99fcabdefecc1e6624ea7c7.json&quot;},{&quot;start&quot;:238,&quot;len&quot;:12,&quot;id&quot;:&quot;sql:function:bioseq.cigar(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-cigar-2c13a882e87557f3/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.32b5538472ea4e8df7e7ae7c37fe3d7ace3065f5c99fcabdefecc1e6624ea7c7.json&quot;},{&quot;start&quot;:293,&quot;len&quot;:15,&quot;id&quot;:&quot;sql:function:public.mmsearch(bioseq.seq,bioseq.seq)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/public-mmsearch-843c61c24e9f9655/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.32b5538472ea4e8df7e7ae7c37fe3d7ace3065f5c99fcabdefecc1e6624ea7c7.json&quot;}]">SELECT pk,
-       COUNT(*) OVER () AS match_count,
+  <div class="docs-content tutorial-body"><p class="doc-paragraph"><a class="entity-ref" href="/v0.1/reference/sql/overload_group/extension-mmsearch-3425d4d7993bfdd8/" data-entity="sql:overload_group:$extension.mmsearch" data-entity-id="sql:overload_group:$extension.mmsearch" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.mmsearch</a> is a PostgreSQL predicate: put it in a<br><code>WHERE</code> clause over a <code>USING bioseq</code> table and Bioseq plans a sequence-aware<br>custom scan. Its first argument is the stored target column. Its second argument<br>is a <a class="entity-ref" href="/v0.1/reference/sql/type/bioseq-seq-8c069b667ce622ef/" data-entity="sql:type:bioseq.seq" data-entity-id="sql:type:bioseq.seq" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.seq</a> query value with the same alphabet.</p><p class="doc-paragraph">Prerequisite: <a href="../index_lifecycle_and_metadata/">Index lifecycle, choices, and metadata</a><br>explains how to prepare and verify the persisted target form used here.</p><p class="doc-paragraph">The optimized defaults use grouped-SoA indexes. Leave legacy insert-time<br>maintenance disabled before loading rows:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-f10679a8186c0bf7-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-f10679a8186c0bf7-0" class="language-sql">SET bioseq.index.insert_maintenance.enabled = off;
+</code></pre></figure><p class="doc-paragraph">After the load commits, publish the index for repeated searches. Without a<br>compatible stored index, normal searches use transient preparation with the<br>selected algorithm:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-52e815c36250d5f7-1" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-52e815c36250d5f7-1" class="language-sql">SELECT bioseq.update_index(
+  'tutorial_mmsearch'::regclass,
+  'minimizers_per_fragment'
+);
+</code></pre></figure><h2 class="hx" id="search-stored-sequences" data-toc data-title="Search stored sequences">Search stored sequences<a data-hash href="#search-stored-sequences" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The query returns each matching primary key together with query and target<br>coordinates and the alignment's CIGAR string. Those projections come from<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-query-start-12e9ad13b132271e/" data-entity="sql:function:bioseq.query_start(anyelement)" data-entity-id="sql:function:bioseq.query_start(anyelement)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.query_start</a>, <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-query-end-6c2a98839d0cee3f/" data-entity="sql:function:bioseq.query_end(anyelement)" data-entity-id="sql:function:bioseq.query_end(anyelement)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.query_end</a>,<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-target-start-7f5c101237c7c3f3/" data-entity="sql:function:bioseq.target_start(anyelement)" data-entity-id="sql:function:bioseq.target_start(anyelement)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.target_start</a>, <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-target-end-360d292b54a6c2ca/" data-entity="sql:function:bioseq.target_end(anyelement)" data-entity-id="sql:function:bioseq.target_end(anyelement)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.target_end</a>, and<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-cigar-2c13a882e87557f3/" data-entity="sql:function:bioseq.cigar(anyelement)" data-entity-id="sql:function:bioseq.cigar(anyelement)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.cigar</a>.</p><figure class="doc-code" data-term data-sql-example="canonical_mmsearch"><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-60eabf54296023bf-2" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-60eabf54296023bf-2" class="language-sql" data-entity-ranges="[{&quot;start&quot;:441,&quot;len&quot;:18,&quot;id&quot;:&quot;sql:function:bioseq.query_start(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-query-start-12e9ad13b132271e/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;},{&quot;start&quot;:487,&quot;len&quot;:16,&quot;id&quot;:&quot;sql:function:bioseq.query_end(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-query-end-6c2a98839d0cee3f/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;},{&quot;start&quot;:529,&quot;len&quot;:19,&quot;id&quot;:&quot;sql:function:bioseq.target_start(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-target-start-7f5c101237c7c3f3/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;},{&quot;start&quot;:577,&quot;len&quot;:17,&quot;id&quot;:&quot;sql:function:bioseq.target_end(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-target-end-360d292b54a6c2ca/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;},{&quot;start&quot;:621,&quot;len&quot;:12,&quot;id&quot;:&quot;sql:function:bioseq.cigar(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-cigar-2c13a882e87557f3/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;}]">EXPLAIN (VERBOSE, COSTS OFF)
+SELECT pk
+FROM tutorial_mmsearch
+WHERE organism = 'Homo sapiens'
+  AND collected_on &gt;= DATE '2025-01-01'
+  AND public.mmsearch(
+        seq0,
+        'TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA'::bioseq.seq('dna4', 32),
+        aligner_options(best_n =&gt; 3)
+      );
+
+SELECT pk,
+       organism,
+       COUNT(*) OVER (PARTITION BY pk) AS matches_for_row,
        bioseq.query_start(pk) AS query_start,
        bioseq.query_end(pk) AS query_end,
        bioseq.target_start(pk) AS target_start,
        bioseq.target_end(pk) AS target_end,
        bioseq.cigar(pk) AS cigar
 FROM tutorial_mmsearch
+WHERE organism = 'Homo sapiens'
+  AND collected_on &gt;= DATE '2025-01-01'
+  AND public.mmsearch(
+        seq0,
+        'TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA'::bioseq.seq('dna4', 32),
+        aligner_options(best_n =&gt; 3)
+      )
+ORDER BY pk, target_start, target_end;</code></pre></figure><p class="doc-paragraph"><em>Result 1</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">QUERY PLAN<br><code>text</code></th></tr></thead><tbody><tr><td>Custom Scan (BioseqScan) on public.tutorial_mmsearch</td></tr><tr><td>  Output: pk</td></tr><tr><td>  Filter: (tutorial_mmsearch.organism = 'Homo sapiens'::text)</td></tr><tr><td>  Bioseq Projected Columns: pk, organism, collected_on</td></tr><tr><td>  Bioseq Chunk Group Filters: ((collected_on &gt;= '2025-01-01'::date) AND (organism = 'Homo sapiens'::text))</td></tr><tr><td>  Bioseq Vectorized Filter: (collected_on &gt;= '2025-01-01'::date)</td></tr><tr><td>  Bioseq Index Read Requirement: allow</td></tr><tr><td>  Bioseq Recomputed: minimizers 100%</td></tr><tr><td>  Bioseq Scheduler: supervisor=on mode=task_parallel workers=4/4 batches=17/17 awaiting=0 queries=17/0 qps=1.722 async_persist_waiting=0 index_memory_reserved=0</td></tr><tr><td>  One-to-many alignment:</td></tr><tr><td>    Task-parallel [mode=task_parallel, workers=4, index_memory_reserved=0 bytes]:</td></tr><tr><td>      Planned Architecture: AVX3_SPR</td></tr><tr><td>      CPU-Supported Targets: AVX3_SPR, AVX3_DL, AVX3, AVX2, SSE4, SSSE3, SSE2, EMU128, SCALAR</td></tr><tr><td>      Highway Compiled Targets: AVX10_2, AVX3_SPR, AVX3_ZEN4, AVX3_DL, AVX3, AVX2, SSE4, SSSE3, SSE2, EMU128</td></tr><tr><td>      Runnable Targets: AVX3_SPR, AVX3_DL, AVX3, AVX2, SSE4, SSSE3, SSE2, EMU128</td></tr><tr><td>      | QuerySketchStage: Bounded u32 ntHash SIMD Minimizers</td></tr><tr><td>        Highway Function: minimizer::bounded_nthash [planned architecture: AVX3_SPR]</td></tr><tr><td>      | index_stage: pipeline configuration</td></tr><tr><td>        [cep.window_len: 0]</td></tr><tr><td>        [cep.kmer_len: 0]</td></tr><tr><td>        [cep.sequence_len_log2: 63]</td></tr><tr><td>        [cep.specialised: fallback]</td></tr><tr><td>      | seed_hit_stage: Seed hits + canonical CPU ordering</td></tr><tr><td>        max_occ: 500</td></tr><tr><td>        query_len: 0</td></tr><tr><td>        [reserved: 64]</td></tr><tr><td>      | chain_stage: Minimap2 SIMD</td></tr><tr><td>        min_chain_score: 40</td></tr><tr><td>        min_seed_count: 3</td></tr><tr><td>        max_chain_skip: 25</td></tr><tr><td>        max_chain_iter: 5000</td></tr><tr><td>        bandwidth: 500</td></tr><tr><td>        max_gap: 5000</td></tr><tr><td>        simd_chaining_policy: bounded_batch_approximate</td></tr><tr><td>        [vectorised: true]</td></tr><tr><td>        [requires_zero_skip_penalty: false]</td></tr><tr><td>        [specialised: fallback]</td></tr><tr><td>        Highway Function: chaining::chain_anchors_simd [planned architecture: AVX3_SPR]</td></tr><tr><td>      | region_stage: Region generation</td></tr><tr><td>        query_len: 0</td></tr><tr><td>      | primary_secondary_stage: Classify primary/secondary</td></tr><tr><td>        mask_level: 0.500000</td></tr><tr><td>        mask_len: 2147483647</td></tr><tr><td>        sub_diff: 8</td></tr><tr><td>      | secondary_filter_stage: Filter secondary regions</td></tr><tr><td>        pri_ratio: 0.800000</td></tr><tr><td>        min_diff: 30</td></tr><tr><td>        best_n: 3</td></tr><tr><td>      | primary_secondary_stage: Classify primary/secondary</td></tr><tr><td>        mask_level: 0.500000</td></tr><tr><td>        mask_len: 2147483647</td></tr><tr><td>        sub_diff: 8</td></tr><tr><td>      | secondary_filter_stage: Filter secondary regions</td></tr><tr><td>        pri_ratio: 0.800000</td></tr><tr><td>        min_diff: 30</td></tr><tr><td>        best_n: 3</td></tr><tr><td>      * Submit results</td></tr><tr><td>      * Execution statistics [requested_backend=none actual_backend=none requested_index_source=none actual_index_source=none attempted=0 fully_attested=0 unattested=0 environment_mixed=false persisted_identity_mixed=false identity_conflict=false saturated=false]</td></tr><tr><td>      * Index outcomes [targets=0 persisted=0 missing_persisted=0 recomputed=0]</td></tr><tr><td>      * GPU dispatch [seed=0 chain=0 chain_backtrack=0 coordinate_vote=0 extend=0 backend_declines=0 backend_fallbacks=0]</td></tr><tr><td>      GPU Chain Dispatches: 0</td></tr><tr><td>      GPU Chain Backtrack Dispatches: 0</td></tr><tr><td>      GPU Coordinate Vote Dispatches: 0</td></tr><tr><td>      * Host stats [query_sketch_ns=0 target_index_build_ns=0 query_hash_readbacks=0 query_symbol_packing=0 target_symbol_packing=0 alignment_classification=0 cigar_construction=0]</td></tr><tr><td>  -&gt;  Cache</td></tr><tr><td>        Cache Hits: 0</td></tr><tr><td>        Cache Misses: 0</td></tr><tr><td>        Cache Evictions: 0</td></tr><tr><td>        Cache Writes: 0</td></tr><tr><td>        Cache Maximum Size: 0</td></tr><tr><td>        Cache Ending Size: 0</td></tr><tr><td>        Total Cache Entries: 0</td></tr></tbody></table><p class="doc-paragraph"><em>Result 2</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">pk<br><code>integer</code></th><th scope="col">organism<br><code>text</code></th><th scope="col">matches_for_row<br><code>bigint</code></th><th scope="col">query_start<br><code>bigint</code></th><th scope="col">query_end<br><code>bigint</code></th><th scope="col">target_start<br><code>bigint</code></th><th scope="col">target_end<br><code>bigint</code></th><th scope="col">cigar<br><code>text</code></th></tr></thead><tbody><tr><td>1</td><td>Homo sapiens</td><td>1</td><td>0</td><td>93</td><td>0</td><td>93</td><td>93M</td></tr></tbody></table><p class="doc-paragraph"><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.11</em></p><p class="doc-paragraph">The first result shows whether the planner selected <code>BioseqScan</code> for this exact<br>predicate. The second result contains the matching rows and their alignment<br>coordinates. The runnable query uses the full first read rather than only its<br>short shared motif so that it can pass the default alignment filters.</p><aside class="admonition admonition-important" data-callout="important"><span class="admonition-icon" aria-hidden="true"></span><div class="admonition-body"><p class="admonition-label">Important</p><p class="doc-paragraph">Confirm that the plan selects <code>BioseqScan</code> for this single-table search.<br>Its custom execution supplies the alignment coordinates and CIGAR; do not<br>interpret an ordinary scan as proof that the sequence-aware path ran.</p></div></aside><p class="doc-paragraph">The query can return more than one alignment for one stored row. <code>best_n</code> limits<br>the secondary alignments retained for each target. The <code>pk</code> argument passed to<br>each projection function is the result carrier that ties the projected value to<br>the current alignment row.</p><p class="doc-paragraph">Coordinates are zero-based and half-open. A start position is included and an<br>end position is excluded. The aligned span is therefore <code>end - start</code>.</p><p class="doc-paragraph">The CIGAR string uses run lengths. <code>M</code> consumes query and target symbols. <code>I</code><br>consumes query symbols. <code>D</code> consumes target symbols. For example, <code>29M</code> is an<br>aligned run of 29 symbols.</p><p class="doc-paragraph">The full-read fixture returns target 1 with a <code>93M</code> alignment in the captured<br>result above. The other targets share only shorter motifs and need not pass<br>the default alignment filters. For queries that do produce multiple matches,<br>keep alignment rows separate instead of silently collapsing them by primary<br>key; the returned coordinates identify each match.</p><h2 class="hx" id="choose-alignment-projections-for-the-caller" data-toc data-title="Choose alignment projections for the caller">Choose alignment projections for the caller<a data-hash href="#choose-alignment-projections-for-the-caller" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Coordinates and CIGAR are not the only match projections. Ask for scoring and<br>seed fields only when the endpoint uses them:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ea191a6d67dedd72-3" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ea191a6d67dedd72-3" class="language-sql">SELECT pk,
+       bioseq.score(pk) AS score,
+       bioseq.divergence(pk) AS divergence,
+       bioseq.edit(pk) AS edits,
+       bioseq.seed_count(pk) AS seed_count,
+       bioseq.target_start(pk) AS target_start,
+       bioseq.cigar(pk) AS cigar
+FROM tutorial_mmsearch
+WHERE public.mmsearch(
+    seq0,
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32),
+    aligner_options(best_n =&gt; 3)
+)
+ORDER BY score DESC, pk, target_start;
+</code></pre></figure><p class="doc-paragraph"><code>score</code> is useful for ordering alignments under one chosen option set.<br><code>divergence</code>, <code>edit</code>, and <code>seed_count</code> are reported properties of that<br>alignment. Do not compare scores produced by different option sets as if they<br>were one common scale. Keep the options beside any stored result or exported<br>report.</p><h2 class="hx" id="bind-query-text-to-the-target-type" data-toc data-title="Bind query text to the target type">Bind query text to the target type<a data-hash href="#bind-query-text-to-the-target-type" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Applications normally receive a query as text. Cast it at the SQL boundary so<br>PostgreSQL validates the alphabet before planning the search:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-6c79ade442aa3f3f-4" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-6c79ade442aa3f3f-4" class="language-sql">PREPARE find_tutorial_matches(text) AS
+SELECT pk,
+       bioseq.target_start(pk) AS target_start,
+       bioseq.target_end(pk) AS target_end,
+       bioseq.cigar(pk) AS cigar
+FROM tutorial_mmsearch
+WHERE public.mmsearch(
+    seq0,
+    $1::bioseq.seq('dna4', 32)
+)
+ORDER BY pk, target_start, target_end;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-0d6b0c374720eb4c-5" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-0d6b0c374720eb4c-5" class="language-sql">EXECUTE find_tutorial_matches(
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'
+);
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-7234f76505badac6-6" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-7234f76505badac6-6" class="language-sql">DEALLOCATE find_tutorial_matches;
+</code></pre></figure><p class="doc-paragraph">The target column and query value use the same bound alphabet and width. A text<br>parameter containing N fails for <code>dna4</code> with SQLSTATE <code>22P02</code>.</p><p class="doc-paragraph">Do not concatenate a query sequence into SQL text. A typed parameter separates<br>data from the statement and gives the server one explicit validation point.</p><p class="doc-paragraph">In the remaining application-query snippets, <code>$1</code>, <code>$2</code>, and <code>$3</code> denote bound<br>parameters supplied through a prepared statement or PostgreSQL's extended query<br>protocol.</p><h2 class="hx" id="combine-metadata-filters-with-sequence-search" data-toc data-title="Combine metadata filters with sequence search">Combine metadata filters with sequence search<a data-hash href="#combine-metadata-filters-with-sequence-search" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Keep selective ordinary predicates beside <code>mmsearch</code>:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ad9989a1cc8a241d-7" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ad9989a1cc8a241d-7" class="language-sql">SELECT pk,
+       organism,
+       collected_on
+FROM tutorial_mmsearch
+WHERE organism = $1
+  AND collected_on &gt;= $2
+  AND public.mmsearch(
+      seq0,
+      $3::bioseq.seq('dna4', 32)
+  )
+ORDER BY pk;
+</code></pre></figure><p class="doc-paragraph">PostgreSQL and Bioseq can assign the metadata and sequence work to their<br>appropriate paths. Explain the final statement with representative parameter<br>types and table statistics because selectivity affects plan choice.</p><h2 class="hx" id="planner-statistics-current-limitation" data-toc data-title="Planner statistics: current limitation">Planner statistics: current limitation<a data-hash href="#planner-statistics-current-limitation" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">PostgreSQL <code>ANALYZE</code> normally updates relation and column statistics to estimate<br>ordinary predicates such as <code>organism</code>, dates, numeric ranges, joins, and<br>scalar PostgreSQL indexes. In this release, the sequence-bearing Bioseq sampling<br>path can fail with <code>sequence hydration requires an explicit snapshot</code>. Do not<br>treat this tutorial as proof that <code>ANALYZE</code> is supported for that table shape;<br>see <a href="../columnar_storage_and_vectorized_aggregates/">the storage limitation</a>.<br>Statistics collection does not build a minimizer or symbol-count index. Use<br><code>bioseq.update_index</code> for those persisted sequence forms.</p><p class="doc-paragraph">Compare estimated and actual rows on the final combined query:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-8b85f4661822d811-8" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-8b85f4661822d811-8" class="language-sql">EXPLAIN (ANALYZE, VERBOSE)
+SELECT pk
+FROM tutorial_mmsearch
+WHERE organism = 'Homo sapiens'
+  AND public.mmsearch(
+      seq0,
+      'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+  );
+</code></pre></figure><p class="doc-paragraph">An alignment predicate can return more than one match for a target row, so a<br>base-table row estimate and the final alignment-row count answer different<br>questions. Read the ordinary filter estimate, the custom search node, and the<br>actual output together. When the scalar estimate is poor, refresh statistics<br>or tune PostgreSQL statistics for that scalar column. Rebuilding a sequence<br>index does not repair stale scalar statistics.</p><p class="doc-paragraph">Project only what the caller needs. A key-only endpoint can omit CIGAR and<br>coordinates:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-37f3cc57b82d9217-9" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-37f3cc57b82d9217-9" class="language-sql">SELECT DISTINCT pk
+FROM tutorial_mmsearch
+WHERE organism = 'Homo sapiens'
+  AND public.mmsearch(
+      seq0,
+      'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+  )
+ORDER BY pk;
+</code></pre></figure><p class="doc-paragraph"><code>DISTINCT</code> changes the result from alignment rows to target keys. Use it only<br>when the application truly does not need separate alignments.</p><h2 class="hx" id="control-secondary-alignments-with-best-n" data-toc data-title="Control secondary alignments with best_n">Control secondary alignments with best_n<a data-hash href="#control-secondary-alignments-with-best-n" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The two-argument form uses the configured defaults:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-57caefd80a664f36-10" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-57caefd80a664f36-10" class="language-sql">public.mmsearch(target_sequence, query_sequence)
+</code></pre></figure><p class="doc-paragraph">The three-argument form accepts <code>aligner_options</code>:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-8b7e703e71c6aa0d-11" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-8b7e703e71c6aa0d-11" class="language-sql">public.mmsearch(
+    target_sequence,
+    query_sequence,
+    aligner_options(best_n =&gt; 3)
+)
+</code></pre></figure><p class="doc-paragraph"><code>best_n</code> limits secondary alignments retained for each target. It does not mean<br>three target rows, and it does not replace a SQL <code>LIMIT</code> over the final result.</p><p class="doc-paragraph">If the caller wants at most 100 alignment rows after ordering, express that<br>separately:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-be37e5e08ab4aa71-12" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-be37e5e08ab4aa71-12" class="language-sql">SELECT pk,
+       bioseq.target_start(pk) AS target_start,
+       bioseq.target_end(pk) AS target_end,
+       bioseq.cigar(pk) AS cigar
+FROM tutorial_mmsearch
+WHERE public.mmsearch(
+    seq0,
+    $1::bioseq.seq('dna4', 32),
+    aligner_options(best_n =&gt; 3)
+)
+ORDER BY pk, target_start, target_end
+LIMIT 100;
+</code></pre></figure><p class="doc-paragraph">Choose a stable ordering before paginating. Without <code>ORDER BY</code>, PostgreSQL does<br>not promise result order.</p><h2 class="hx" id="tune-thresholds-and-scoring-deliberately" data-toc data-title="Tune thresholds and scoring deliberately">Tune thresholds and scoring deliberately<a data-hash href="#tune-thresholds-and-scoring-deliberately" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>aligner_options</code> can override one call without changing the session defaults.<br>Its user-facing groups are:</p><ul><li>sketch shape with <code>kmer_size</code>, <code>window_size</code>, <code>max_occ</code>, and <code>mid_occ</code></li><li>chaining thresholds and geometry with <code>min_seed_count</code>, <code>min_chain_score</code>,<br>gap limits, bandwidths, mask values, and <code>pri_ratio</code></li><li>alignment scoring with <code>match_score</code>, <code>mismatch_pen</code>, two gap-open and<br>gap-extension pairs, <code>zdrop</code>, and <code>end_bonus</code></li><li>result breadth with <code>best_n</code></li><li>named algorithm selectors and Vulkan booleans</li><li>persisted-target policy with <code>index_read_requirement</code></li></ul><p class="doc-paragraph">Change one group at a time and keep the complete option record with any saved<br>alignment. The score is meaningful only under the scoring and search parameters<br>that produced it.</p><p class="doc-paragraph">For example, a higher minimum chain score can reject weak candidate chains<br>before base alignment:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-851d22578b056f9e-13" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-851d22578b056f9e-13" class="language-sql">SELECT pk,
+       bioseq.chain_score(pk) AS chain_score,
+       bioseq.dp_score(pk) AS dp_score,
+       bioseq.edit(pk) AS edits,
+       bioseq.mapq(pk) AS mapq,
+       bioseq.is_primary(pk) AS is_primary
+FROM tutorial_mmsearch
+WHERE public.mmsearch(
+    seq0,
+    $1::bioseq.seq('dna4', 32),
+    aligner_options(
+        min_chain_score =&gt; 30,
+        best_n =&gt; 2
+    )
+)
+ORDER BY pk, is_primary DESC, chain_score DESC;
+</code></pre></figure><p class="doc-paragraph"><code>chain_score</code> describes the seed chain. <code>dp_score</code> describes base alignment.<br><code>edit</code> counts edit operations under the selected final alignment. <code>mapq</code> is the<br>mapping-quality projection. These values answer different questions and should<br>not be substituted for one another as a generic similarity percentage.</p><p class="doc-paragraph">Changing <code>kmer_size</code> or <code>window_size</code> also changes persisted-index<br>compatibility. Allow mode can recompute when the current persisted generation<br>does not fit. Strict persisted mode fails instead. Rebuild the selected index<br>with the intended recipe before using strict mode as a readiness gate.</p><p class="doc-paragraph">Bioseq has one recognized edit-distance prefilter shape:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-f02df42fce921077-14" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-f02df42fce921077-14" class="language-sql">SELECT pk
+FROM tutorial_mmsearch
 WHERE public.mmsearch(
         seq0,
-        'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+        $1::bioseq.seq('dna4', 32)
       )
-ORDER BY pk;</code></pre><div class="terminal-result" data-result><div class="terminal-result-label">Result · 6 rows</div><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">pk<br><code>integer</code></th><th scope="col">match_count<br><code>bigint</code></th><th scope="col">query_start<br><code>bigint</code></th><th scope="col">query_end<br><code>bigint</code></th><th scope="col">target_start<br><code>bigint</code></th><th scope="col">target_end<br><code>bigint</code></th><th scope="col">cigar<br><code>text</code></th></tr></thead><tbody><tr><td>1</td><td>6</td><td>0</td><td>29</td><td>45</td><td>74</td><td>29M</td></tr><tr><td>2</td><td>6</td><td>0</td><td>29</td><td>49</td><td>78</td><td>29M</td></tr><tr><td>3</td><td>6</td><td>1</td><td>28</td><td>31</td><td>58</td><td>27M</td></tr><tr><td>5</td><td>6</td><td>0</td><td>29</td><td>84</td><td>113</td><td>29M</td></tr><tr><td>5</td><td>6</td><td>0</td><td>29</td><td>38</td><td>67</td><td>29M</td></tr><tr><td>5</td><td>6</td><td>0</td><td>29</td><td>4</td><td>33</td><td>29M</td></tr></tbody></table></div></figure><p class="doc-paragraph"><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.10</em></p><p class="doc-paragraph">The setup data is copied from <code>hoe_seed_rows()</code> and the probe is the exact<br><code>kHoeProbeSequence</code> used by the integration suite. The published rows and<br>coordinates remain whatever the installed extension actually returns.</p></div>
+  AND bioseq.edit(pk) &lt; 5;
+</code></pre></figure><p class="doc-paragraph">The bound must be an integer constant and the comparison must remain visible to<br>the owner scan. The prefilter rejects candidates that cannot pass the bound.<br>An accepted candidate still goes through the authoritative alignment and exact<br>filter. Read the prefilter stage and counters in <code>EXPLAIN ANALYZE</code> rather than<br>assuming that every edit predicate selected it.</p><p class="doc-paragraph">Traceback and CIGAR construction are projection-driven. A key-only query can<br>avoid that work. Adding <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-cigar-2c13a882e87557f3/" data-entity="sql:function:bioseq.cigar(anyelement)" data-entity-id="sql:function:bioseq.cigar(anyelement)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.cigar</a> requests the alignment path needed<br>to return the CIGAR, so explain the same projection list that the application<br>will use.</p><h2 class="hx" id="convert-coordinates-to-spans" data-toc data-title="Convert coordinates to spans">Convert coordinates to spans<a data-hash href="#convert-coordinates-to-spans" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Query and target intervals are half-open. Calculate lengths by subtraction:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-a08575caac6949e2-15" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-a08575caac6949e2-15" class="language-sql">WITH match_coordinates AS MATERIALIZED (
+    SELECT pk,
+           bioseq.query_start(pk) AS query_start,
+           bioseq.query_end(pk) AS query_end,
+           bioseq.target_start(pk) AS target_start,
+           bioseq.target_end(pk) AS target_end
+    FROM tutorial_mmsearch
+    WHERE public.mmsearch(
+        seq0,
+        $1::bioseq.seq('dna4', 32)
+    )
+)
+SELECT pk,
+       query_start,
+       query_end,
+       query_end - query_start AS query_span,
+       target_start,
+       target_end,
+       target_end - target_start AS target_span
+FROM match_coordinates
+ORDER BY pk, target_start;
+</code></pre></figure><p class="doc-paragraph">Do not add one to the difference. A span <code>[10, 15)</code> contains five positions.</p><p class="doc-paragraph">If the target is a stored slice, target coordinates are relative to that slice:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-d0106f23099e5ed1-16" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-d0106f23099e5ed1-16" class="language-sql">WITH relative_matches AS MATERIALIZED (
+    SELECT pk,
+           100 AS slice_origin,
+           bioseq.target_start(pk) AS relative_target_start,
+           bioseq.target_end(pk) AS relative_target_end
+    FROM tutorial_mmsearch
+    WHERE public.mmsearch(
+        seq0[100:500],
+        $1::bioseq.seq('dna4', 32)
+    )
+)
+SELECT pk,
+       slice_origin + relative_target_start AS stored_target_start,
+       slice_origin + relative_target_end AS stored_target_end
+FROM relative_matches
+ORDER BY pk, stored_target_start;
+</code></pre></figure><p class="doc-paragraph">The fixed lower bound becomes the coordinate offset. For a row-dependent or<br>negative lower bound, compute the resolved slice origin rather than adding a<br>hard-coded value. Keep match helpers as plain projections in the search level,<br>then perform coordinate arithmetic in the outer level.</p><h2 class="hx" id="read-a-search-plan-in-layers" data-toc data-title="Read a search plan in layers">Read a search plan in layers<a data-hash href="#read-a-search-plan-in-layers" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Start with plain EXPLAIN:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-6c8aff455538eca8-17" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-6c8aff455538eca8-17" class="language-sql">EXPLAIN (VERBOSE, COSTS OFF)
+SELECT pk
+FROM tutorial_mmsearch
+WHERE public.mmsearch(
+    seq0,
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+);
+</code></pre></figure><p class="doc-paragraph">Check these fields in order:</p><ol><li><code>Custom Scan (BioseqScan)</code> is the selected node</li><li><code>Bioseq Projected Columns</code> contains only needed output</li><li><code>Bioseq Index Read Requirement</code> describes the target-index contract</li><li><code>Bioseq Fetched From Sequence Index</code> and <code>Bioseq Recomputed</code> describe the<br>planned mix</li><li><code>Bioseq Pipeline</code> lists selected algorithms and stages</li><li><code>Highway SIMD Dispatch</code> lists compiled, runnable, and planned CPU targets</li></ol><p class="doc-paragraph">Then use analyzed output when executing the search is acceptable:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-a4e1b6119d74c167-18" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-a4e1b6119d74c167-18" class="language-sql">EXPLAIN (ANALYZE, VERBOSE, COSTS OFF, FORMAT JSON)
+SELECT pk
+FROM tutorial_mmsearch
+WHERE public.mmsearch(
+    seq0,
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+);
+</code></pre></figure><p class="doc-paragraph">The execution section adds actual backend, actual target-index source,<br>persisted and recomputed rows, GPU dispatches, prefilter work, host work, and<br>executed Highway architecture.</p><p class="doc-paragraph">Use JSON when an application records selected fields. Keep text output for<br>interactive reading. The EXPLAIN tutorial describes every Bioseq group and<br>property.</p><h2 class="hx" id="compare-stored-index-reads-with-recompute" data-toc data-title="Compare stored-index reads with recompute">Compare stored-index reads with recompute<a data-hash href="#compare-stored-index-reads-with-recompute" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>bioseq.index.sequence_read.enabled</code> controls whether a search may read stored<br>sequence-index chunks.</p><p class="doc-paragraph">To inspect the stored-index route:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-f69aa8c40117427c-19" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-f69aa8c40117427c-19" class="language-sql">SET bioseq.index.sequence_read.enabled = on;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-02f9214cf81aeb95-20" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-02f9214cf81aeb95-20" class="language-sql">EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT pk
+FROM tutorial_mmsearch
+WHERE public.mmsearch(
+    seq0,
+    $1::bioseq.seq('dna4', 32)
+);
+</code></pre></figure><p class="doc-paragraph">To force recomputation for a controlled comparison:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-90a8f7cb687a83f8-21" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-90a8f7cb687a83f8-21" class="language-sql">SET bioseq.index.sequence_read.enabled = off;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-02f9214cf81aeb95-22" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-02f9214cf81aeb95-22" class="language-sql">EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT pk
+FROM tutorial_mmsearch
+WHERE public.mmsearch(
+    seq0,
+    $1::bioseq.seq('dna4', 32)
+);
+</code></pre></figure><p class="doc-paragraph">Compare result rows before timing. Then compare <code>Actual Target Index Source</code>,<br><code>Persisted Index Rows</code>, <code>Missing Persisted Index Rows</code>, and <code>Recomputed Target Index Rows</code>.</p><p class="doc-paragraph">This setting is useful for diagnosis and controlled comparisons. It is not a<br>replacement for maintaining the index after a bulk load.</p><h2 class="hx" id="compare-scalar-and-vectorized-execution" data-toc data-title="Compare scalar and vectorized execution">Compare scalar and vectorized execution<a data-hash href="#compare-scalar-and-vectorized-execution" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The vectorization switch is a Boolean route control:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-f510d0ee81464355-23" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-f510d0ee81464355-23" class="language-sql">SET bioseq.vectorization.enabled = off;
+</code></pre></figure><p class="doc-paragraph">Run the search and retain its ordered result. Then repeat with:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-d1ccc844aa560b43-24" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-d1ccc844aa560b43-24" class="language-sql">SET bioseq.vectorization.enabled = on;
+</code></pre></figure><p class="doc-paragraph">The result rows and alignment projections should agree. Use EXPLAIN to compare<br>the chosen pipeline, Highway functions, executed architecture, and runtime<br>counters.</p><p class="doc-paragraph">The switch does not select a particular CPU ISA. Highway chooses one runnable<br>target from the compiled and CPU-supported target sets.</p><p class="doc-paragraph">For GPU alignment controls, use the Highway and GPU tutorial. Enabling Vulkan<br>alone does not mean a device stage ran. Read actual backend and GPU dispatch<br>counters.</p><h2 class="hx" id="keep-one-search-owner-per-target-frontier" data-toc data-title="Keep one search owner per target frontier">Keep one search owner per target frontier<a data-hash href="#keep-one-search-owner-per-target-frontier" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Do not write two <code>mmsearch</code> predicates over the same target in one <code>WHERE</code><br>clause:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-e7fcd971417c5235-25" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-e7fcd971417c5235-25" class="language-sql">SELECT pk
+FROM tutorial_mmsearch
+WHERE public.mmsearch(
+        seq0,
+        $1::bioseq.seq('dna4', 32)
+      )
+  AND public.mmsearch(
+        seq0,
+        $2::bioseq.seq('dna4', 32)
+      );
+</code></pre></figure><p class="doc-paragraph">This stacked shape fails with SQLSTATE <code>0A000</code>. Each search carries alignment<br>state for its owned target frontier, and two owners on the same frontier would<br>make helpers such as <code>bioseq.cigar(pk)</code> ambiguous.</p><p class="doc-paragraph">Run two statements and intersect their keys, or use separate target frontiers<br>in a sequence join. The multi-sequence tutorial shows a three-table chain with<br>two independent searches.</p><h2 class="hx" id="refresh-after-maintenance-off-writes" data-toc data-title="Refresh after maintenance-off writes">Refresh after maintenance-off writes<a data-hash href="#refresh-after-maintenance-off-writes" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">After a load or update commits, refresh the relation to make subsequent searches<br>use the persisted index for the new data:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-45db8795b7b4b82f-26" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-45db8795b7b4b82f-26" class="language-sql">SELECT bioseq.update_index(
+    'tutorial_mmsearch'::regclass,
+    'minimizers_per_fragment'
+);
+</code></pre></figure><p class="doc-paragraph">For steady application writes, keep legacy maintenance off in the writing<br>transaction, then publish the grouped index after commit when needed:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-90ccdec9b09ffb85-27" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-90ccdec9b09ffb85-27" class="language-sql">BEGIN;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-c33315a00b0e76c8-28" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-c33315a00b0e76c8-28" class="language-sql">SET LOCAL bioseq.index.insert_maintenance.enabled = off;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-c82d9c8cfad54c3e-29" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-c82d9c8cfad54c3e-29" class="language-sql">INSERT INTO tutorial_mmsearch (
+    pk,
+    organism,
+    collected_on,
+    seq0
+)
+VALUES (
+    6,
+    'Homo sapiens',
+    DATE '2026-08-16',
+    $1::bioseq.seq('dna4', 32)
+);
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-91b467f4449452db-30" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-91b467f4449452db-30" class="language-sql">COMMIT;
+</code></pre></figure><p class="doc-paragraph">Choose one write policy for each load. A search between maintenance-off writes<br>and the later index update can observe a different target-index mix from the<br>ready state.</p><h2 class="hx" id="handle-search-errors-by-category" data-toc data-title="Handle search errors by category">Handle search errors by category<a data-hash href="#handle-search-errors-by-category" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">An input error with SQLSTATE <code>22P02</code> means the query text does not fit the<br>declared alphabet.</p><p class="doc-paragraph">A valid query with no matches returns zero rows. It is not an input error and<br>does not return one row containing false. Treat an empty result separately from<br>planner, index, and provider failures.</p><p class="doc-paragraph">An incompatible bound type with SQLSTATE <code>42804</code> means target and query<br>alphabets do not satisfy the same search contract.</p><p class="doc-paragraph">A <code>stacked mmsearch</code> error with SQLSTATE <code>0A000</code> means the statement gives one<br>target frontier more than one search owner.</p><p class="doc-paragraph">A missing operator or function with SQLSTATE <code>42883</code> can mean the session has a<br>restrictive search path and the SQL used an unqualified Bioseq name. Use<br><code>public.mmsearch</code> and schema-qualified helper functions as shown here.</p><p class="doc-paragraph">If the query runs but does not select <code>BioseqScan</code>, inspect the plan and the<br>table access method before changing alignment parameters.</p><h2 class="hx" id="troubleshooting" data-toc data-title="Troubleshooting">Troubleshooting<a data-hash href="#troubleshooting" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Use <code>EXPLAIN (FORMAT JSON)</code> when a search does not select <code>BioseqScan</code>. Check<br>that the table uses <code>USING bioseq</code>, the query alphabet matches the target<br>column, index maintenance or <code>update_index</code> has run, and <code>mmsearch</code> is a<br>top-level predicate in the <code>WHERE</code> clause.</p><p class="doc-paragraph">Next: learn the exact coordinate and materialization rules for<br><a href="../slice_concat_reverse/">Slice, concatenate, reverse, and measure sequences</a>.</p></div>
 
   
   <nav class="dd-s0084" aria-label="Previous and next tutorial">
     <div class="dd-s0085">
-      <a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0106 dd-h005"><span class="dd-s0087">&#8592; Previous</span><span class="dd-s0088">The bioseq.seq column type</span></a>
-      
+      <a href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0106 dd-h005"><span class="dd-s0087">&#8592; Previous</span><span class="dd-s0088">Index lifecycle, choices, and metadata</span></a>
+      <a href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0086 dd-h005"><span class="dd-s0087">Next &#8594;</span><span class="dd-s0088">Slice, concatenate, reverse, and measure sequences</span></a>
     </div>
   </nav>
   
@@ -140,86 +356,86 @@ ORDER BY pk;</code></pre><div class="terminal-result" data-result><div class="te
     </main>
 
     <!-- ===== RIGHT TOC ===== -->
-    <aside data-rightrail class="dd-s0233">
-      <div class="dd-s0234">On this page</div>
-      <div id="toc-list" class="dd-s0235">
-        <a data-toc-link data-level="2" href="#search-the-canonical-fixture">Search the canonical fixture</a>
+    <aside data-rightrail class="dd-s0234">
+      <div class="dd-s0235">On this page</div>
+      <div id="toc-list" class="dd-s0236">
+        <a data-toc-link data-level="2" href="#search-stored-sequences">Search stored sequences</a><a data-toc-link data-level="2" href="#choose-alignment-projections-for-the-caller">Choose alignment projections for the caller</a><a data-toc-link data-level="2" href="#bind-query-text-to-the-target-type">Bind query text to the target type</a><a data-toc-link data-level="2" href="#combine-metadata-filters-with-sequence-search">Combine metadata filters with sequence search</a><a data-toc-link data-level="2" href="#planner-statistics-current-limitation">Planner statistics: current limitation</a><a data-toc-link data-level="2" href="#control-secondary-alignments-with-best-n">Control secondary alignments with best_n</a><a data-toc-link data-level="2" href="#tune-thresholds-and-scoring-deliberately">Tune thresholds and scoring deliberately</a><a data-toc-link data-level="2" href="#convert-coordinates-to-spans">Convert coordinates to spans</a><a data-toc-link data-level="2" href="#read-a-search-plan-in-layers">Read a search plan in layers</a><a data-toc-link data-level="2" href="#compare-stored-index-reads-with-recompute">Compare stored-index reads with recompute</a><a data-toc-link data-level="2" href="#compare-scalar-and-vectorized-execution">Compare scalar and vectorized execution</a><a data-toc-link data-level="2" href="#keep-one-search-owner-per-target-frontier">Keep one search owner per target frontier</a><a data-toc-link data-level="2" href="#refresh-after-maintenance-off-writes">Refresh after maintenance-off writes</a><a data-toc-link data-level="2" href="#handle-search-errors-by-category">Handle search errors by category</a><a data-toc-link data-level="2" href="#troubleshooting">Troubleshooting</a>
       </div>
     </aside>
 
   </div>
 
   <!-- ============ SITE FOOTER ============ -->
-  <footer data-screen-label="Docs · Footer" class="dd-s0236">
-    <div aria-hidden="true" class="dd-s0237">BioseqDB</div>
+  <footer data-screen-label="Docs · Footer" class="dd-s0237">
+    <div aria-hidden="true" class="dd-s0238">BioseqDB</div>
 
-    <div class="dd-s0238">
-      <div data-footcols class="dd-s0239">
+    <div class="dd-s0239">
+      <div data-footcols class="dd-s0240">
         <div>
-          <div class="dd-s0240">
-            <img src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="dd-s0007">
-            <span class="dd-s0241">Bioseq<span class="dd-s0242">DB</span></span>
-            <span class="dd-s0243">DOCS</span>
+          <div class="dd-s0241">
+            <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="dd-s0007">
+            <span class="dd-s0242">Bioseq<span class="dd-s0243">DB</span></span>
+            <span class="dd-s0244">DOCS</span>
           </div>
-          <p class="dd-s0244">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
-          <span class="dd-s0245"><span class="dd-s0246"></span>Free &amp; open source</span>
+          <p class="dd-s0245">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
+          <span class="dd-s0246"><span class="dd-s0247"></span>Free &amp; open source</span>
         </div>
 
         <div>
-          <div class="dd-s0247">Documentation</div>
-          <div class="dd-s0248">
+          <div class="dd-s0248">Documentation</div>
+          <div class="dd-s0249">
             
-            <a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0249 dd-h008">The bioseq.seq column type</a><a href="/v0.1/tutorials/similarity_search/" class="dd-s0249 dd-h008">Searching sequences with mmsearch</a><a href="/v0.1/reference/cpp/" class="dd-s0249 dd-h008">C++</a><a href="/v0.1/reference/sql/" class="dd-s0249 dd-h008">SQL</a>
+            <a href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Read, search, and write sequences quickly</a><a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0250 dd-h009">The bioseq.seq column type</a><a href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0250 dd-h009">Columnar storage and vectorized aggregates</a><a href="/v0.1/tutorials/sequence_generation/" class="dd-s0250 dd-h009">Generate deterministic sequence tables</a><a href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0250 dd-h009">Load FASTA, FASTQ, and gzip data</a><a href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0250 dd-h009">Index lifecycle, choices, and metadata</a><a href="/v0.1/tutorials/similarity_search/" class="dd-s0250 dd-h009">Searching sequences with mmsearch</a><a href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0250 dd-h009">Slice, concatenate, reverse, and measure sequences</a><a href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0250 dd-h009">Search multiple sequence columns and join by sequence</a><a href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0250 dd-h009">Highway runtime dispatch</a><a href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0250 dd-h009">Read every Bioseq EXPLAIN section</a><a href="/v0.1/tutorials/query_cache/" class="dd-s0250 dd-h009">Caching sequence-search results</a><a href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0250 dd-h009">Query remote providers, stage sequences, and search them</a><a href="/v0.1/reference/cpp/" class="dd-s0250 dd-h009">C++</a><a href="/v0.1/reference/sql/" class="dd-s0250 dd-h009">SQL</a>
             
           </div>
         </div>
 
         <div>
-          <div class="dd-s0247">Explore</div>
-          <div class="dd-s0248">
-            <a href="/" class="dd-s0249 dd-h008">Product home</a>
-            <a href="/#workflow" class="dd-s0249 dd-h008">Workflow</a>
-            <a href="/#examples" class="dd-s0249 dd-h008">Examples</a>
-            <a href="/#index" class="dd-s0249 dd-h008">Index</a>
-            <a href="/#scale" class="dd-s0249 dd-h008">Scale</a>
+          <div class="dd-s0248">Explore</div>
+          <div class="dd-s0249">
+            <a href="/" class="dd-s0250 dd-h009">Product home</a>
+            <a href="/#workflow" class="dd-s0250 dd-h009">Workflow</a>
+            <a href="/#examples" class="dd-s0250 dd-h009">Examples</a>
+            <a href="/#index" class="dd-s0250 dd-h009">Index</a>
+            <a href="/#scale" class="dd-s0250 dd-h009">Scale</a>
           </div>
         </div>
 
         <div>
-          <div class="dd-s0247">Project</div>
-          <div class="dd-s0248">
-            <a data-nav href="/v0.1/tutorials/sequence_column_type/" class="dd-s0249 dd-h008">Documentation</a>
-            <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0250">GitHub</a>
-            <span class="dd-s0251">Alpha &middot; v0.1</span>
+          <div class="dd-s0248">Project</div>
+          <div class="dd-s0249">
+            <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Documentation</a>
+            <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0251">GitHub</a>
+            <span class="dd-s0252">Alpha &middot; v0.1</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="dd-s0252">
-      <div class="dd-s0253"></div>
-      <div class="dd-s0254">
-        <span class="dd-s0255">&copy; 2026 Bioseq contributors &mdash; an independent open-source project.</span>
-        <nav class="dd-s0256">
-          <a href="https://github.com/styczynski/bioseqdb/blob/main/__main/LICENSE" rel="noreferrer" class="dd-s0257 dd-h009">License (MIT)</a>
-          <a href="/versions/" class="dd-s0257 dd-h009">Versions</a>
-          <a data-totop href="#page-top" class="dd-s0257 dd-h009">Back to top ↑</a>
+    <div class="dd-s0253">
+      <div class="dd-s0254"></div>
+      <div class="dd-s0255">
+        <span class="dd-s0256">&copy; 2026 Bioseq contributors &mdash; an independent open-source project.</span>
+        <nav class="dd-s0257">
+          <a href="https://github.com/styczynski/bioseqdb/blob/main/LICENSE" rel="noreferrer" class="dd-s0258 dd-h010">License (MIT)</a>
+          <a href="/versions/" class="dd-s0258 dd-h010">Versions</a>
+          <a data-totop href="#page-top" class="dd-s0258 dd-h010">Back to top ↑</a>
         </nav>
       </div>
     </div>
   </footer>
 
-  <div data-backdrop class="dd-s0258"></div>
+  <div data-backdrop class="dd-s0259"></div>
 
   <!-- ===== ENTITY POPOVER ===== -->
-  <div id="entity-pop" class="dd-s0259"></div>
+  <div id="entity-pop" class="dd-s0260"></div>
 
 </div>
 
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"Searching sequences with mmsearch","description":"Run an index-backed sequence search and inspect its real alignment coordinates.","url":"https://bioseqdb.com/v0.1/tutorials/similarity_search/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/sequence_column_type/"},{"@type":"ListItem","position":4,"name":"Searching sequences with mmsearch","item":"/v0.1/tutorials/similarity_search/"}]}]}</script>
-<script src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/js/prism-init.js"></script>
-<script src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/vendor/prism/prism.min.js"></script>
-<script type="module" src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/js/main.js"></script>
-<script type="module" src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/js/docs-design.mjs"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"Searching sequences with mmsearch","description":"Run an index-backed sequence search and inspect its real alignment coordinates.","url":"https://bioseqdb.com/v0.1/tutorials/similarity_search/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/quick_read_search_write/"},{"@type":"ListItem","position":4,"name":"Searching sequences with mmsearch","item":"/v0.1/tutorials/similarity_search/"}]}]}</script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/prism-init.js"></script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/main.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/docs-design.mjs"></script>
 </body>
 </html>

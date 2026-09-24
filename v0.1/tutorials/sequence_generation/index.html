@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generate deterministic sequence tables</title>
+<meta name="description" content="Create small reproducible DNA4 tables and query-target truth sets directly from SQL.">
+<link rel="canonical" href="https://bioseqdb.com/v0.1/tutorials/sequence_generation/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta property="og:title" content="Generate deterministic sequence tables">
+<meta property="og:description" content="Create small reproducible DNA4 tables and query-target truth sets directly from SQL.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bioseqdb.com/v0.1/tutorials/sequence_generation/">
+<meta property="og:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Generate deterministic sequence tables">
+<meta name="twitter:description" content="Create small reproducible DNA4 tables and query-target truth sets directly from SQL.">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<link rel="icon" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/favicon.svg">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/site.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/docs-design.css">
+</head>
+<body id="page-top" class="docs-design-page">
+<a class="skip-link" href="#doc-main">Skip to main content</a>
+
+<div data-screen-label="BioseqDB documentation" class="dd-s0001">
+
+  <!-- ============ TOP NAV ============ -->
+  <header id="dnav" class="dd-s0002">
+    <div class="dd-s0003">
+      <button data-menu aria-label="Menu" class="dd-s0004">
+        <span class="dd-s0005"></span><span class="dd-s0005"></span><span class="dd-s0005"></span>
+      </button>
+      <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0006">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="30" height="30" alt="BioseqDB logo" class="dd-s0007">
+        <span class="dd-s0008">Bioseq<span class="dd-s0009">DB</span></span>
+        <span data-docsbadge class="dd-s0010">DOCS</span>
+      </a>
+
+      <nav data-topnav class="dd-s0011">
+        <a href="/v0.1/tutorials/quick_read_search_write/" data-nav class="dd-s0012">Docs</a>
+        <a href="/" class="dd-s0013">Product</a>
+        <a href="/benchmarks/" class="dd-s0014 dd-h001">Benchmarks</a>
+        <a href="/versions/" class="dd-s0013">Versions</a>
+      </nav>
+
+      <!-- SEARCH -->
+      <div data-search-wrap class="dd-s0015">
+        <div data-search-box class="dd-s0016">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" class="dd-s0017"><circle cx="7" cy="7" r="5" stroke="#7d94a6" stroke-width="1.6"/><line x1="10.6" y1="10.6" x2="14" y2="14" stroke="#7d94a6" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="doc-search" role="combobox" aria-autocomplete="list" aria-controls="search-dd" aria-expanded="false" data-search-index="/v0.1/search-index.json" type="text" placeholder="Search docs, functions, types…" autocomplete="off" spellcheck="false" class="dd-s0018">
+          <kbd class="dd-s0019">/</kbd>
+        </div>
+        <div id="search-dd" role="listbox" aria-label="Search results" class="dd-s0020"></div>
+      </div>
+
+      <!-- VERSION -->
+      <div data-ver-wrap class="dd-s0021">
+        <button id="ver-btn" class="dd-s0022">
+          <span class="dd-s0023"></span>v0.1 <span class="docs-version-status">Alpha</span>
+          <span data-caret class="dd-s0025"></span>
+        </button>
+        <div id="ver-menu" data-versions-url="/versions.json" class="dd-s0026">
+          <a data-ver href="/v0.1/tutorials/quick_read_search_write/" aria-current="page" class="dd-s0027">v0.1 <span class="docs-version-current">current</span></a>
+          <a data-ver-all href="/versions/" class="dd-s0029">All versions</a>
+        </div>
+      </div>
+
+      <a data-ghbtn href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0031">GitHub</a>
+    </div>
+  </header>
+
+  <!-- ============ BODY GRID ============ -->
+  <div data-bodygrid class="dd-s0032">
+
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <aside id="sidebar" class="dd-s0033">
+      
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Tutorials
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0037">Read, search, and write sequences quickly</a><a data-doc-link href="/v0.1/tutorials/sequence_column_type/" class="dd-s0037">The bioseq.seq column type</a><a data-doc-link href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0037">Columnar storage and vectorized aggregates</a><a data-doc-link href="/v0.1/tutorials/sequence_generation/" class="dd-s0037">Generate deterministic sequence tables</a><a data-doc-link href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0037">Load FASTA, FASTQ, and gzip data</a><a data-doc-link href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0037">Index lifecycle, choices, and metadata</a><a data-doc-link href="/v0.1/tutorials/similarity_search/" class="dd-s0037">Searching sequences with mmsearch</a><a data-doc-link href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0037">Slice, concatenate, reverse, and measure sequences</a><a data-doc-link href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0037">Search multiple sequence columns and join by sequence</a><a data-doc-link href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0037">Highway runtime dispatch</a><a data-doc-link href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0037">Read every Bioseq EXPLAIN section</a><a data-doc-link href="/v0.1/tutorials/query_cache/" class="dd-s0037">Caching sequence-search results</a><a data-doc-link href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0037">Query remote providers, stage sequences, and search them</a>
+        </div>
+      </div>
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Reference
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/reference/cpp/" class="dd-s0037">C++</a><a data-doc-link href="/v0.1/reference/sql/" class="dd-s0037">SQL</a>
+        </div>
+      </div>
+      
+      
+      <div class="dd-s0038">
+        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0039">Edit on GitHub</a>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="doc-main" class="dd-s0040">
+      
+<section data-page-panel data-screen-label="Docs · Tutorial" class="dd-s0040 design-page">
+  <header data-reveal class="dd-s0041 design-page-header">
+    <nav aria-label="Breadcrumb" class="dd-s0042 design-breadcrumb">
+      <a href="/">Home</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/">v0.1</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/quick_read_search_write/">Tutorials</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/sequence_generation/">Generate deterministic sequence tables</a><span class="dd-s0043" aria-hidden="true">/</span>
+    </nav>
+    <h1 class="dd-s0045">Generate deterministic sequence tables</h1>
+    <p class="dd-s0046">Create small reproducible DNA4 tables and query-target truth sets directly from SQL.</p>
+  </header>
+
+  <div class="docs-content tutorial-body"><p class="doc-paragraph">Bioseq has two SQL-visible generators. They create <code>USING bioseq</code> tables in the<br>current creation schema, stream sequence payloads into storage, and return the<br>new relation OID. Cast that OID to <code>regclass</code> when a stable relation name is<br>more useful in output.</p><p class="doc-paragraph">Use them for examples, query development, index exercises, and route checks<br>that need repeatable input. They are not biological simulators for every<br>alphabet and they do not write FASTA or FASTQ files.</p><p class="doc-paragraph">Prerequisite: understand the table access method and sequence layout from<br><a href="../columnar_storage_and_vectorized_aggregates/">Columnar storage and vectorized aggregates</a>.</p><h2 class="hx" id="choose-the-generator-for-the-task" data-toc data-title="Choose the generator for the task">Choose the generator for the task<a data-hash href="#choose-the-generator-for-the-task" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>bioseq.create_sample_table</code> creates independent, uniformly generated DNA4<br>sequences. Its arguments are:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-39c4e2fc70fb3046-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-39c4e2fc70fb3046-0" class="language-sql">bioseq.create_sample_table(
+    table_name,
+    n_sequences,
+    sequence_bp_size,
+    alphabet,
+    seed
+)
+</code></pre></figure><p class="doc-paragraph">The output schema is:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">Text</span><button type="button" class="copy-button" data-copy data-copy-target="code-eaa5bdeee785ea04-1" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-eaa5bdeee785ea04-1">id  bigint primary key
+seq bioseq.seq('dna4', 32)
+</code></pre></figure><p class="doc-paragraph"><code>bioseq.create_query_target_sample_table</code> creates query-target pairs and the<br>coordinates used to check an alignment. Its arguments are:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-150f31e2cd094e8a-2" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-150f31e2cd094e8a-2" class="language-sql">bioseq.create_query_target_sample_table(
+    table_name,
+    fragment_count,
+    fragment_length_mean,
+    fragment_length_stddev,
+    reference_length,
+    substitution_rate,
+    insertion_rate,
+    deletion_rate,
+    insertion_length_mean,
+    deletion_length_mean,
+    reverse_complement_rate,
+    seed
+)
+</code></pre></figure><p class="doc-paragraph">The output has <code>query</code> and <code>target</code> columns bound to<br><code>bioseq.seq('dna4', 64)</code>, plus <code>truth_target_start</code>, <code>truth_target_end</code>,<br><code>is_reverse</code>, <code>effective_error_rate</code>, and <code>original_query_length</code>.</p><p class="doc-paragraph">The first generator defaults to <code>dna4</code> and seed <code>42</code>. Its SQL route currently<br>rejects any other alphabet. The query-target generator is also fixed to DNA4.<br>The generic C++ generator supports more alphabets, but that does not make them<br>available through these SQL functions.</p><p class="doc-paragraph">The current SQL distributions are:</p><table><tr><td>Generated property</td><td>Distribution or rule</td></tr><tr><td>Independent sequence and reference symbols</td><td>Uniform over A, C, G, and T</td></tr><tr><td>Original query length</td><td>Gaussian around <code>fragment_length_mean</code> and <code>fragment_length_stddev</code>, rounded and clamped to fit the reference</td></tr><tr><td>Query start</td><td>Uniform over starts where the original fragment fits</td></tr><tr><td>Substitution, insertion, and deletion events</td><td>Independent per visited source position using the three supplied rates</td></tr><tr><td>Insertion and deletion length</td><td>Gaussian around the supplied mean, rounded at zero, with standard deviation fixed to <code>1.0</code> by the SQL interface</td></tr><tr><td>Reverse orientation</td><td>Bernoulli choice using <code>reverse_complement_rate</code></td></tr></table><p class="doc-paragraph"><code>effective_error_rate</code> is the sum of the configured substitution, insertion,<br>and deletion rates. It is not a measured edit fraction for that generated row.<br>The realized query length can differ from <code>original_query_length</code> after indels.</p><h2 class="hx" id="generate-equal-length-sequences" data-toc data-title="Generate equal-length sequences">Generate equal-length sequences<a data-hash href="#generate-equal-length-sequences" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The generator emits exactly <code>n_sequences</code> values with the requested logical<br>length. A seed makes the values repeatable:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-9c922898281f6147-3" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-9c922898281f6147-3" class="language-sql">SELECT bioseq.create_sample_table(
+    'generated_reads',
+    100,
+    150,
+    'dna4',
+    20260816
+)::regclass AS created_table;
+</code></pre></figure><p class="doc-paragraph">Inspect biological length with <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/" data-entity="sql:function:bioseq.len(bioseq.seq)" data-entity-id="sql:function:bioseq.len(bioseq.seq)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.len</a>. Do not infer it from the<br>packed width in the column type:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-e0ad8beb89d131c0-4" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-e0ad8beb89d131c0-4" class="language-sql">SELECT id,
+       bioseq.len(seq) AS bases,
+       bioseq.symbol_count(seq, 'G') AS guanines
+FROM generated_reads
+ORDER BY id
+LIMIT 10;
+</code></pre></figure><p class="doc-paragraph"><code>n_sequences</code> must be from 1 through 100,000,000. <code>sequence_bp_size</code> may be<br>zero but cannot be negative. A zero-length sequence is a valid value and does<br>not need a payload fragment relation.</p><p class="doc-paragraph">Choose a new table name or drop the old table before regenerating. The function<br>uses <code>CREATE TABLE</code>, so a name collision is an error rather than an implicit<br>overwrite. The name is treated as one SQL identifier. Select the intended<br>creation schema through <code>search_path</code> rather than passing <code>schema.table</code> as the<br>name. Both generators create their fixed output schema. They do not append to<br>an existing application table.</p><p class="doc-paragraph">For the query-target generator, <code>table_name</code> is required. A supplied<br><code>fragment_count</code> must be at least 1, <code>fragment_length_mean</code> must not be<br>negative, and <code>reference_length</code> must be at least 1. Use probabilities from<br>0 through 1 and nonnegative distribution parameters. The SQL wrapper does not<br>apply a broad semantic validator to every floating-point argument, so validate<br>an application-supplied configuration before calling it.</p><h2 class="hx" id="generate-query-target-truth-pairs" data-toc data-title="Generate query-target truth pairs">Generate query-target truth pairs<a data-hash href="#generate-query-target-truth-pairs" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The query-target generator first creates a deterministic reference, samples a<br>fragment length around the requested mean and standard deviation, then applies<br>substitution and indel events. <code>reverse_complement_rate</code> controls how often a<br>query uses the reverse-complement orientation.</p><p class="doc-paragraph">For an exact, easy-to-read fixture, set all error rates to zero:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-a313f8f0e0e7fc61-5" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-a313f8f0e0e7fc61-5" class="language-sql">SELECT bioseq.create_query_target_sample_table(
+    'generated_pairs',
+    8,
+    64,
+    0.0,
+    512,
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    1.0,
+    0.5,
+    20260816
+)::regclass AS created_table;
+</code></pre></figure><p class="doc-paragraph">Each row contains its own query, the reference target, and the source interval.<br>For a reversed row, <code>query</code> is reverse-complemented while the truth interval<br>still refers to the target coordinate system.</p><p class="doc-paragraph">Use a small nonzero substitution rate when testing scoring or edit projections.<br>Add insertion or deletion rates when testing CIGAR handling. Keep the seed and<br>all parameters beside a saved result because changing any of them describes a<br>different generated data set.</p><h2 class="hx" id="run-both-generators-as-a-reproducible-example" data-toc data-title="Run both generators as a reproducible example">Run both generators as a reproducible example<a data-hash href="#run-both-generators-as-a-reproducible-example" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The following block demonstrates same-seed equality for the simple generator and<br>shows the complete truth shape produced by the pair generator.</p><figure class="doc-code" data-term data-sql-example="deterministic_sequence_generation"><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-5fe3025dec901b08-6" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-5fe3025dec901b08-6" class="language-sql" data-entity-ranges="[{&quot;start&quot;:286,&quot;len&quot;:19,&quot;id&quot;:&quot;sql:function:bioseq.symbol_count(bioseq.seq,text)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-symbol-count-57d215dc4755c7c6/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;}]">SELECT bioseq.create_sample_table(
+    'tutorial_generated_a', 4, 48, 'dna4', 314159
+)::regclass AS created_table;
+SELECT bioseq.create_sample_table(
+    'tutorial_generated_b', 4, 48, 'dna4', 314159
+)::regclass AS created_table;
+
+SELECT a.id,
+       bioseq.len(a.seq) AS bases,
+       bioseq.symbol_count(a.seq, 'A') AS adenines,
+       a.seq = b.seq AS same_seed_same_sequence
+FROM tutorial_generated_a AS a
+JOIN tutorial_generated_b AS b USING (id)
+ORDER BY a.id;
+
+SELECT bioseq.create_query_target_sample_table(
+    'tutorial_generated_pairs',
+    3,
+    48,
+    0.0,
+    256,
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    1.0,
+    0.5,
+    271828
+)::regclass AS created_table;
+
+SELECT id,
+       bioseq.len(query) AS query_bases,
+       bioseq.len(target) AS target_bases,
+       truth_target_start,
+       truth_target_end,
+       is_reverse,
+       effective_error_rate,
+       original_query_length
+FROM tutorial_generated_pairs
+ORDER BY id;</code></pre></figure><p class="doc-paragraph"><em>Result 1</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">created_table<br><code>regclass</code></th></tr></thead><tbody><tr><td>tutorial_generated_a</td></tr></tbody></table><p class="doc-paragraph"><em>Result 2</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">created_table<br><code>regclass</code></th></tr></thead><tbody><tr><td>tutorial_generated_b</td></tr></tbody></table><p class="doc-paragraph"><em>Result 3</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">id<br><code>bigint</code></th><th scope="col">bases<br><code>bigint</code></th><th scope="col">adenines<br><code>bigint</code></th><th scope="col">same_seed_same_sequence<br><code>boolean</code></th></tr></thead><tbody><tr><td>1</td><td>48</td><td>12</td><td>t</td></tr><tr><td>2</td><td>48</td><td>15</td><td>t</td></tr><tr><td>3</td><td>48</td><td>9</td><td>t</td></tr><tr><td>4</td><td>48</td><td>9</td><td>t</td></tr></tbody></table><p class="doc-paragraph"><em>Result 4</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">created_table<br><code>regclass</code></th></tr></thead><tbody><tr><td>tutorial_generated_pairs</td></tr></tbody></table><p class="doc-paragraph"><em>Result 5</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">id<br><code>bigint</code></th><th scope="col">query_bases<br><code>bigint</code></th><th scope="col">target_bases<br><code>bigint</code></th><th scope="col">truth_target_start<br><code>bigint</code></th><th scope="col">truth_target_end<br><code>bigint</code></th><th scope="col">is_reverse<br><code>boolean</code></th><th scope="col">effective_error_rate<br><code>double precision</code></th><th scope="col">original_query_length<br><code>bigint</code></th></tr></thead><tbody><tr><td>1</td><td>48</td><td>256</td><td>165</td><td>213</td><td>f</td><td>0</td><td>48</td></tr><tr><td>2</td><td>48</td><td>256</td><td>170</td><td>218</td><td>f</td><td>0</td><td>48</td></tr><tr><td>3</td><td>48</td><td>256</td><td>152</td><td>200</td><td>f</td><td>0</td><td>48</td></tr></tbody></table><p class="doc-paragraph"><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.11</em></p><p class="doc-paragraph">The generator-call result tables show stable relation names because the example<br>casts each returned OID to <code>regclass</code>. The equality table should report <code>true</code><br>for every same-seed pair. The truth table has three rows, a 48-symbol original<br>query length, a 256-symbol target, and zero effective error rate. Strand<br>orientation can differ by row because its probability is 0.5.</p><h2 class="hx" id="put-generated-data-through-the-normal-lifecycle" data-toc data-title="Put generated data through the normal lifecycle">Put generated data through the normal lifecycle<a data-hash href="#put-generated-data-through-the-normal-lifecycle" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Generated relations are ordinary Bioseq tables after creation. You can:</p><ul><li>add scalar metadata columns and update them</li><li>use <code>bioseq.update_index</code> to build a persisted target form</li><li>run <code>ANALYZE</code> for PostgreSQL planner statistics</li><li>search a generated target with <a class="entity-ref" href="/v0.1/reference/sql/overload_group/extension-mmsearch-3425d4d7993bfdd8/" data-entity="sql:overload_group:$extension.mmsearch" data-entity-id="sql:overload_group:$extension.mmsearch" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.mmsearch</a></li><li>compare CPU, SIMD, and supported GPU plans with the same seed</li><li>inspect columnar shards and index metadata through their public functions</li></ul><p class="doc-paragraph">For a repeated many-query workload, put targets in one table and generated<br>queries in another, then use the <code>BioseqBatchJoin</code> shape from the multi-column<br>tutorial. The query-target generator repeats a reference target per row, which<br>is convenient for truth checks but is not always the best normalized<br>application schema.</p><h2 class="hx" id="understand-output-and-memory-behavior" data-toc data-title="Understand output and memory behavior">Understand output and memory behavior<a data-hash href="#understand-output-and-memory-behavior" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The SQL wrappers write tables directly. They do not return a giant array of<br>sequence text to the client. The simple generator streams long sequence values<br>into storage fragments. The query-target generator emits bounded waves of<br>pairs under the scheduler's memory admission rules.</p><p class="doc-paragraph">This keeps client transfer small, but the requested table still consumes the<br>full stored payload. Start with a few rows and short sequences. A request near<br>the 100-million-row safety limit is an administrative data-generation job, not<br>an interactive tutorial query.</p><p class="doc-paragraph">There is no SQL argument that selects a Vulkan random-number route. Do not<br>infer GPU generation from <code>bioseq.aligner.vulkan.enabled</code>.<br>Alignment settings apply later when a search runs.</p><h2 class="hx" id="move-from-synthetic-input-to-real-files" data-toc data-title="Move from synthetic input to real files">Move from synthetic input to real files<a data-hash href="#move-from-synthetic-input-to-real-files" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Use generation when deterministic content matters more than biological source<br>provenance. Use <code>bioseq.load</code> for FASTA, FASTQ, and supported gzip files.<br>Use the external-provider relations for administrator-enabled remote nucleotide<br>sources.</p><p class="doc-paragraph">Next: <a href="../fasta_fastq_gzip_and_io/">Load FASTA, FASTQ, and gzip data</a> covers<br>local files, header mapping, bounded streaming, and the boundary between the SQL<br>loader and Bioseq's separate C++ batch reader.</p></div>
+
+  
+  <nav class="dd-s0084" aria-label="Previous and next tutorial">
+    <div class="dd-s0085">
+      <a href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0106 dd-h005"><span class="dd-s0087">&#8592; Previous</span><span class="dd-s0088">Columnar storage and vectorized aggregates</span></a>
+      <a href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0086 dd-h005"><span class="dd-s0087">Next &#8594;</span><span class="dd-s0088">Load FASTA, FASTQ, and gzip data</span></a>
+    </div>
+  </nav>
+  
+</section>
+
+    </main>
+
+    <!-- ===== RIGHT TOC ===== -->
+    <aside data-rightrail class="dd-s0234">
+      <div class="dd-s0235">On this page</div>
+      <div id="toc-list" class="dd-s0236">
+        <a data-toc-link data-level="2" href="#choose-the-generator-for-the-task">Choose the generator for the task</a><a data-toc-link data-level="2" href="#generate-equal-length-sequences">Generate equal-length sequences</a><a data-toc-link data-level="2" href="#generate-query-target-truth-pairs">Generate query-target truth pairs</a><a data-toc-link data-level="2" href="#run-both-generators-as-a-reproducible-example">Run both generators as a reproducible example</a><a data-toc-link data-level="2" href="#put-generated-data-through-the-normal-lifecycle">Put generated data through the normal lifecycle</a><a data-toc-link data-level="2" href="#understand-output-and-memory-behavior">Understand output and memory behavior</a><a data-toc-link data-level="2" href="#move-from-synthetic-input-to-real-files">Move from synthetic input to real files</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ============ SITE FOOTER ============ -->
+  <footer data-screen-label="Docs · Footer" class="dd-s0237">
+    <div aria-hidden="true" class="dd-s0238">BioseqDB</div>
+
+    <div class="dd-s0239">
+      <div data-footcols class="dd-s0240">
+        <div>
+          <div class="dd-s0241">
+            <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="dd-s0007">
+            <span class="dd-s0242">Bioseq<span class="dd-s0243">DB</span></span>
+            <span class="dd-s0244">DOCS</span>
+          </div>
+          <p class="dd-s0245">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
+          <span class="dd-s0246"><span class="dd-s0247"></span>Free &amp; open source</span>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Documentation</div>
+          <div class="dd-s0249">
+            
+            <a href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Read, search, and write sequences quickly</a><a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0250 dd-h009">The bioseq.seq column type</a><a href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0250 dd-h009">Columnar storage and vectorized aggregates</a><a href="/v0.1/tutorials/sequence_generation/" class="dd-s0250 dd-h009">Generate deterministic sequence tables</a><a href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0250 dd-h009">Load FASTA, FASTQ, and gzip data</a><a href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0250 dd-h009">Index lifecycle, choices, and metadata</a><a href="/v0.1/tutorials/similarity_search/" class="dd-s0250 dd-h009">Searching sequences with mmsearch</a><a href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0250 dd-h009">Slice, concatenate, reverse, and measure sequences</a><a href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0250 dd-h009">Search multiple sequence columns and join by sequence</a><a href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0250 dd-h009">Highway runtime dispatch</a><a href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0250 dd-h009">Read every Bioseq EXPLAIN section</a><a href="/v0.1/tutorials/query_cache/" class="dd-s0250 dd-h009">Caching sequence-search results</a><a href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0250 dd-h009">Query remote providers, stage sequences, and search them</a><a href="/v0.1/reference/cpp/" class="dd-s0250 dd-h009">C++</a><a href="/v0.1/reference/sql/" class="dd-s0250 dd-h009">SQL</a>
+            
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Explore</div>
+          <div class="dd-s0249">
+            <a href="/" class="dd-s0250 dd-h009">Product home</a>
+            <a href="/#workflow" class="dd-s0250 dd-h009">Workflow</a>
+            <a href="/#examples" class="dd-s0250 dd-h009">Examples</a>
+            <a href="/#index" class="dd-s0250 dd-h009">Index</a>
+            <a href="/#scale" class="dd-s0250 dd-h009">Scale</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Project</div>
+          <div class="dd-s0249">
+            <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Documentation</a>
+            <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0251">GitHub</a>
+            <span class="dd-s0252">Alpha &middot; v0.1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-s0253">
+      <div class="dd-s0254"></div>
+      <div class="dd-s0255">
+        <span class="dd-s0256">&copy; 2026 Bioseq contributors &mdash; an independent open-source project.</span>
+        <nav class="dd-s0257">
+          <a href="https://github.com/styczynski/bioseqdb/blob/main/LICENSE" rel="noreferrer" class="dd-s0258 dd-h010">License (MIT)</a>
+          <a href="/versions/" class="dd-s0258 dd-h010">Versions</a>
+          <a data-totop href="#page-top" class="dd-s0258 dd-h010">Back to top ↑</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div data-backdrop class="dd-s0259"></div>
+
+  <!-- ===== ENTITY POPOVER ===== -->
+  <div id="entity-pop" class="dd-s0260"></div>
+
+</div>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"Generate deterministic sequence tables","description":"Create small reproducible DNA4 tables and query-target truth sets directly from SQL.","url":"https://bioseqdb.com/v0.1/tutorials/sequence_generation/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/quick_read_search_write/"},{"@type":"ListItem","position":4,"name":"Generate deterministic sequence tables","item":"/v0.1/tutorials/sequence_generation/"}]}]}</script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/prism-init.js"></script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/main.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/docs-design.mjs"></script>
+</body>
+</html>

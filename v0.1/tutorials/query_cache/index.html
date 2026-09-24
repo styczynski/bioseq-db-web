@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caching sequence-search results</title>
+<meta name="description" content="Reuse exact Bioseq searches, inspect cache health, and invalidate safely.">
+<link rel="canonical" href="https://bioseqdb.com/v0.1/tutorials/query_cache/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta property="og:title" content="Caching sequence-search results">
+<meta property="og:description" content="Reuse exact Bioseq searches, inspect cache health, and invalidate safely.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bioseqdb.com/v0.1/tutorials/query_cache/">
+<meta property="og:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Caching sequence-search results">
+<meta name="twitter:description" content="Reuse exact Bioseq searches, inspect cache health, and invalidate safely.">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<link rel="icon" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/favicon.svg">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/site.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/docs-design.css">
+</head>
+<body id="page-top" class="docs-design-page">
+<a class="skip-link" href="#doc-main">Skip to main content</a>
+
+<div data-screen-label="BioseqDB documentation" class="dd-s0001">
+
+  <!-- ============ TOP NAV ============ -->
+  <header id="dnav" class="dd-s0002">
+    <div class="dd-s0003">
+      <button data-menu aria-label="Menu" class="dd-s0004">
+        <span class="dd-s0005"></span><span class="dd-s0005"></span><span class="dd-s0005"></span>
+      </button>
+      <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0006">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="30" height="30" alt="BioseqDB logo" class="dd-s0007">
+        <span class="dd-s0008">Bioseq<span class="dd-s0009">DB</span></span>
+        <span data-docsbadge class="dd-s0010">DOCS</span>
+      </a>
+
+      <nav data-topnav class="dd-s0011">
+        <a href="/v0.1/tutorials/quick_read_search_write/" data-nav class="dd-s0012">Docs</a>
+        <a href="/" class="dd-s0013">Product</a>
+        <a href="/benchmarks/" class="dd-s0014 dd-h001">Benchmarks</a>
+        <a href="/versions/" class="dd-s0013">Versions</a>
+      </nav>
+
+      <!-- SEARCH -->
+      <div data-search-wrap class="dd-s0015">
+        <div data-search-box class="dd-s0016">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" class="dd-s0017"><circle cx="7" cy="7" r="5" stroke="#7d94a6" stroke-width="1.6"/><line x1="10.6" y1="10.6" x2="14" y2="14" stroke="#7d94a6" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="doc-search" role="combobox" aria-autocomplete="list" aria-controls="search-dd" aria-expanded="false" data-search-index="/v0.1/search-index.json" type="text" placeholder="Search docs, functions, types…" autocomplete="off" spellcheck="false" class="dd-s0018">
+          <kbd class="dd-s0019">/</kbd>
+        </div>
+        <div id="search-dd" role="listbox" aria-label="Search results" class="dd-s0020"></div>
+      </div>
+
+      <!-- VERSION -->
+      <div data-ver-wrap class="dd-s0021">
+        <button id="ver-btn" class="dd-s0022">
+          <span class="dd-s0023"></span>v0.1 <span class="docs-version-status">Alpha</span>
+          <span data-caret class="dd-s0025"></span>
+        </button>
+        <div id="ver-menu" data-versions-url="/versions.json" class="dd-s0026">
+          <a data-ver href="/v0.1/tutorials/quick_read_search_write/" aria-current="page" class="dd-s0027">v0.1 <span class="docs-version-current">current</span></a>
+          <a data-ver-all href="/versions/" class="dd-s0029">All versions</a>
+        </div>
+      </div>
+
+      <a data-ghbtn href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0031">GitHub</a>
+    </div>
+  </header>
+
+  <!-- ============ BODY GRID ============ -->
+  <div data-bodygrid class="dd-s0032">
+
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <aside id="sidebar" class="dd-s0033">
+      
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Tutorials
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0037">Read, search, and write sequences quickly</a><a data-doc-link href="/v0.1/tutorials/sequence_column_type/" class="dd-s0037">The bioseq.seq column type</a><a data-doc-link href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0037">Columnar storage and vectorized aggregates</a><a data-doc-link href="/v0.1/tutorials/sequence_generation/" class="dd-s0037">Generate deterministic sequence tables</a><a data-doc-link href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0037">Load FASTA, FASTQ, and gzip data</a><a data-doc-link href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0037">Index lifecycle, choices, and metadata</a><a data-doc-link href="/v0.1/tutorials/similarity_search/" class="dd-s0037">Searching sequences with mmsearch</a><a data-doc-link href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0037">Slice, concatenate, reverse, and measure sequences</a><a data-doc-link href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0037">Search multiple sequence columns and join by sequence</a><a data-doc-link href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0037">Highway runtime dispatch</a><a data-doc-link href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0037">Read every Bioseq EXPLAIN section</a><a data-doc-link href="/v0.1/tutorials/query_cache/" class="dd-s0037">Caching sequence-search results</a><a data-doc-link href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0037">Query remote providers, stage sequences, and search them</a>
+        </div>
+      </div>
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Reference
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/reference/cpp/" class="dd-s0037">C++</a><a data-doc-link href="/v0.1/reference/sql/" class="dd-s0037">SQL</a>
+        </div>
+      </div>
+      
+      
+      <div class="dd-s0038">
+        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0039">Edit on GitHub</a>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="doc-main" class="dd-s0040">
+      
+<section data-page-panel data-screen-label="Docs · Tutorial" class="dd-s0040 design-page">
+  <header data-reveal class="dd-s0041 design-page-header">
+    <nav aria-label="Breadcrumb" class="dd-s0042 design-breadcrumb">
+      <a href="/">Home</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/">v0.1</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/quick_read_search_write/">Tutorials</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/query_cache/">Caching sequence-search results</a><span class="dd-s0043" aria-hidden="true">/</span>
+    </nav>
+    <h1 class="dd-s0045">Caching sequence-search results</h1>
+    <p class="dd-s0046">Reuse exact Bioseq searches, inspect cache health, and invalidate safely.</p>
+  </header>
+
+  <div class="docs-content tutorial-body"><p class="doc-paragraph">The query cache reuses work around <a class="entity-ref" href="/v0.1/reference/sql/overload_group/extension-mmsearch-3425d4d7993bfdd8/" data-entity="sql:overload_group:$extension.mmsearch" data-entity-id="sql:overload_group:$extension.mmsearch" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.mmsearch</a> and is disabled by<br>default. To use it, add <code>bioseq_cache</code> before<br><code>bioseq</code> in <code>shared_preload_libraries</code>, restart PostgreSQL, and install both<br>extensions:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-8100a86c90a18fa2-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-8100a86c90a18fa2-0" class="language-sql">CREATE EXTENSION bioseq_cache;
+CREATE EXTENSION bioseq;
+</code></pre></figure><p class="doc-paragraph">Creating the SQL extension and reading the mode are not enough to prove that<br>shared cache state exists. On a server that did not preload the library, the<br>mode setting can still be visible while cache planning is inactive.</p><p class="doc-paragraph">Prerequisite: <a href="../reading_bioseq_explain/">Read every Bioseq EXPLAIN section</a><br>explains the cache node and the difference between planned and actual fields.</p><p class="doc-paragraph">Put the libraries in this order in <code>postgresql.conf</code>:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">Text</span><button type="button" class="copy-button" data-copy data-copy-target="code-58fb14c2cdd1bae2-1" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-58fb14c2cdd1bae2-1">shared_preload_libraries = 'bioseq_cache,bioseq'
+</code></pre></figure><p class="doc-paragraph">Restart the server after changing that setting. A reload is not enough because<br>the cache allocates shared state during server startup.</p><p class="doc-paragraph">Verify the startup state as an administrator:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-a536ed5f5e7c1d50-2" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-a536ed5f5e7c1d50-2" class="language-sql">SHOW shared_preload_libraries;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-57f966ef99727fcd-3" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-57f966ef99727fcd-3" class="language-sql">SELECT bioseq_cache.version();
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-1a025ba1cc053357-4" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-1a025ba1cc053357-4" class="language-sql">SELECT count(*)
+FROM bioseq_cache.entries();
+</code></pre></figure><p class="doc-paragraph">The preload list must contain both libraries in the configured order, and the<br>entry query must complete. An error such as <code>requested tranche is not registered</code> means this server did not create the shared cache state at startup.<br>Restart with the correct preload setting before testing cache hits. Do not<br>treat a successful <code>SHOW bioseq_cache.query_cache.mode</code> as a readiness check.<br>Before the library registers its GUC, PostgreSQL can treat the name as a custom<br>placeholder and accept text that the real cache mode would reject.</p><p class="doc-paragraph">The mode is a session setting:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-6910b829b98466c3-5" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-6910b829b98466c3-5" class="language-sql">SHOW bioseq_cache.query_cache.mode;
+</code></pre></figure><p class="doc-paragraph">The available values are:</p><table><tr><td>Mode</td><td>Behavior</td></tr><tr><td><code>disabled</code></td><td>Execute the retained PostgreSQL and provider plan without query-result caching</td></tr><tr><td><code>exact_query</code></td><td>Store and replay the final result for one exact statement identity</td></tr><tr><td><code>reusable_fragments</code></td><td>Reuse compatible coverage branches and compute any residual work</td></tr></table><p class="doc-paragraph"><code>disabled</code> is the default. Start with it during application validation, then<br>enable one cache mode for a measured repeated workload.</p><p class="doc-paragraph">Completed exact results use this TTL setting:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-46e9e51f206378f7-6" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-46e9e51f206378f7-6" class="language-sql">SHOW bioseq_cache.query_cache.completed_result_ttl_ms;
+</code></pre></figure><p class="doc-paragraph">The value is in milliseconds. It defaults to 60 minutes. A longer TTL can keep<br>more completed data live. It does not override dependency invalidation after a<br>write.</p><p class="doc-paragraph">Start with <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-cache-version-d90ddde1feae48e2/" data-entity="sql:function:bioseq_cache.version()" data-entity-id="sql:function:bioseq_cache.version()" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq_cache.version</a>, then use<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-cache-stats-a915d78d564370e1/" data-entity="sql:function:bioseq_cache.stats()" data-entity-id="sql:function:bioseq_cache.stats()" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq_cache.stats</a> and<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-cache-entries-caf232e33fd9db86/" data-entity="sql:function:bioseq_cache.entries()" data-entity-id="sql:function:bioseq_cache.entries()" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq_cache.entries</a> to observe decisions. These monitoring views<br>require membership in PostgreSQL's <code>pg_read_all_stats</code> role.</p><h2 class="hx" id="exact-query-hits" data-toc data-title="Exact-query hits">Exact-query hits<a data-hash href="#exact-query-hits" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>exact_query</code> stores the final result for one complete statement. The visible<br>block below runs the same <code>BioseqScan</code> twice, then shows the counter changes<br>caused by those two statements.</p><figure class="doc-code" data-term data-sql-example="cache_exact_query"><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-b43c9198132356e0-7" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-b43c9198132356e0-7" class="language-sql" data-entity-ranges="[{&quot;start&quot;:526,&quot;len&quot;:18,&quot;id&quot;:&quot;sql:function:bioseq_cache.stats()&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-cache-stats-a915d78d564370e1/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;}]">SELECT count(*) FROM cache_exact_reads
+WHERE public.mmsearch(
+  seq0,
+  'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32));
+SELECT count(*) FROM cache_exact_reads
+WHERE public.mmsearch(
+  seq0,
+  'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32));
+SELECT s.produced - b.produced AS produced,
+       s.completed_hits - b.completed_hits AS completed_hits,
+       s.reuse_hits - b.reuse_hits AS reuse_hits,
+       s.fallbacks - b.fallbacks AS fallbacks,
+       s.invalidations - b.invalidations AS invalidations
+FROM bioseq_cache.stats() AS s
+CROSS JOIN cache_exact_stats_before AS b;</code></pre></figure><p class="doc-paragraph"><em>Result 1</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">count<br><code>bigint</code></th></tr></thead><tbody><tr><td>0</td></tr></tbody></table><p class="doc-paragraph"><em>Result 2</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">count<br><code>bigint</code></th></tr></thead><tbody><tr><td>0</td></tr></tbody></table><p class="doc-paragraph"><em>Result 3</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">produced<br><code>bigint</code></th><th scope="col">completed_hits<br><code>bigint</code></th><th scope="col">reuse_hits<br><code>bigint</code></th><th scope="col">fallbacks<br><code>bigint</code></th><th scope="col">invalidations<br><code>bigint</code></th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>2</td><td>1</td></tr></tbody></table><p class="doc-paragraph"><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.11</em></p><p class="doc-paragraph"><code>produced</code> increases for the cold execution and <code>completed_hits</code> for a completed<br>exact result. A nonzero <code>fallbacks</code> count is a signal to inspect the plan and<br>provider readiness before increasing cache capacity.</p><h2 class="hx" id="understand-the-automatic-producer-lock" data-toc data-title="Understand the automatic producer lock">Understand the automatic producer lock<a data-hash href="#understand-the-automatic-producer-lock" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">When two sessions run the same cold exact query, the cache chooses one producer.<br>The other session waits for that in-flight entry instead of producing the same<br>final result again.</p><p class="doc-paragraph">There is no SQL lock or unlock function for this. Coordination is automatic and<br>scoped to the cache entry.</p><p class="doc-paragraph">Use three <code>psql</code> sessions to observe it on a query that runs long enough to<br>overlap.</p><p class="doc-paragraph">In session A, enable exact mode and start the cold query:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ac1b74e0a5ae22c3-8" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ac1b74e0a5ae22c3-8" class="language-sql">SET bioseq_cache.query_cache.mode = 'exact_query';
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-39b61f422544fc23-9" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-39b61f422544fc23-9" class="language-sql">SELECT count(*)
+FROM cache_exact_reads
+WHERE public.mmsearch(
+    seq0,
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+);
+</code></pre></figure><p class="doc-paragraph">While session A is running, send the same statement from session B. Statement<br>text, parameters, role context, and dependencies all contribute to whether the<br>entry is the same. For a locking check, do not change whitespace, casts,<br>options, or session role between the two statements.</p><p class="doc-paragraph">From session C, inspect entries:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-03d2235c30d2ce12-10" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-03d2235c30d2ce12-10" class="language-sql">SELECT entry_key,
+       generation,
+       kind,
+       state,
+       producer_pid,
+       waiters,
+       readers,
+       age,
+       ttl,
+       sql
+FROM bioseq_cache.entries()
+WHERE state = 'BUILDING'
+ORDER BY created_at;
+</code></pre></figure><p class="doc-paragraph">During the overlap, one entry can show one producer and one or more waiters.<br>Producer SQL and PID visibility depends on monitoring permissions.</p><p class="doc-paragraph">After both statements finish, read the counters:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-c8563c143dbfd99d-11" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-c8563c143dbfd99d-11" class="language-sql">SELECT produced,
+       completed_hits,
+       inflight_waits,
+       fallbacks
+FROM bioseq_cache.stats();
+</code></pre></figure><p class="doc-paragraph">For one cold producer and one waiter that consumes its completed result, expect<br>one production, one completed hit, and one in-flight wait to be added.</p><p class="doc-paragraph">Canceling a waiting statement does not cancel the producer. The producer can<br>finish for other waiters and later consumers. Canceling the producer follows a<br>different failure path, and consumers must not receive a partially stored<br>result.</p><h2 class="hx" id="inspect-exact-query-decisions-in-explain" data-toc data-title="Inspect exact-query decisions in EXPLAIN">Inspect exact-query decisions in EXPLAIN<a data-hash href="#inspect-exact-query-decisions-in-explain" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Use plain EXPLAIN to see the planned cache wrapper:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-761055dd30285c06-12" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-761055dd30285c06-12" class="language-sql">EXPLAIN (VERBOSE, COSTS OFF)
+SELECT count(*)
+FROM cache_exact_reads
+WHERE public.mmsearch(
+    seq0,
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+);
+</code></pre></figure><p class="doc-paragraph">An exact <code>BioseqCacheScan</code> reports:</p><ul><li><code>Cache Mode</code></li><li><code>Planned Cache Action</code></li><li><code>Cache Force Bypass</code></li><li><code>Cache Bypass Reason</code> when forced</li><li><code>Provider Runtime Recipes</code></li><li><code>Cache Parameter Count</code></li><li><code>Cache Dependency Count</code></li><li><code>Cache Dependencies</code></li><li><code>SQL</code></li><li><code>Cache Entry Kind</code></li><li><code>Cache Readiness</code></li><li><code>Cache Storage</code></li><li><code>Cache Storage Ownership</code></li><li><code>Cache Janitor</code></li></ul><p class="doc-paragraph"><code>Cache Entry Kind</code> is <code>ExactFinalResult</code> for this mode.</p><p class="doc-paragraph">Run <code>EXPLAIN ANALYZE</code> when executing the query is acceptable:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ea91c7c841d6ea82-13" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ea91c7c841d6ea82-13" class="language-sql">EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT count(*)
+FROM cache_exact_reads
+WHERE public.mmsearch(
+    seq0,
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+);
+</code></pre></figure><p class="doc-paragraph">It adds <code>Provider Runtime Recipe State</code> and <code>Actual Cache Action</code>. The actual<br>action is one of these exact-query outcomes:</p><ul><li><code>[Hit] exact final result</code></li><li><code>[Produce] exact final result</code></li><li><code>[Bypass] retained child</code></li></ul><p class="doc-paragraph">Read the actual action before using cache counters to explain one statement.<br>The global counters include other sessions and queries.</p><h2 class="hx" id="reusable-fragment-mode" data-toc data-title="Reusable-fragment mode">Reusable-fragment mode<a data-hash href="#reusable-fragment-mode" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>reusable_fragments</code> can reuse cached work across related searches. It can also<br>reuse a complete result when the statements match. The supported index recipe<br>names are <code>minimizers_per_sequence</code> and <code>minimizers_per_fragment</code>. Use these<br>names when you create or update an index.</p><figure class="doc-code" data-term data-sql-example="cache_reusable_fragments"><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-c017382e3e40b64f-14" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-c017382e3e40b64f-14" class="language-sql" data-entity-ranges="[{&quot;start&quot;:498,&quot;len&quot;:20,&quot;id&quot;:&quot;sql:function:bioseq_cache.entries()&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-cache-entries-caf232e33fd9db86/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;},{&quot;start&quot;:580,&quot;len&quot;:18,&quot;id&quot;:&quot;sql:function:bioseq_cache.stats()&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-cache-stats-a915d78d564370e1/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;}]">SELECT count(*) FROM cache_reusable_reads
+WHERE public.mmsearch(
+  seq0,
+  'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32));
+SELECT count(*) FROM cache_reusable_reads
+WHERE public.mmsearch(
+  seq0,
+  'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32));
+SELECT s.produced - b.produced AS produced,
+       s.completed_hits - b.completed_hits AS completed_hits,
+       s.reuse_hits - b.reuse_hits AS reuse_hits,
+       s.fallbacks - b.fallbacks AS fallbacks,
+       (SELECT count(*) FROM bioseq_cache.entries()
+        WHERE state = 'COMPLETE') AS complete_entries
+FROM bioseq_cache.stats() AS s
+CROSS JOIN cache_reusable_stats_before AS b;</code></pre></figure><p class="doc-paragraph"><em>Result 1</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">count<br><code>bigint</code></th></tr></thead><tbody><tr><td>0</td></tr></tbody></table><p class="doc-paragraph"><em>Result 2</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">count<br><code>bigint</code></th></tr></thead><tbody><tr><td>0</td></tr></tbody></table><p class="doc-paragraph"><em>Result 3</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">produced<br><code>bigint</code></th><th scope="col">completed_hits<br><code>bigint</code></th><th scope="col">reuse_hits<br><code>bigint</code></th><th scope="col">fallbacks<br><code>bigint</code></th><th scope="col">complete_entries<br><code>bigint</code></th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td></tr></tbody></table><p class="doc-paragraph"><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.11</em></p><p class="doc-paragraph">Compare <code>logical_bytes</code> and <code>stored_bytes</code> in <code>stats()</code> when sizing shared<br>memory. Reuse is most useful for repeated, selective searches. Leave the cache<br>disabled for one-off scans that would store large results.</p><p class="doc-paragraph">Use <code>EXPLAIN (ANALYZE, VERBOSE)</code> to inspect <code>Cache Mode</code> and<br><code>Actual Cache Action</code>. These fields show whether the query produced, reused,<br>or bypassed a cache entry.</p><h2 class="hx" id="read-partial-reuse-and-residual-recompute" data-toc data-title="Read partial reuse and residual recompute">Read partial reuse and residual recompute<a data-hash href="#read-partial-reuse-and-residual-recompute" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Reusable mode can combine completed cache branches with fresh work. This is the<br>partial-recompute path. It does not return a stale partial result as if it were<br>complete.</p><p class="doc-paragraph">Start with a related query family, for example searches over the same relation<br>and sequence predicate with different metadata coverage. Prepare both<br>statements so every parameter in the example has a real SQL owner:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-fc71e74bfedd0bbc-15" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-fc71e74bfedd0bbc-15" class="language-sql">SET bioseq_cache.query_cache.mode = 'reusable_fragments';
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-2836a432d2f4ffef-16" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-2836a432d2f4ffef-16" class="language-sql">PREPARE reusable_coverage_12(text) AS
+SELECT pk
+FROM cache_reusable_reads
+WHERE pk IN (1, 2)
+  AND public.mmsearch(
+      seq0,
+      $1::bioseq.seq('dna4', 32)
+  );
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-e3a8ff583ddd5c2d-17" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-e3a8ff583ddd5c2d-17" class="language-sql">PREPARE reusable_coverage_13(text) AS
+SELECT pk
+FROM cache_reusable_reads
+WHERE pk IN (1, 3)
+  AND public.mmsearch(
+      seq0,
+      $1::bioseq.seq('dna4', 32)
+  );
+</code></pre></figure><p class="doc-paragraph">Produce the first coverage request:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-d9ed758ae6148b9e-18" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-d9ed758ae6148b9e-18" class="language-sql">EXECUTE reusable_coverage_12(
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'
+);
+</code></pre></figure><p class="doc-paragraph">Whether branches can be reused depends on the provider recipe, parameters,<br>security namespace, dependency generation, and predicate coverage. Do not<br>assume overlap from SQL text alone.</p><p class="doc-paragraph">Inspect the second statement with analyzed structured output:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ecfe9ed10d3beca1-19" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ecfe9ed10d3beca1-19" class="language-sql">EXPLAIN (ANALYZE, VERBOSE, COSTS OFF, FORMAT JSON)
+EXECUTE reusable_coverage_13(
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'
+);
+</code></pre></figure><p class="doc-paragraph">The reusable node reports:</p><ul><li><code>Cache Entry Kind: ReusableCoverage</code></li><li><code>Cache Mode: reusable_fragments</code></li><li><code>Cache Force Bypass</code></li><li><code>Planned Cache Action</code></li><li><code>Actual Cache Action</code></li><li><code>Cache Entry</code></li><li><code>SQL</code></li><li><code>Reusable Sources</code></li><li><code>Selected Cache Branches</code></li><li><code>Provider Runtime Recipe Valid</code></li></ul><p class="doc-paragraph">The actual action distinguishes four outcomes:</p><ul><li><code>[Read] Read current reusable generation</code></li><li><code>[Reuse] Reused selected branches and produced residual</code></li><li><code>[Produce] Produce current reusable generation</code></li><li><code>[Bypass] Execute retained provider child</code></li></ul><p class="doc-paragraph">The second action is the partial-recompute case. Cached branches supply part of<br>the result and the residual child computes the missing coverage.</p><p class="doc-paragraph">Each <code>Cache Branch</code> section reports an <code>Action</code> and can report a <code>Recheck</code>.<br>The <code>Residual Child</code> section reports its <code>Predicate</code>. Read all branch rechecks<br>and the residual predicate before deciding which portion was reused.</p><p class="doc-paragraph">The optional <code>Provider</code> section contains provider-specific coverage detail. Its<br>fields are supplied by that provider rather than by the query-cache core.</p><p class="doc-paragraph">Release both prepared statements after the check:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-617ae8cafa2ae18a-20" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-617ae8cafa2ae18a-20" class="language-sql">DEALLOCATE reusable_coverage_12;
+DEALLOCATE reusable_coverage_13;
+</code></pre></figure><h2 class="hx" id="inspect-the-current-reusable-generation" data-toc data-title="Inspect the current reusable generation">Inspect the current reusable generation<a data-hash href="#inspect-the-current-reusable-generation" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">When a reusable generation is available, EXPLAIN can show:</p><ul><li><code>State</code></li><li><code>Producer PID</code> when the viewer has permission</li><li><code>Age</code></li><li><code>Effective TTL</code></li><li><code>Rows</code></li><li><code>Logical Bytes</code></li><li><code>Stored Bytes</code></li><li><code>Dependencies</code></li></ul><p class="doc-paragraph">Compare age with effective TTL. Compare logical and stored bytes to see the<br>storage reduction for that generation. A <code>planned/provisional</code> state means no<br>current snapshot was available at the point described by the plan.</p><p class="doc-paragraph">Query the entry table for an operational view:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-98d9ab8ae5e2c036-21" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-98d9ab8ae5e2c036-21" class="language-sql">SELECT entry_key,
+       generation,
+       kind,
+       state,
+       age,
+       ttl,
+       rows,
+       logical_bytes,
+       stored_bytes,
+       waiters,
+       readers,
+       hits,
+       dependencies
+FROM bioseq_cache.entries()
+ORDER BY created_at DESC;
+</code></pre></figure><p class="doc-paragraph"><code>logical_bytes</code> is the uncompressed logical result size tracked by the cache.<br><code>stored_bytes</code> is the stored payload size. Neither is PostgreSQL table size.</p><h2 class="hx" id="failure-during-partial-production" data-toc data-title="Failure during partial production">Failure during partial production<a data-hash href="#failure-during-partial-production" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Reusable production stages rows before publishing a completed generation. If<br>the producer fails, the cache discards staged partial rows. It does not publish<br>them as a complete reusable result.</p><p class="doc-paragraph">When a reusable route cannot be used safely, the executor can run the retained<br>child plan and increase <code>fallbacks</code>. The query still has to return the child<br>plan's correct result or raise the original query error.</p><p class="doc-paragraph">After an unexpected failure, check:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-0c2751c93590a589-22" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-0c2751c93590a589-22" class="language-sql">SELECT produced,
+       reuse_hits,
+       fallbacks,
+       invalidations,
+       evictions
+FROM bioseq_cache.stats();
+</code></pre></figure><p class="doc-paragraph">Then inspect incomplete or failed entries:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ca21e229cbfea673-23" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ca21e229cbfea673-23" class="language-sql">SELECT entry_key,
+       generation,
+       kind,
+       state,
+       producer_pid,
+       age,
+       waiters,
+       readers,
+       sql
+FROM bioseq_cache.entries()
+WHERE state &lt;&gt; 'COMPLETE'
+ORDER BY created_at DESC;
+</code></pre></figure><p class="doc-paragraph">Do not delete shared files or manipulate cache state outside the SQL interface.<br>Use the invalidation functions when an administrator needs an explicit reset.</p><h2 class="hx" id="let-writes-invalidate-dependent-generations" data-toc data-title="Let writes invalidate dependent generations">Let writes invalidate dependent generations<a data-hash href="#let-writes-invalidate-dependent-generations" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Successful writes retire cache generations that depend on the changed<br>relation. This happens automatically at transaction boundaries.</p><p class="doc-paragraph">For example:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-90ccdec9b09ffb85-24" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-90ccdec9b09ffb85-24" class="language-sql">BEGIN;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-c33315a00b0e76c8-25" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-c33315a00b0e76c8-25" class="language-sql">SET LOCAL bioseq.index.insert_maintenance.enabled = off;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-229b8538b92ca8cf-26" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-229b8538b92ca8cf-26" class="language-sql">UPDATE cache_reusable_reads
+SET seq0 = 'ACGTACGTACGTACGTACGTACGTACGTACGT'
+WHERE pk = 1;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-91b467f4449452db-27" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-91b467f4449452db-27" class="language-sql">COMMIT;
+</code></pre></figure><p class="doc-paragraph">After commit, a cache generation that depended on the relation cannot continue<br>serving the pre-write result. The next query produces or reuses coverage under<br>the current dependency generation.</p><p class="doc-paragraph">An aborted transaction does not publish its data change as a committed cache<br>invalidation. Savepoint rollback also discards the matching dirty state.</p><p class="doc-paragraph">This dependency behavior is why increasing TTL cannot make a changed relation<br>serve an old completed result until the timer expires.</p><h2 class="hx" id="read-all-global-counters" data-toc data-title="Read all global counters">Read all global counters<a data-hash href="#read-all-global-counters" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The statistics row contains:</p><table><tr><td>Column</td><td>Meaning</td></tr><tr><td><code>produced</code></td><td>Completed productions</td></tr><tr><td><code>completed_hits</code></td><td>Replays of completed exact results</td></tr><tr><td><code>inflight_waits</code></td><td>Consumers that waited for an active producer</td></tr><tr><td><code>reuse_hits</code></td><td>Reusable coverage hits</td></tr><tr><td><code>fallbacks</code></td><td>Executions that used a retained child instead of cache reuse</td></tr><tr><td><code>invalidations</code></td><td>Invalidations observed by the cache</td></tr><tr><td><code>evictions</code></td><td>Entries removed by capacity or lifecycle policy</td></tr><tr><td><code>logical_bytes</code></td><td>Aggregate logical bytes tracked</td></tr><tr><td><code>stored_bytes</code></td><td>Aggregate stored bytes tracked</td></tr></table><p class="doc-paragraph">Read the full row:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-7bceb0d24b6f5bef-28" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-7bceb0d24b6f5bef-28" class="language-sql">SELECT produced,
+       completed_hits,
+       inflight_waits,
+       reuse_hits,
+       fallbacks,
+       invalidations,
+       evictions,
+       logical_bytes,
+       stored_bytes
+FROM bioseq_cache.stats();
+</code></pre></figure><p class="doc-paragraph">Take a before and after snapshot around a controlled query when several<br>applications share the server. A single final counter row cannot attribute work<br>to one statement.</p><p class="doc-paragraph">One SQL-only snapshot pattern is:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-efad3240fc0a6568-29" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-efad3240fc0a6568-29" class="language-sql">CREATE TEMP TABLE cache_stats_before AS
+SELECT *
+FROM bioseq_cache.stats();
+</code></pre></figure><p class="doc-paragraph">Run the cold and warm statements, then calculate deltas:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-df1ca1df50ef3bf3-30" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-df1ca1df50ef3bf3-30" class="language-sql">SELECT after.produced - before.produced AS produced_delta,
+       after.completed_hits - before.completed_hits AS completed_hit_delta,
+       after.inflight_waits - before.inflight_waits AS inflight_wait_delta,
+       after.reuse_hits - before.reuse_hits AS reuse_hit_delta,
+       after.fallbacks - before.fallbacks AS fallback_delta,
+       after.invalidations - before.invalidations AS invalidation_delta
+FROM cache_stats_before AS before
+CROSS JOIN bioseq_cache.stats() AS after;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-6b317e4bdcc0bc37-31" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-6b317e4bdcc0bc37-31" class="language-sql">DROP TABLE cache_stats_before;
+</code></pre></figure><p class="doc-paragraph">Keep the test session otherwise idle. The counters are server-wide, so traffic<br>from other sessions can still contribute to the delta.</p><h2 class="hx" id="monitoring-permissions" data-toc data-title="Monitoring permissions">Monitoring permissions<a data-hash href="#monitoring-permissions" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>stats()</code> and <code>entries()</code> require membership in PostgreSQL's<br><code>pg_read_all_stats</code> role for monitoring access:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-edf7158d25481b5a-32" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-edf7158d25481b5a-32" class="language-sql">GRANT pg_read_all_stats TO cache_observer;
+</code></pre></figure><p class="doc-paragraph">Grant it deliberately. Entry SQL, producer identity, dependencies, and sizes<br>can expose operational details that an ordinary application role does not need.</p><p class="doc-paragraph">The application executing a cached query does not need permission to call the<br>monitoring functions simply to benefit from caching.</p><h2 class="hx" id="invalidation-and-privilege-errors" data-toc data-title="Invalidation and privilege errors">Invalidation and privilege errors<a data-hash href="#invalidation-and-privilege-errors" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Table writes retire dependent generations automatically. A superuser can also<br>invalidate one relation with<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-cache-invalidate-relation-8e696ef8111a8fbe/" data-entity="sql:function:bioseq_cache.invalidate_relation(regclass)" data-entity-id="sql:function:bioseq_cache.invalidate_relation(regclass)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq_cache.invalidate_relation</a> or<br>all generations with<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-cache-invalidate-all-dd00499975ed8e41/" data-entity="sql:function:bioseq_cache.invalidate_all()" data-entity-id="sql:function:bioseq_cache.invalidate_all()" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq_cache.invalidate_all</a>, and can clear counters<br>with <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-cache-reset-stats-97adaef1d76484cd/" data-entity="sql:function:bioseq_cache.reset_stats()" data-entity-id="sql:function:bioseq_cache.reset_stats()" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq_cache.reset_stats</a>:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-9ea1dfe655f70be2-33" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-9ea1dfe655f70be2-33" class="language-sql">SELECT bioseq_cache.invalidate_relation('reads'::regclass);
+SELECT bioseq_cache.invalidate_all();
+SELECT bioseq_cache.reset_stats();
+</code></pre></figure><p class="doc-paragraph">The website examples run as isolated, non-superuser roles. This example shows<br>that an unauthorized invalidation fails with <code>insufficient_privilege</code>.</p><figure class="doc-code" data-term data-sql-example="cache_invalidation_denied"><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-2e1394bbd266ea98-34" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-2e1394bbd266ea98-34" class="language-sql" data-entity-ranges="[{&quot;start&quot;:7,&quot;len&quot;:32,&quot;id&quot;:&quot;sql:function:bioseq_cache.invalidate_relation(regclass)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-cache-invalidate-relation-8e696ef8111a8fbe/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;}]">SELECT bioseq_cache.invalidate_relation(
+  'cache_invalidation_target'::regclass);</code></pre></figure><aside class="admonition admonition-warning" data-callout="warning"><span class="admonition-icon" aria-hidden="true"></span><div class="admonition-body"><p class="admonition-label">Warning</p><p class="doc-paragraph">SQLSTATE 42501: must be superuser to invalidate bioseq_cache</p></div></aside><p class="doc-paragraph"><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.11</em></p><p class="doc-paragraph">Repeated fallbacks mean the cache could not serve the query. Frequent<br>invalidations can mean that table writes are removing entries before they are<br>reused. If stored bytes approach the configured limit, first narrow the query<br>and check its cache action in <code>EXPLAIN</code>. Increase cache capacity only after<br>those checks.</p><h2 class="hx" id="a-practical-cache-checklist" data-toc data-title="A practical cache checklist">A practical cache checklist<a data-hash href="#a-practical-cache-checklist" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Before enabling the cache for a production query family:</p><ol><li>Confirm the uncached query returns the intended rows</li><li>Capture its <code>BioseqScan</code> or join plan with cache disabled</li><li>Choose exact mode for identical final results or reusable mode for related<br>coverage</li><li>Run one cold execution and one warm execution</li><li>Read <code>Actual Cache Action</code> for both</li><li>Compare <code>produced</code>, hits, waits, reuse, and fallbacks before and after</li><li>Inspect entry age, TTL, rows, logical bytes, and stored bytes</li><li>Run a representative write and confirm the next read does not serve the old<br>generation</li><li>Cancel a waiting test session and confirm the producer remains healthy</li><li>Keep manual invalidation restricted to an administrative role</li></ol><p class="doc-paragraph">Disable caching for one-off result sets that are unlikely to be read before<br>expiry or invalidation. Cache space is most useful when a real repeated workload<br>consumes it.</p><p class="doc-paragraph">Next: stage administrator-enabled remote nucleotide data and apply the local<br>storage, indexing, search, and cache workflow in<br><a href="../remote_provider_to_search/">Query remote providers, stage sequences, and search them</a>.</p></div>
+
+  
+  <nav class="dd-s0084" aria-label="Previous and next tutorial">
+    <div class="dd-s0085">
+      <a href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0106 dd-h005"><span class="dd-s0087">&#8592; Previous</span><span class="dd-s0088">Read every Bioseq EXPLAIN section</span></a>
+      <a href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0086 dd-h005"><span class="dd-s0087">Next &#8594;</span><span class="dd-s0088">Query remote providers, stage sequences, and search them</span></a>
+    </div>
+  </nav>
+  
+</section>
+
+    </main>
+
+    <!-- ===== RIGHT TOC ===== -->
+    <aside data-rightrail class="dd-s0234">
+      <div class="dd-s0235">On this page</div>
+      <div id="toc-list" class="dd-s0236">
+        <a data-toc-link data-level="2" href="#exact-query-hits">Exact-query hits</a><a data-toc-link data-level="2" href="#understand-the-automatic-producer-lock">Understand the automatic producer lock</a><a data-toc-link data-level="2" href="#inspect-exact-query-decisions-in-explain">Inspect exact-query decisions in EXPLAIN</a><a data-toc-link data-level="2" href="#reusable-fragment-mode">Reusable-fragment mode</a><a data-toc-link data-level="2" href="#read-partial-reuse-and-residual-recompute">Read partial reuse and residual recompute</a><a data-toc-link data-level="2" href="#inspect-the-current-reusable-generation">Inspect the current reusable generation</a><a data-toc-link data-level="2" href="#failure-during-partial-production">Failure during partial production</a><a data-toc-link data-level="2" href="#let-writes-invalidate-dependent-generations">Let writes invalidate dependent generations</a><a data-toc-link data-level="2" href="#read-all-global-counters">Read all global counters</a><a data-toc-link data-level="2" href="#monitoring-permissions">Monitoring permissions</a><a data-toc-link data-level="2" href="#invalidation-and-privilege-errors">Invalidation and privilege errors</a><a data-toc-link data-level="2" href="#a-practical-cache-checklist">A practical cache checklist</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ============ SITE FOOTER ============ -->
+  <footer data-screen-label="Docs · Footer" class="dd-s0237">
+    <div aria-hidden="true" class="dd-s0238">BioseqDB</div>
+
+    <div class="dd-s0239">
+      <div data-footcols class="dd-s0240">
+        <div>
+          <div class="dd-s0241">
+            <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="dd-s0007">
+            <span class="dd-s0242">Bioseq<span class="dd-s0243">DB</span></span>
+            <span class="dd-s0244">DOCS</span>
+          </div>
+          <p class="dd-s0245">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
+          <span class="dd-s0246"><span class="dd-s0247"></span>Free &amp; open source</span>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Documentation</div>
+          <div class="dd-s0249">
+            
+            <a href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Read, search, and write sequences quickly</a><a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0250 dd-h009">The bioseq.seq column type</a><a href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0250 dd-h009">Columnar storage and vectorized aggregates</a><a href="/v0.1/tutorials/sequence_generation/" class="dd-s0250 dd-h009">Generate deterministic sequence tables</a><a href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0250 dd-h009">Load FASTA, FASTQ, and gzip data</a><a href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0250 dd-h009">Index lifecycle, choices, and metadata</a><a href="/v0.1/tutorials/similarity_search/" class="dd-s0250 dd-h009">Searching sequences with mmsearch</a><a href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0250 dd-h009">Slice, concatenate, reverse, and measure sequences</a><a href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0250 dd-h009">Search multiple sequence columns and join by sequence</a><a href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0250 dd-h009">Highway runtime dispatch</a><a href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0250 dd-h009">Read every Bioseq EXPLAIN section</a><a href="/v0.1/tutorials/query_cache/" class="dd-s0250 dd-h009">Caching sequence-search results</a><a href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0250 dd-h009">Query remote providers, stage sequences, and search them</a><a href="/v0.1/reference/cpp/" class="dd-s0250 dd-h009">C++</a><a href="/v0.1/reference/sql/" class="dd-s0250 dd-h009">SQL</a>
+            
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Explore</div>
+          <div class="dd-s0249">
+            <a href="/" class="dd-s0250 dd-h009">Product home</a>
+            <a href="/#workflow" class="dd-s0250 dd-h009">Workflow</a>
+            <a href="/#examples" class="dd-s0250 dd-h009">Examples</a>
+            <a href="/#index" class="dd-s0250 dd-h009">Index</a>
+            <a href="/#scale" class="dd-s0250 dd-h009">Scale</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Project</div>
+          <div class="dd-s0249">
+            <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Documentation</a>
+            <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0251">GitHub</a>
+            <span class="dd-s0252">Alpha &middot; v0.1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-s0253">
+      <div class="dd-s0254"></div>
+      <div class="dd-s0255">
+        <span class="dd-s0256">&copy; 2026 Bioseq contributors &mdash; an independent open-source project.</span>
+        <nav class="dd-s0257">
+          <a href="https://github.com/styczynski/bioseqdb/blob/main/LICENSE" rel="noreferrer" class="dd-s0258 dd-h010">License (MIT)</a>
+          <a href="/versions/" class="dd-s0258 dd-h010">Versions</a>
+          <a data-totop href="#page-top" class="dd-s0258 dd-h010">Back to top ↑</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div data-backdrop class="dd-s0259"></div>
+
+  <!-- ===== ENTITY POPOVER ===== -->
+  <div id="entity-pop" class="dd-s0260"></div>
+
+</div>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"Caching sequence-search results","description":"Reuse exact Bioseq searches, inspect cache health, and invalidate safely.","url":"https://bioseqdb.com/v0.1/tutorials/query_cache/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/quick_read_search_write/"},{"@type":"ListItem","position":4,"name":"Caching sequence-search results","item":"/v0.1/tutorials/query_cache/"}]}]}</script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/prism-init.js"></script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/main.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/docs-design.mjs"></script>
+</body>
+</html>

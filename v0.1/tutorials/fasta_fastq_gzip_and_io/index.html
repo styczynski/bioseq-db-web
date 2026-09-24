@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Load FASTA, FASTQ, and gzip data</title>
+<meta name="description" content="Stream local sequence files into typed tables, map headers, understand gzip routes, and build search indexes after a load.">
+<link rel="canonical" href="https://bioseqdb.com/v0.1/tutorials/fasta_fastq_gzip_and_io/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta property="og:title" content="Load FASTA, FASTQ, and gzip data">
+<meta property="og:description" content="Stream local sequence files into typed tables, map headers, understand gzip routes, and build search indexes after a load.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bioseqdb.com/v0.1/tutorials/fasta_fastq_gzip_and_io/">
+<meta property="og:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Load FASTA, FASTQ, and gzip data">
+<meta name="twitter:description" content="Stream local sequence files into typed tables, map headers, understand gzip routes, and build search indexes after a load.">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<link rel="icon" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/favicon.svg">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/site.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/docs-design.css">
+</head>
+<body id="page-top" class="docs-design-page">
+<a class="skip-link" href="#doc-main">Skip to main content</a>
+
+<div data-screen-label="BioseqDB documentation" class="dd-s0001">
+
+  <!-- ============ TOP NAV ============ -->
+  <header id="dnav" class="dd-s0002">
+    <div class="dd-s0003">
+      <button data-menu aria-label="Menu" class="dd-s0004">
+        <span class="dd-s0005"></span><span class="dd-s0005"></span><span class="dd-s0005"></span>
+      </button>
+      <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0006">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="30" height="30" alt="BioseqDB logo" class="dd-s0007">
+        <span class="dd-s0008">Bioseq<span class="dd-s0009">DB</span></span>
+        <span data-docsbadge class="dd-s0010">DOCS</span>
+      </a>
+
+      <nav data-topnav class="dd-s0011">
+        <a href="/v0.1/tutorials/quick_read_search_write/" data-nav class="dd-s0012">Docs</a>
+        <a href="/" class="dd-s0013">Product</a>
+        <a href="/benchmarks/" class="dd-s0014 dd-h001">Benchmarks</a>
+        <a href="/versions/" class="dd-s0013">Versions</a>
+      </nav>
+
+      <!-- SEARCH -->
+      <div data-search-wrap class="dd-s0015">
+        <div data-search-box class="dd-s0016">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" class="dd-s0017"><circle cx="7" cy="7" r="5" stroke="#7d94a6" stroke-width="1.6"/><line x1="10.6" y1="10.6" x2="14" y2="14" stroke="#7d94a6" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="doc-search" role="combobox" aria-autocomplete="list" aria-controls="search-dd" aria-expanded="false" data-search-index="/v0.1/search-index.json" type="text" placeholder="Search docs, functions, types…" autocomplete="off" spellcheck="false" class="dd-s0018">
+          <kbd class="dd-s0019">/</kbd>
+        </div>
+        <div id="search-dd" role="listbox" aria-label="Search results" class="dd-s0020"></div>
+      </div>
+
+      <!-- VERSION -->
+      <div data-ver-wrap class="dd-s0021">
+        <button id="ver-btn" class="dd-s0022">
+          <span class="dd-s0023"></span>v0.1 <span class="docs-version-status">Alpha</span>
+          <span data-caret class="dd-s0025"></span>
+        </button>
+        <div id="ver-menu" data-versions-url="/versions.json" class="dd-s0026">
+          <a data-ver href="/v0.1/tutorials/quick_read_search_write/" aria-current="page" class="dd-s0027">v0.1 <span class="docs-version-current">current</span></a>
+          <a data-ver-all href="/versions/" class="dd-s0029">All versions</a>
+        </div>
+      </div>
+
+      <a data-ghbtn href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0031">GitHub</a>
+    </div>
+  </header>
+
+  <!-- ============ BODY GRID ============ -->
+  <div data-bodygrid class="dd-s0032">
+
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <aside id="sidebar" class="dd-s0033">
+      
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Tutorials
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0037">Read, search, and write sequences quickly</a><a data-doc-link href="/v0.1/tutorials/sequence_column_type/" class="dd-s0037">The bioseq.seq column type</a><a data-doc-link href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0037">Columnar storage and vectorized aggregates</a><a data-doc-link href="/v0.1/tutorials/sequence_generation/" class="dd-s0037">Generate deterministic sequence tables</a><a data-doc-link href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0037">Load FASTA, FASTQ, and gzip data</a><a data-doc-link href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0037">Index lifecycle, choices, and metadata</a><a data-doc-link href="/v0.1/tutorials/similarity_search/" class="dd-s0037">Searching sequences with mmsearch</a><a data-doc-link href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0037">Slice, concatenate, reverse, and measure sequences</a><a data-doc-link href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0037">Search multiple sequence columns and join by sequence</a><a data-doc-link href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0037">Highway runtime dispatch</a><a data-doc-link href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0037">Read every Bioseq EXPLAIN section</a><a data-doc-link href="/v0.1/tutorials/query_cache/" class="dd-s0037">Caching sequence-search results</a><a data-doc-link href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0037">Query remote providers, stage sequences, and search them</a>
+        </div>
+      </div>
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Reference
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/reference/cpp/" class="dd-s0037">C++</a><a data-doc-link href="/v0.1/reference/sql/" class="dd-s0037">SQL</a>
+        </div>
+      </div>
+      
+      
+      <div class="dd-s0038">
+        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0039">Edit on GitHub</a>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="doc-main" class="dd-s0040">
+      
+<section data-page-panel data-screen-label="Docs · Tutorial" class="dd-s0040 design-page">
+  <header data-reveal class="dd-s0041 design-page-header">
+    <nav aria-label="Breadcrumb" class="dd-s0042 design-breadcrumb">
+      <a href="/">Home</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/">v0.1</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/quick_read_search_write/">Tutorials</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/fasta_fastq_gzip_and_io/">Load FASTA, FASTQ, and gzip data</a><span class="dd-s0043" aria-hidden="true">/</span>
+    </nav>
+    <h1 class="dd-s0045">Load FASTA, FASTQ, and gzip data</h1>
+    <p class="dd-s0046">Stream local sequence files into typed tables, map headers, understand gzip routes, and build search indexes after a load.</p>
+  </header>
+
+  <div class="docs-content tutorial-body"><p class="doc-paragraph"><code>bioseq.load</code> reads a file visible to the PostgreSQL server and inserts<br>its records into an existing <code>USING bioseq</code> table. The destination column fixes<br>the alphabet and packed width. Optional header mappings fill ordinary scalar<br>columns beside the sequence.</p><p class="doc-paragraph">This page separates three interfaces that are easy to confuse:</p><ul><li><code>bioseq.load</code> is the public SQL loader for local files</li><li>the external-provider relations retrieve administrator-enabled remote data</li><li>the C++ reader module has a separate batch path, including Bioseq's custom<br>parallel deflate implementation</li></ul><p class="doc-paragraph">Only the first interface is used by the runnable SQL below.</p><p class="doc-paragraph">Prerequisite: use <a href="../sequence_generation/">Generate deterministic sequence tables</a><br>first if you need a network-free way to create practice data.</p><h2 class="hx" id="recognize-supported-local-file-names" data-toc data-title="Recognize supported local file names">Recognize supported local file names<a data-hash href="#recognize-supported-local-file-names" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The SQL loader recognizes these suffixes without regard to ASCII case:</p><table><tr><td>Content</td><td>Suffixes</td></tr><tr><td>FASTA</td><td><code>.fasta</code>, <code>.fa</code>, <code>.fna</code></td></tr><tr><td>FASTQ</td><td><code>.fastq</code>, <code>.fq</code>, <code>.fnq</code></td></tr><tr><td>Optional gzip layer</td><td><code>.gz</code>, <code>.bgz</code>, <code>.bgzf</code> after a sequence suffix</td></tr></table><p class="doc-paragraph">The base suffix chooses the parser. Bioseq also checks gzip magic bytes, so<br>decompression does not depend only on the final name.</p><p class="doc-paragraph">The <code>.bgz</code> and <code>.bgzf</code> spellings are accepted as gzip inputs. The SQL loader<br>does not consume a BGZF index and does not provide random range access. It<br>starts at the beginning and streams decompressed records in order.</p><p class="doc-paragraph">ZIP and tar files are not local <code>bioseq.load</code> formats. The NCBI external<br>provider has a separate bounded assembly-ZIP path. That provider downloads and<br>decodes selected FASTA members rather than turning <code>bioseq.load</code> into a general<br>archive reader.</p><h2 class="hx" id="understand-the-ncbi-assembly-archive-route" data-toc data-title="Understand the NCBI assembly archive route">Understand the NCBI assembly archive route<a data-hash href="#understand-the-ncbi-assembly-archive-route" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">An external sequence query for one NCBI accession beginning with <code>GCF_</code> or<br><code>GCA_</code> selects the NCBI Datasets package route. For example, an<br>administrator-enabled installation can request ordered assembly chunks:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-cc7b934eef3748a0-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-cc7b934eef3748a0-0" class="language-sql">SELECT chunk_index,
+       base_offset,
+       bioseq.len(sequence_chunk) AS bases,
+       end_of_record
+FROM bioseq_external.sequence_chunks
+WHERE provider = 'ncbi'
+  AND accession = 'GCF_009858895.2'
+ORDER BY chunk_index;
+</code></pre></figure><p class="doc-paragraph">This is a remote-provider query, not a call to <code>bioseq.load</code>. The current route<br>downloads the complete ZIP before extraction. It caps the compressed response<br>at 64 MiB, caps total decoded member data at 512 MiB, and rejects an archive<br>with more than 4,096 entries. It also rejects unsafe member paths, requires the<br>package catalog and checksum manifest, selects the catalog-listed FASTA<br>members, and verifies each selected member before publishing its rows.</p><p class="doc-paragraph">Use <code>sequence_chunks</code> when the decoded assembly should not become one large<br>PostgreSQL value. Chunking bounds the rows returned to PostgreSQL, but the ZIP<br>route still buffers a selected member while checking its digest. It is<br>therefore not a constant-memory or range-read interface for arbitrary assembly<br>sizes.</p><p class="doc-paragraph">Transient download failures can be retried before extraction, for at most five<br>attempts. Extraction is terminal once it starts publishing rows. The provider<br>does not fetch a central ZIP range or seek directly to a late FASTA record.<br>The remote-provider tutorial covers access grants, provider errors, and staging<br>the returned chunks into a local search table.</p><h2 class="hx" id="design-the-destination-first" data-toc data-title="Design the destination first">Design the destination first<a data-hash href="#design-the-destination-first" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The current loader accepts exactly one destination column of a bound<br><a class="entity-ref" href="/v0.1/reference/sql/type/bioseq-seq-8c069b667ce622ef/" data-entity="sql:type:bioseq.seq" data-entity-id="sql:type:bioseq.seq" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.seq</a> type. It rejects a typmodless sequence column and a table<br>with more than one sequence destination.</p><p class="doc-paragraph">Create scalar columns for header fields that the application will query:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-b4267b35602f2b56-1" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-b4267b35602f2b56-1" class="language-sql">CREATE TABLE imported_reads (
+    accession text PRIMARY KEY,
+    organism_name text,
+    collected_on date,
+    seq bioseq.seq('dna5', 64) NOT NULL
+) USING bioseq;
+</code></pre></figure><p class="doc-paragraph">Identity and generated columns are not supported by <code>bioseq.load</code>. An unmapped<br><code>NOT NULL</code> scalar column must have a default. This keeps every inserted row<br>complete without inventing a value inside the loader.</p><p class="doc-paragraph">Use <code>dna5</code> when N must remain in the stored sequence. FASTA and FASTQ parsing<br>currently drops source bytes that are absent from the destination alphabet.<br>Loading an N into <code>dna4</code> can therefore shorten the value and shift later<br>coordinates. This differs from a direct SQL cast, where an invalid DNA4 symbol<br>is an input error.</p><h2 class="hx" id="map-header-fields-to-typed-columns" data-toc data-title="Map header fields to typed columns">Map header fields to typed columns<a data-hash href="#map-header-fields-to-typed-columns" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The function signature is:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-fab3ca0c9a9d619d-2" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-fab3ca0c9a9d619d-2" class="language-sql">bioseq.load(
+    target_table regclass,
+    file_path text,
+    header_format text DEFAULT 'auto',
+    columns bioseq.column_mapping[] DEFAULT NULL
+)
+</code></pre></figure><p class="doc-paragraph">The <code>bioseq.column_mapping</code> composite type pairs a destination column<br>with a parsed header source:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-74ef9a2c6944ad4a-3" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-74ef9a2c6944ad4a-3" class="language-sql">ARRAY[
+  ('accession', 'accession')::bioseq.column_mapping,
+  ('organism_name', 'organism_name')::bioseq.column_mapping
+]
+</code></pre></figure><p class="doc-paragraph">The current header dialect names are <code>auto</code>, <code>plain</code>, <code>uni_prot</code>, <code>uni_ref</code>,<br><code>uni_parc</code>, <code>uni_mes</code>, <code>spd</code>, <code>ncbi</code>, <code>ncbi_gi</code>, <code>ncbi_pdb</code>, <code>refseq</code>,<br><code>genbank</code>, <code>gisaid</code>, and <code>imgt</code>.</p><p class="doc-paragraph"><code>auto</code> samples a decompressed prefix and chooses a known dialect when possible.<br>If a table has exactly one text metadata column and no explicit mappings, auto<br>mode preserves the complete header in that column. Use an explicit format and<br>mapping for a durable import contract. Provider header conventions can evolve,<br>and silent changes in auto-detection are hard to audit later.</p><p class="doc-paragraph">Mapped text is coerced through the destination PostgreSQL type. A bad date,<br>range, enum, domain, or constraint fails the statement with record and column<br>context.</p><h2 class="hx" id="load-build-indexes-and-search" data-toc data-title="Load, build indexes, and search">Load, build indexes, and search<a data-hash href="#load-build-indexes-and-search" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">For bulk ingestion, disable insert-time index maintenance during the load, then<br>build each required persisted form once. The website supplies a small local<br>FASTA fixture, so this example does not depend on a network service.</p><figure class="doc-code" data-term data-sql-example="local_fasta_load_index_search"><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-c3a67d8a50ec3887-4" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-c3a67d8a50ec3887-4" class="language-sql" data-entity-ranges="[{&quot;start&quot;:536,&quot;len&quot;:10,&quot;id&quot;:&quot;sql:function:bioseq.len(bioseq.seq)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;},{&quot;start&quot;:670,&quot;len&quot;:19,&quot;id&quot;:&quot;sql:function:bioseq.target_start(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-target-start-7f5c101237c7c3f3/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;},{&quot;start&quot;:725,&quot;len&quot;:17,&quot;id&quot;:&quot;sql:function:bioseq.target_end(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-target-end-360d292b54a6c2ca/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;},{&quot;start&quot;:799,&quot;len&quot;:15,&quot;id&quot;:&quot;sql:function:$extension.mmsearch(bioseq.seq,bioseq.seq)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/extension-mmsearch-9b9a40378e3617b1/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;},{&quot;start&quot;:862,&quot;len&quot;:10,&quot;id&quot;:&quot;sql:type:bioseq.seq&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/type/bioseq-seq-8c069b667ce622ef/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;}]">SELECT bioseq.load(
+    'tutorial_file_reads'::regclass,
+    'landing_reads.fasta',
+    'uni_prot',
+    ARRAY[
+      ('accession', 'accession')::bioseq.column_mapping,
+      ('organism_name', 'organism_name')::bioseq.column_mapping
+    ]
+) AS loaded_records;
+
+SELECT bioseq.update_index(
+    'tutorial_file_reads'::regclass,
+    'minimizers_per_fragment'
+) AS indexed_sequences;
+SELECT bioseq.update_index(
+    'tutorial_file_reads'::regclass,
+    'symbol_counts'
+) AS counted_sequences;
+
+SELECT accession,
+       organism_name,
+       bioseq.len(seq) AS bases
+FROM tutorial_file_reads
+ORDER BY accession;
+
+EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT accession,
+       bioseq.target_start(accession) AS target_start,
+       bioseq.target_end(accession) AS target_end
+FROM tutorial_file_reads
+WHERE public.mmsearch(
+    seq,
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 64)
+)
+ORDER BY accession, target_start;</code></pre></figure><p class="doc-paragraph"><em>Result 1</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">loaded_records<br><code>bigint</code></th></tr></thead><tbody><tr><td>2</td></tr></tbody></table><p class="doc-paragraph"><em>Result 2</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">indexed_sequences<br><code>bigint</code></th></tr></thead><tbody><tr><td>2</td></tr></tbody></table><p class="doc-paragraph"><em>Result 3</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">counted_sequences<br><code>bigint</code></th></tr></thead><tbody><tr><td>2</td></tr></tbody></table><p class="doc-paragraph"><em>Result 4</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">accession<br><code>text</code></th><th scope="col">organism_name<br><code>text</code></th><th scope="col">bases<br><code>bigint</code></th></tr></thead><tbody><tr><td>LDR001</td><td>validation_batch</td><td>109</td></tr><tr><td>LDR002</td><td>control_batch</td><td>44</td></tr></tbody></table><p class="doc-paragraph"><em>Result 5</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">QUERY PLAN<br><code>text</code></th></tr></thead><tbody><tr><td>Sort (actual time=5.362..5.363 rows=0 loops=1)</td></tr><tr><td>  Output: accession, (target_start(accession)), (target_end(accession))</td></tr><tr><td>  Sort Key: tutorial_file_reads.accession, (target_start(tutorial_file_reads.accession))</td></tr><tr><td>  Sort Method: quicksort  Memory: 25kB</td></tr><tr><td>  -&gt;  Custom Scan (BioseqScan) on public.tutorial_file_reads (actual time=5.357..5.358 rows=0 loops=1)</td></tr><tr><td>        Output: accession, target_start(accession), target_end(accession)</td></tr><tr><td>        Bioseq Projected Columns: accession</td></tr><tr><td>        Bioseq Index Read Requirement: allow</td></tr><tr><td>        Bioseq Recomputed: minimizers 100%</td></tr><tr><td>        Bioseq Scheduler: supervisor=on mode=task_parallel workers=4/4 batches=11/11 awaiting=0 queries=14/0 qps=1.093 async_persist_waiting=0 index_memory_reserved=0</td></tr><tr><td>        One-to-many alignment:</td></tr><tr><td>          Task-parallel [mode=task_parallel, workers=4, index_memory_reserved=0 bytes]:</td></tr><tr><td>            Planned Architecture: AVX3_SPR</td></tr><tr><td>            CPU-Supported Targets: AVX3_SPR, AVX3_DL, AVX3, AVX2, SSE4, SSSE3, SSE2, EMU128, SCALAR</td></tr><tr><td>            Highway Compiled Targets: AVX10_2, AVX3_SPR, AVX3_ZEN4, AVX3_DL, AVX3, AVX2, SSE4, SSSE3, SSE2, EMU128</td></tr><tr><td>            Runnable Targets: AVX3_SPR, AVX3_DL, AVX3, AVX2, SSE4, SSSE3, SSE2, EMU128</td></tr><tr><td>            * Executed Architecture: AVX3_SPR</td></tr><tr><td>            | QuerySketchStage: Bounded u32 ntHash SIMD Minimizers</td></tr><tr><td>              Highway Function: minimizer::bounded_nthash [planned architecture: AVX3_SPR]</td></tr><tr><td>            | index_stage: pipeline configuration</td></tr><tr><td>              [cep.window_len: 0]</td></tr><tr><td>              [cep.kmer_len: 0]</td></tr><tr><td>              [cep.sequence_len_log2: 63]</td></tr><tr><td>              [cep.specialised: fallback]</td></tr><tr><td>            | seed_hit_stage: Seed hits + canonical CPU ordering</td></tr><tr><td>              max_occ: 500</td></tr><tr><td>              query_len: 0</td></tr><tr><td>              [reserved: 64]</td></tr><tr><td>            | chain_stage: Minimap2 SIMD</td></tr><tr><td>              min_chain_score: 40</td></tr><tr><td>              min_seed_count: 3</td></tr><tr><td>              max_chain_skip: 25</td></tr><tr><td>              max_chain_iter: 5000</td></tr><tr><td>              bandwidth: 500</td></tr><tr><td>              max_gap: 5000</td></tr><tr><td>              simd_chaining_policy: bounded_batch_approximate</td></tr><tr><td>              [vectorised: true]</td></tr><tr><td>              [requires_zero_skip_penalty: false]</td></tr><tr><td>              [specialised: fallback]</td></tr><tr><td>              Highway Function: chaining::chain_anchors_simd [planned architecture: AVX3_SPR]</td></tr><tr><td>            | region_stage: Region generation</td></tr><tr><td>              query_len: 0</td></tr><tr><td>            | primary_secondary_stage: Classify primary/secondary</td></tr><tr><td>              mask_level: 0.500000</td></tr><tr><td>              mask_len: 2147483647</td></tr><tr><td>              sub_diff: 8</td></tr><tr><td>            | secondary_filter_stage: Filter secondary regions</td></tr><tr><td>              pri_ratio: 0.800000</td></tr><tr><td>              min_diff: 30</td></tr><tr><td>              best_n: 5</td></tr><tr><td>            | primary_secondary_stage: Classify primary/secondary</td></tr><tr><td>              mask_level: 0.500000</td></tr><tr><td>              mask_len: 2147483647</td></tr><tr><td>              sub_diff: 8</td></tr><tr><td>            | secondary_filter_stage: Filter secondary regions</td></tr><tr><td>              pri_ratio: 0.800000</td></tr><tr><td>              min_diff: 30</td></tr><tr><td>              best_n: 5</td></tr><tr><td>            * Submit results [targets=2 persisted_index=0 recomputed=2]</td></tr><tr><td>            * Execution statistics [requested_backend=simd_cpu actual_backend=mixed_invalid requested_index_source=persisted actual_index_source=recomputed attempted=2 fully_attested=0 unattested=2 environment_mixed=false persisted_identity_mixed=false identity_conflict=false saturated=false]</td></tr><tr><td>            * First unattested [target_row=1 query_ordinal=0]</td></tr><tr><td>            * Index outcomes [targets=2 persisted=0 missing_persisted=2 recomputed=2]</td></tr><tr><td>            * GPU dispatch [seed=0 chain=0 chain_backtrack=0 coordinate_vote=0 extend=0 backend_declines=0 backend_fallbacks=0]</td></tr><tr><td>            GPU Chain Dispatches: 0</td></tr><tr><td>            GPU Chain Backtrack Dispatches: 0</td></tr><tr><td>            GPU Coordinate Vote Dispatches: 0</td></tr><tr><td>            * Host stats [query_sketch_ns=0 target_index_build_ns=0 query_hash_readbacks=0 query_symbol_packing=0 target_symbol_packing=0 alignment_classification=0 cigar_construction=0]</td></tr><tr><td>        -&gt;  Cache</td></tr><tr><td>              Cache Hits: 0</td></tr><tr><td>              Cache Misses: 3</td></tr><tr><td>              Cache Evictions: 0</td></tr><tr><td>              Cache Writes: 3</td></tr><tr><td>              Cache Maximum Size: 16552</td></tr><tr><td>              Cache Ending Size: 16552</td></tr><tr><td>              Total Cache Entries: 3</td></tr><tr><td>Planning Time: 0.140 ms</td></tr><tr><td>Execution Time: 5.840 ms</td></tr></tbody></table><p class="doc-paragraph"><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.11</em></p><p class="doc-paragraph">The load result is the number of parsed records. <code>bioseq.update_index</code><br>returns the number of sequence values rebuilt for that index family. The final<br>plan and result group show the local search route and real match coordinates.</p><p class="doc-paragraph">For ordinary trickle inserts, the default transient search path can serve new<br>rows until the next explicit grouped-index publication. Leave legacy insert<br>maintenance off. The index lifecycle tutorial explains the three families and<br>the mutation rules in detail.</p><h2 class="hx" id="understand-streaming-and-memory" data-toc data-title="Understand streaming and memory">Understand streaming and memory<a data-hash href="#understand-streaming-and-memory" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>bioseq.load</code> uses the streaming reader. It emits bounded packed chunks to the<br>column writer, so one very long FASTA sequence is not first assembled as one<br>PostgreSQL-sized buffer. FASTQ parsing must retain quality scratch for the<br>current record so it can validate the sequence/quality boundary. The SQL table<br>stores the sequence and mapped header fields, not FASTQ quality scores.</p><p class="doc-paragraph">The SQL streaming parser is single-threaded by contract because one backend<br>owns the column write state. <code>bioseq.load.write_overlap.enabled</code> can overlap<br>input decoding with column writes when the scheduler admits a worker, but it<br>does not change record order or turn the parser into independent file shards.<br>The setting is off by default.</p><p class="doc-paragraph">Treat this as bounded-memory ingestion, not as a promise that memory is<br>constant for every FASTQ record. A single enormous quality string still needs<br>record-sized scratch.</p><h2 class="hx" id="distinguish-zlib-from-the-custom-deflate-reader" data-toc data-title="Distinguish zlib from the custom deflate reader">Distinguish zlib from the custom deflate reader<a data-hash href="#distinguish-zlib-from-the-custom-deflate-reader" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The SQL streaming route opens gzip input through the regular zlib-backed<br>source. It does not select Bioseq's custom parallel deflate decoder.</p><p class="doc-paragraph">The separate C++ batch reader <code>bioseq.io.reader</code> exposes<br><code>read_sequences_file</code>. With default reader options, a memory-mapped gzip file<br>of at least 16 MiB compressed size may select the custom <code>parallel_gzip</code><br>source. That source plans ordered decoded chunks of about 4 MiB and chooses up<br>to eight workers from the process concurrency limit. If construction of that<br>source fails, the batch reader can fall back to the zlib source before emitting<br>records. A failure after records have begun is terminal rather than a restart<br>that could duplicate output.</p><p class="doc-paragraph">The custom decoder handles the DEFLATE payload inside gzip members. It maps the<br>compressed file and drains decoded chunks in encoded order. It is not a seek<br>index, HTTP range reader, or partial-record query interface. Reading a record<br>near the end still requires decoding the preceding stream structure.</p><p class="doc-paragraph">Those C++ reader options are not PostgreSQL GUCs. Changing an aligner, cache,<br>or column-compression setting does not select the custom gzip backend for<br><code>bioseq.load</code>.</p><h2 class="hx" id="handle-transactions-and-failures" data-toc data-title="Handle transactions and failures">Handle transactions and failures<a data-hash href="#handle-transactions-and-failures" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The load is one SQL statement inside the caller's transaction. A parser,<br>mapping, coercion, constraint, storage, or index-build failure aborts the<br>statement. PostgreSQL does not commit an accepted prefix as a successful load.</p><p class="doc-paragraph">A safe import sequence is:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ad48c3ccab79c365-5" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ad48c3ccab79c365-5" class="language-sql">BEGIN;
+SET LOCAL bioseq.index.insert_maintenance.enabled = off;
+
+SELECT bioseq.load(
+    'incoming_reads'::regclass,
+    '/srv/import/run-042.fastq.gz'
+);
+COMMIT;
+
+SELECT bioseq.update_index(
+    'incoming_reads'::regclass,
+    'minimizers_per_fragment'
+);
+SELECT bioseq.update_index(
+    'incoming_reads'::regclass,
+    'symbol_counts'
+);
+-- ANALYZE currently has a sequence-hydration snapshot limitation; see below.
+</code></pre></figure><p class="doc-paragraph"><code>ANALYZE</code> is omitted because the current sequence-bearing table sampling path<br>can fail without an explicit hydration snapshot. See the<br><a href="../columnar_storage_and_vectorized_aggregates/">storage limitation</a>.</p><p class="doc-paragraph">The file path is resolved by the database server, not the SQL client. The<br>server process must be able to open it, and the database role must be allowed<br>to invoke the loader. Local-file reads do not have an automatic retry policy.<br>Fix the file or destination contract and retry the transaction deliberately.</p><h2 class="hx" id="keep-local-and-remote-ingestion-separate" data-toc data-title="Keep local and remote ingestion separate">Keep local and remote ingestion separate<a data-hash href="#keep-local-and-remote-ingestion-separate" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>bioseq.load</code> does not accept an HTTP URL. Remote data uses<br><code>bioseq_external</code> relations and their provider-specific filters, timeouts, and<br>error behavior. Stage a remote nucleotide value into a local <code>USING bioseq</code><br>table before building local indexes.</p><p class="doc-paragraph">Remote retries are safe only before a provider scan emits rows. After emission,<br>a provider error is terminal so a retry cannot silently duplicate an earlier<br>prefix. The remote-provider tutorial gives the current NCBI, UCSC, UniProt,<br>and EBI capability boundaries.</p><h2 class="hx" id="know-the-export-boundary" data-toc data-title="Know the export boundary">Know the export boundary<a data-hash href="#know-the-export-boundary" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">There is no current SQL function that writes a Bioseq table as FASTA, FASTQ, or<br>gzip. The C++ <code>bioseq.io.writer</code> module writes plain FASTA or FASTQ batches, but<br>it is not a SQL export API and has no gzip output option.</p><p class="doc-paragraph">Applications can format selected rows and use PostgreSQL <code>COPY</code> for their own<br>text export, but that is application-owned serialization. Do not describe it<br>as a Bioseq FASTA/FASTQ round trip unless the application also preserves and<br>validates headers, qualities, alphabets, and record ordering.</p><p class="doc-paragraph">Next: <a href="../index_lifecycle_and_metadata/">Index lifecycle, choices, and metadata</a><br>covers the persisted forms that follow a load, their write policies, public<br>metadata, and EXPLAIN evidence.</p></div>
+
+  
+  <nav class="dd-s0084" aria-label="Previous and next tutorial">
+    <div class="dd-s0085">
+      <a href="/v0.1/tutorials/sequence_generation/" class="dd-s0106 dd-h005"><span class="dd-s0087">&#8592; Previous</span><span class="dd-s0088">Generate deterministic sequence tables</span></a>
+      <a href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0086 dd-h005"><span class="dd-s0087">Next &#8594;</span><span class="dd-s0088">Index lifecycle, choices, and metadata</span></a>
+    </div>
+  </nav>
+  
+</section>
+
+    </main>
+
+    <!-- ===== RIGHT TOC ===== -->
+    <aside data-rightrail class="dd-s0234">
+      <div class="dd-s0235">On this page</div>
+      <div id="toc-list" class="dd-s0236">
+        <a data-toc-link data-level="2" href="#recognize-supported-local-file-names">Recognize supported local file names</a><a data-toc-link data-level="2" href="#understand-the-ncbi-assembly-archive-route">Understand the NCBI assembly archive route</a><a data-toc-link data-level="2" href="#design-the-destination-first">Design the destination first</a><a data-toc-link data-level="2" href="#map-header-fields-to-typed-columns">Map header fields to typed columns</a><a data-toc-link data-level="2" href="#load-build-indexes-and-search">Load, build indexes, and search</a><a data-toc-link data-level="2" href="#understand-streaming-and-memory">Understand streaming and memory</a><a data-toc-link data-level="2" href="#distinguish-zlib-from-the-custom-deflate-reader">Distinguish zlib from the custom deflate reader</a><a data-toc-link data-level="2" href="#handle-transactions-and-failures">Handle transactions and failures</a><a data-toc-link data-level="2" href="#keep-local-and-remote-ingestion-separate">Keep local and remote ingestion separate</a><a data-toc-link data-level="2" href="#know-the-export-boundary">Know the export boundary</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ============ SITE FOOTER ============ -->
+  <footer data-screen-label="Docs · Footer" class="dd-s0237">
+    <div aria-hidden="true" class="dd-s0238">BioseqDB</div>
+
+    <div class="dd-s0239">
+      <div data-footcols class="dd-s0240">
+        <div>
+          <div class="dd-s0241">
+            <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="dd-s0007">
+            <span class="dd-s0242">Bioseq<span class="dd-s0243">DB</span></span>
+            <span class="dd-s0244">DOCS</span>
+          </div>
+          <p class="dd-s0245">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
+          <span class="dd-s0246"><span class="dd-s0247"></span>Free &amp; open source</span>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Documentation</div>
+          <div class="dd-s0249">
+            
+            <a href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Read, search, and write sequences quickly</a><a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0250 dd-h009">The bioseq.seq column type</a><a href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0250 dd-h009">Columnar storage and vectorized aggregates</a><a href="/v0.1/tutorials/sequence_generation/" class="dd-s0250 dd-h009">Generate deterministic sequence tables</a><a href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0250 dd-h009">Load FASTA, FASTQ, and gzip data</a><a href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0250 dd-h009">Index lifecycle, choices, and metadata</a><a href="/v0.1/tutorials/similarity_search/" class="dd-s0250 dd-h009">Searching sequences with mmsearch</a><a href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0250 dd-h009">Slice, concatenate, reverse, and measure sequences</a><a href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0250 dd-h009">Search multiple sequence columns and join by sequence</a><a href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0250 dd-h009">Highway runtime dispatch</a><a href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0250 dd-h009">Read every Bioseq EXPLAIN section</a><a href="/v0.1/tutorials/query_cache/" class="dd-s0250 dd-h009">Caching sequence-search results</a><a href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0250 dd-h009">Query remote providers, stage sequences, and search them</a><a href="/v0.1/reference/cpp/" class="dd-s0250 dd-h009">C++</a><a href="/v0.1/reference/sql/" class="dd-s0250 dd-h009">SQL</a>
+            
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Explore</div>
+          <div class="dd-s0249">
+            <a href="/" class="dd-s0250 dd-h009">Product home</a>
+            <a href="/#workflow" class="dd-s0250 dd-h009">Workflow</a>
+            <a href="/#examples" class="dd-s0250 dd-h009">Examples</a>
+            <a href="/#index" class="dd-s0250 dd-h009">Index</a>
+            <a href="/#scale" class="dd-s0250 dd-h009">Scale</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Project</div>
+          <div class="dd-s0249">
+            <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Documentation</a>
+            <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0251">GitHub</a>
+            <span class="dd-s0252">Alpha &middot; v0.1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-s0253">
+      <div class="dd-s0254"></div>
+      <div class="dd-s0255">
+        <span class="dd-s0256">&copy; 2026 Bioseq contributors &mdash; an independent open-source project.</span>
+        <nav class="dd-s0257">
+          <a href="https://github.com/styczynski/bioseqdb/blob/main/LICENSE" rel="noreferrer" class="dd-s0258 dd-h010">License (MIT)</a>
+          <a href="/versions/" class="dd-s0258 dd-h010">Versions</a>
+          <a data-totop href="#page-top" class="dd-s0258 dd-h010">Back to top ↑</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div data-backdrop class="dd-s0259"></div>
+
+  <!-- ===== ENTITY POPOVER ===== -->
+  <div id="entity-pop" class="dd-s0260"></div>
+
+</div>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"Load FASTA, FASTQ, and gzip data","description":"Stream local sequence files into typed tables, map headers, understand gzip routes, and build search indexes after a load.","url":"https://bioseqdb.com/v0.1/tutorials/fasta_fastq_gzip_and_io/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/quick_read_search_write/"},{"@type":"ListItem","position":4,"name":"Load FASTA, FASTQ, and gzip data","item":"/v0.1/tutorials/fasta_fastq_gzip_and_io/"}]}]}</script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/prism-init.js"></script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/main.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/docs-design.mjs"></script>
+</body>
+</html>

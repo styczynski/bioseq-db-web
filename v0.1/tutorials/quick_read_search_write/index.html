@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Read, search, and write sequences quickly</title>
+<meta name="description" content="Build a useful Bioseq table, load it safely, read compact values, and run an indexed search.">
+<link rel="canonical" href="https://bioseqdb.com/v0.1/tutorials/quick_read_search_write/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta property="og:title" content="Read, search, and write sequences quickly">
+<meta property="og:description" content="Build a useful Bioseq table, load it safely, read compact values, and run an indexed search.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bioseqdb.com/v0.1/tutorials/quick_read_search_write/">
+<meta property="og:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Read, search, and write sequences quickly">
+<meta name="twitter:description" content="Build a useful Bioseq table, load it safely, read compact values, and run an indexed search.">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<link rel="icon" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/favicon.svg">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/site.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/docs-design.css">
+</head>
+<body id="page-top" class="docs-design-page">
+<a class="skip-link" href="#doc-main">Skip to main content</a>
+
+<div data-screen-label="BioseqDB documentation" class="dd-s0001">
+
+  <!-- ============ TOP NAV ============ -->
+  <header id="dnav" class="dd-s0002">
+    <div class="dd-s0003">
+      <button data-menu aria-label="Menu" class="dd-s0004">
+        <span class="dd-s0005"></span><span class="dd-s0005"></span><span class="dd-s0005"></span>
+      </button>
+      <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0006">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="30" height="30" alt="BioseqDB logo" class="dd-s0007">
+        <span class="dd-s0008">Bioseq<span class="dd-s0009">DB</span></span>
+        <span data-docsbadge class="dd-s0010">DOCS</span>
+      </a>
+
+      <nav data-topnav class="dd-s0011">
+        <a href="/v0.1/tutorials/quick_read_search_write/" data-nav class="dd-s0012">Docs</a>
+        <a href="/" class="dd-s0013">Product</a>
+        <a href="/benchmarks/" class="dd-s0014 dd-h001">Benchmarks</a>
+        <a href="/versions/" class="dd-s0013">Versions</a>
+      </nav>
+
+      <!-- SEARCH -->
+      <div data-search-wrap class="dd-s0015">
+        <div data-search-box class="dd-s0016">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" class="dd-s0017"><circle cx="7" cy="7" r="5" stroke="#7d94a6" stroke-width="1.6"/><line x1="10.6" y1="10.6" x2="14" y2="14" stroke="#7d94a6" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="doc-search" role="combobox" aria-autocomplete="list" aria-controls="search-dd" aria-expanded="false" data-search-index="/v0.1/search-index.json" type="text" placeholder="Search docs, functions, types…" autocomplete="off" spellcheck="false" class="dd-s0018">
+          <kbd class="dd-s0019">/</kbd>
+        </div>
+        <div id="search-dd" role="listbox" aria-label="Search results" class="dd-s0020"></div>
+      </div>
+
+      <!-- VERSION -->
+      <div data-ver-wrap class="dd-s0021">
+        <button id="ver-btn" class="dd-s0022">
+          <span class="dd-s0023"></span>v0.1 <span class="docs-version-status">Alpha</span>
+          <span data-caret class="dd-s0025"></span>
+        </button>
+        <div id="ver-menu" data-versions-url="/versions.json" class="dd-s0026">
+          <a data-ver href="/v0.1/tutorials/quick_read_search_write/" aria-current="page" class="dd-s0027">v0.1 <span class="docs-version-current">current</span></a>
+          <a data-ver-all href="/versions/" class="dd-s0029">All versions</a>
+        </div>
+      </div>
+
+      <a data-ghbtn href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0031">GitHub</a>
+    </div>
+  </header>
+
+  <!-- ============ BODY GRID ============ -->
+  <div data-bodygrid class="dd-s0032">
+
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <aside id="sidebar" class="dd-s0033">
+      
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Tutorials
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0037">Read, search, and write sequences quickly</a><a data-doc-link href="/v0.1/tutorials/sequence_column_type/" class="dd-s0037">The bioseq.seq column type</a><a data-doc-link href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0037">Columnar storage and vectorized aggregates</a><a data-doc-link href="/v0.1/tutorials/sequence_generation/" class="dd-s0037">Generate deterministic sequence tables</a><a data-doc-link href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0037">Load FASTA, FASTQ, and gzip data</a><a data-doc-link href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0037">Index lifecycle, choices, and metadata</a><a data-doc-link href="/v0.1/tutorials/similarity_search/" class="dd-s0037">Searching sequences with mmsearch</a><a data-doc-link href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0037">Slice, concatenate, reverse, and measure sequences</a><a data-doc-link href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0037">Search multiple sequence columns and join by sequence</a><a data-doc-link href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0037">Highway runtime dispatch</a><a data-doc-link href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0037">Read every Bioseq EXPLAIN section</a><a data-doc-link href="/v0.1/tutorials/query_cache/" class="dd-s0037">Caching sequence-search results</a><a data-doc-link href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0037">Query remote providers, stage sequences, and search them</a>
+        </div>
+      </div>
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Reference
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/reference/cpp/" class="dd-s0037">C++</a><a data-doc-link href="/v0.1/reference/sql/" class="dd-s0037">SQL</a>
+        </div>
+      </div>
+      
+      
+      <div class="dd-s0038">
+        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0039">Edit on GitHub</a>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="doc-main" class="dd-s0040">
+      
+<section data-page-panel data-screen-label="Docs · Tutorial" class="dd-s0040 design-page">
+  <header data-reveal class="dd-s0041 design-page-header">
+    <nav aria-label="Breadcrumb" class="dd-s0042 design-breadcrumb">
+      <a href="/">Home</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/">v0.1</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/quick_read_search_write/">Tutorials</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/quick_read_search_write/">Read, search, and write sequences quickly</a><span class="dd-s0043" aria-hidden="true">/</span>
+    </nav>
+    <h1 class="dd-s0045">Read, search, and write sequences quickly</h1>
+    <p class="dd-s0046">Build a useful Bioseq table, load it safely, read compact values, and run an indexed search.</p>
+  </header>
+
+  <div class="docs-content tutorial-body"><p class="doc-paragraph">This tutorial builds one small sequence table and uses it for the three jobs<br>that most applications need first:</p><ol><li>Write sequences beside ordinary PostgreSQL metadata</li><li>Read lengths and selected bases without turning every value into text</li><li>Search stored targets with <a class="entity-ref" href="/v0.1/reference/sql/overload_group/extension-mmsearch-3425d4d7993bfdd8/" data-entity="sql:overload_group:$extension.mmsearch" data-entity-id="sql:overload_group:$extension.mmsearch" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.mmsearch</a></li></ol><p class="doc-paragraph">The examples use DNA with the four symbols A, C, G, and T. The later tutorials<br>show the <code>dna5</code> alphabet, packed storage widths, slicing, joins, remote<br>providers, caching, CPU dispatch, and GPU controls in more detail.</p><p class="doc-paragraph">Prerequisite: ordinary PostgreSQL table, <code>INSERT</code>, and <code>SELECT</code> basics.</p><h2 class="hx" id="install-the-extension" data-toc data-title="Install the extension">Install the extension<a data-hash href="#install-the-extension" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Install Bioseq once in each database where you want to use it:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-2453aa2e49a466ee-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-2453aa2e49a466ee-0" class="language-sql">CREATE EXTENSION bioseq;
+</code></pre></figure><p class="doc-paragraph">The extension creates the <a class="entity-ref" href="/v0.1/reference/sql/type/bioseq-seq-8c069b667ce622ef/" data-entity="sql:type:bioseq.seq" data-entity-id="sql:type:bioseq.seq" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.seq</a> type, the <code>bioseq</code> table access method,<br>the search predicate, sequence functions, and the planner support that connects<br>them.</p><p class="doc-paragraph">You can confirm that PostgreSQL sees the extension before creating application<br>tables:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-1b13c9fc56bd13a7-1" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-1b13c9fc56bd13a7-1" class="language-sql">SELECT extname, extversion
+FROM pg_extension
+WHERE extname = 'bioseq';
+</code></pre></figure><p class="doc-paragraph">If this returns no row, connect to the intended database and install the<br>extension there. PostgreSQL extensions are installed per database, not once per<br>server.</p><h2 class="hx" id="create-a-table-for-sequences-and-metadata" data-toc data-title="Create a table for sequences and metadata">Create a table for sequences and metadata<a data-hash href="#create-a-table-for-sequences-and-metadata" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">A searchable table uses <code>USING bioseq</code>. Ordinary PostgreSQL columns can sit<br>beside one or more sequence columns:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-c676a716eb16bc87-2" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-c676a716eb16bc87-2" class="language-sql">CREATE TABLE sample_reads (
+    read_id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    sample_id text NOT NULL,
+    collected_on date NOT NULL,
+    passed_qc boolean NOT NULL DEFAULT false,
+    sequence bioseq.seq('dna4', 32) NOT NULL
+) USING bioseq;
+</code></pre></figure><p class="doc-paragraph">The sequence declaration has two independent parts:</p><ul><li><code>dna4</code> accepts A, C, G, and T</li><li><code>32</code> requests 32-bit packed storage units</li></ul><p class="doc-paragraph">The number <code>32</code> is not a maximum sequence length. A value may contain far more<br>than 32 bases. Use <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/" data-entity="sql:function:bioseq.len(bioseq.seq)" data-entity-id="sql:function:bioseq.len(bioseq.seq)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.len</a> when you need its length in biological<br>symbols.</p><p class="doc-paragraph">The active build profile can normalize accepted widths to one physical width.<br>Check what this server bound to the column instead of assuming that the number<br>written in the <code>CREATE TABLE</code> text stayed distinct:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-9f76af04873bb81b-3" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-9f76af04873bb81b-3" class="language-sql">SELECT a.attname AS column_name,
+       format_type(a.atttypid, a.atttypmod) AS active_type
+FROM pg_attribute AS a
+WHERE a.attrelid = 'sample_reads'::regclass
+  AND a.attnum &gt; 0
+  AND NOT a.attisdropped
+ORDER BY a.attnum;
+</code></pre></figure><p class="doc-paragraph">The everyday build profile reports accepted sequence widths as the 64-bit<br>physical form. Profiles that retain all requested widths report them<br>separately. This does not change the alphabet or the sequence length.</p><p class="doc-paragraph">The table access method matters. A regular heap table can hold a<br><code>bioseq.seq</code> value, but the sequence-aware storage, index maintenance, and<br><code>BioseqScan</code> search path in this workflow start with <code>USING bioseq</code>.</p><p class="doc-paragraph">Inspect the table definition in <code>psql</code> with:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">Text</span><button type="button" class="copy-button" data-copy data-copy-target="code-d2e5bcd7060d4c66-4" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-d2e5bcd7060d4c66-4">\d+ sample_reads
+</code></pre></figure><p class="doc-paragraph">Check for <code>Access method: bioseq</code> in the output.</p><h2 class="hx" id="choose-a-write-strategy-before-loading-rows" data-toc data-title="Choose a write strategy before loading rows">Choose a write strategy before loading rows<a data-hash href="#choose-a-write-strategy-before-loading-rows" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Bioseq has two normal write patterns. Pick one for each load rather than<br>switching in the middle without a reason.</p><h3 class="hx" id="search-ordinary-writes-with-the-optimized-defaults" data-toc-sub data-title="Search ordinary writes with the optimized defaults">Search ordinary writes with the optimized defaults<a data-hash href="#search-ordinary-writes-with-the-optimized-defaults" aria-label="Link to this section">#</a></h3><p class="doc-paragraph">The default bounded minimizer uses grouped-SoA publication, not the legacy<br>insert-time writer. Leave insert maintenance off. Normal searches prepare<br>transient indexes for rows without a compatible stored index:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-f10679a8186c0bf7-5" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-f10679a8186c0bf7-5" class="language-sql">SET bioseq.index.insert_maintenance.enabled = off;
+</code></pre></figure><p class="doc-paragraph">Then insert rows through ordinary SQL:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-1b29b5136f67494c-6" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-1b29b5136f67494c-6" class="language-sql">INSERT INTO sample_reads (
+    sample_id,
+    collected_on,
+    passed_qc,
+    sequence
+)
+VALUES
+    ('sample-a', DATE '2026-08-01', true,
+     'TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGC'),
+    ('sample-a', DATE '2026-08-01', true,
+     'CCCCAACTTAGTCACTTCTCAAAAATTACTCTCTCATCATCATC'),
+    ('sample-b', DATE '2026-08-02', false,
+     'GGGGGTCACTTCTCAAAAATTAGGGGGGGGGTAGTCACTGTAG'),
+    ('sample-c', DATE '2026-08-03', true,
+     'TTTCATCATCATCATCTACTCCTATCTATCATCATCATCATCTA');
+</code></pre></figure><p class="doc-paragraph">The alphabet is checked as the value enters the column. A row containing <code>N</code><br>would fail for this <code>dna4</code> column instead of silently changing the data.</p><p class="doc-paragraph">Use a transaction when several metadata and sequence changes belong together:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-90ccdec9b09ffb85-7" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-90ccdec9b09ffb85-7" class="language-sql">BEGIN;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-c33315a00b0e76c8-8" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-c33315a00b0e76c8-8" class="language-sql">SET LOCAL bioseq.index.insert_maintenance.enabled = off;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-79d25ae84e766915-9" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-79d25ae84e766915-9" class="language-sql">INSERT INTO sample_reads (
+    sample_id,
+    collected_on,
+    passed_qc,
+    sequence
+)
+VALUES (
+    'sample-d',
+    DATE '2026-08-04',
+    true,
+    'ACGTACGTACGTACGTACGTACGTACGTACGT'
+);
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-91b467f4449452db-10" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-91b467f4449452db-10" class="language-sql">COMMIT;
+</code></pre></figure><p class="doc-paragraph"><code>SET LOCAL</code> lasts only until the transaction ends. This makes the chosen write<br>policy explicit without changing later work done through the same connection.</p><h3 class="hx" id="rebuild-once-after-a-bulk-load" data-toc-sub data-title="Rebuild once after a bulk load">Rebuild once after a bulk load<a data-hash href="#rebuild-once-after-a-bulk-load" aria-label="Link to this section">#</a></h3><p class="doc-paragraph">For repeated searches, leave insert maintenance off while loading and build the<br>sequence index once after the source transaction commits:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-f10679a8186c0bf7-11" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-f10679a8186c0bf7-11" class="language-sql">SET bioseq.index.insert_maintenance.enabled = off;
+</code></pre></figure><p class="doc-paragraph">Load the rows with <code>COPY</code>, application batches, or <code>bioseq.load</code>. When the<br>load has completed and committed, build the search index for the relation:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-4ce2557340d65be0-12" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-4ce2557340d65be0-12" class="language-sql">SELECT bioseq.update_index(
+    'sample_reads'::regclass,
+    'minimizers_per_fragment'
+);
+</code></pre></figure><p class="doc-paragraph">The recipe name is part of the call. <code>minimizers_per_fragment</code> is suited to<br>fragment-oriented searching. <code>minimizers_per_sequence</code> is the other supported<br>recipe name.</p><p class="doc-paragraph">Do not start searches between the maintenance-off load and <code>update_index</code> if<br>your application expects the newly loaded rows to use the stored index. Finish<br>the load, update the index, and only then make that dataset visible to search<br>traffic.</p><p class="doc-paragraph">If the load must be published atomically, stage it in a new table, finish its<br>index update, and switch application metadata to the ready relation in a short<br>transaction.</p><h2 class="hx" id="read-sequence-metadata-first" data-toc data-title="Read sequence metadata first">Read sequence metadata first<a data-hash href="#read-sequence-metadata-first" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Start with the smallest projection that answers the question. Length and symbol<br>counts do not require a text copy in the client:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-90e8dff1e6c197d7-13" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-90e8dff1e6c197d7-13" class="language-sql">SELECT read_id,
+       sample_id,
+       bioseq.len(sequence) AS bases,
+       bioseq.symbol_count(sequence, 'A') AS a_bases
+FROM sample_reads
+WHERE passed_qc
+ORDER BY read_id;
+</code></pre></figure><p class="doc-paragraph"><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/" data-entity="sql:function:bioseq.len(bioseq.seq)" data-entity-id="sql:function:bioseq.len(bioseq.seq)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.len</a> returns the number of symbols. It does not return bytes or<br>packed units. <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-symbol-count-57d215dc4755c7c6/" data-entity="sql:function:bioseq.symbol_count(bioseq.seq,text)" data-entity-id="sql:function:bioseq.symbol_count(bioseq.seq,text)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.symbol_count</a> counts the requested symbol under the<br>column's alphabet.</p><p class="doc-paragraph">When you are studying packing rather than biology, ask for both symbol length<br>and packed-unit length:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-585d66481147ba87-14" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-585d66481147ba87-14" class="language-sql">SELECT read_id,
+       bioseq.len(sequence) AS symbols,
+       bioseq.unit_len(sequence) AS packed_units
+FROM sample_reads
+ORDER BY read_id;
+</code></pre></figure><p class="doc-paragraph">Both results are <code>bigint</code>. They describe different units and should have names<br>that make the distinction visible in reports. <code>unit_len</code> follows the active<br>physical width, so two declarations can report the same count after build<br>profile normalization.</p><p class="doc-paragraph">Use a slice when a preview is enough:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-811f56f10b661e80-15" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-811f56f10b661e80-15" class="language-sql">SELECT read_id,
+       sequence[:12]::text AS first_twelve,
+       sequence[-12:]::text AS last_twelve
+FROM sample_reads
+ORDER BY read_id;
+</code></pre></figure><p class="doc-paragraph">Bioseq slices use zero-based, half-open bounds. <code>[:12]</code> includes positions 0<br>through 11. <code>[-12:]</code> starts twelve symbols before the end. The slicing tutorial<br>shows negative indexes, clamping, NULL bounds, concatenation, and reverse<br>operations.</p><p class="doc-paragraph">Convert the whole value to text only when the caller actually needs every<br>symbol:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-bb87d5c1cb34051f-16" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-bb87d5c1cb34051f-16" class="language-sql">SELECT read_id, sequence::text
+FROM sample_reads
+WHERE read_id = 1;
+</code></pre></figure><p class="doc-paragraph">This keeps list pages and metadata endpoints from moving full sequence payloads<br>that they do not display.</p><h2 class="hx" id="check-the-read-path-with-explain" data-toc data-title="Check the read path with EXPLAIN">Check the read path with EXPLAIN<a data-hash href="#check-the-read-path-with-explain" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Use plain <code>EXPLAIN</code> while changing query shape:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-bd3df4e18f020a59-17" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-bd3df4e18f020a59-17" class="language-sql">EXPLAIN (VERBOSE, COSTS OFF)
+SELECT read_id,
+       bioseq.len(sequence),
+       bioseq.symbol_count(sequence, 'A')
+FROM sample_reads
+WHERE passed_qc;
+</code></pre></figure><p class="doc-paragraph">For a Bioseq custom scan, <code>Bioseq Projected Columns</code> shows what the node must<br>produce. <code>Bioseq Fetched From Meta</code> lists supported metadata projections such<br>as a symbol count. Treat the plan as a way to understand a specific statement.<br>Do not assume that adding an unused full-text projection is free.</p><p class="doc-paragraph">Use <code>ANALYZE</code> only when it is acceptable to run the statement:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-54fa422e50f444b5-18" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-54fa422e50f444b5-18" class="language-sql">EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT read_id,
+       bioseq.len(sequence)
+FROM sample_reads
+WHERE passed_qc;
+</code></pre></figure><p class="doc-paragraph"><code>EXPLAIN ANALYZE</code> executes the query. Keep that in mind for statements that<br>contact remote providers or perform writes.</p><h2 class="hx" id="search-stored-targets" data-toc data-title="Search stored targets">Search stored targets<a data-hash href="#search-stored-targets" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>public.mmsearch</code> is a predicate. Its first argument is the stored target<br>column and its second argument is the query sequence:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-16f991acd60b4124-19" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-16f991acd60b4124-19" class="language-sql">SELECT read_id,
+       sample_id
+FROM sample_reads
+WHERE public.mmsearch(
+    sequence,
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+)
+ORDER BY read_id;
+</code></pre></figure><p class="doc-paragraph">The query value uses the same alphabet and storage width as the target column.<br>Writing the cast in the SQL makes that contract easy to see and catches bad<br>input close to the caller.</p><p class="doc-paragraph">Ordinary PostgreSQL filters can narrow the candidate rows:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-b460395255f3a7c9-20" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-b460395255f3a7c9-20" class="language-sql">SELECT read_id,
+       sample_id,
+       collected_on
+FROM sample_reads
+WHERE sample_id = 'sample-a'
+  AND collected_on &gt;= DATE '2026-08-01'
+  AND passed_qc
+  AND public.mmsearch(
+      sequence,
+      'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+  )
+ORDER BY read_id;
+</code></pre></figure><p class="doc-paragraph">Keep <code>mmsearch</code> as a visible predicate in the <code>WHERE</code> clause. Hiding it inside<br>an expression that changes its Boolean meaning can prevent the planner from<br>assigning the search to <code>BioseqScan</code>.</p><h2 class="hx" id="return-alignment-coordinates" data-toc data-title="Return alignment coordinates">Return alignment coordinates<a data-hash href="#return-alignment-coordinates" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Search results can include the matched spans and CIGAR string. Read them with<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-query-start-12e9ad13b132271e/" data-entity="sql:function:bioseq.query_start(anyelement)" data-entity-id="sql:function:bioseq.query_start(anyelement)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.query_start</a>, <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-query-end-6c2a98839d0cee3f/" data-entity="sql:function:bioseq.query_end(anyelement)" data-entity-id="sql:function:bioseq.query_end(anyelement)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.query_end</a>,<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-target-start-7f5c101237c7c3f3/" data-entity="sql:function:bioseq.target_start(anyelement)" data-entity-id="sql:function:bioseq.target_start(anyelement)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.target_start</a>, <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-target-end-360d292b54a6c2ca/" data-entity="sql:function:bioseq.target_end(anyelement)" data-entity-id="sql:function:bioseq.target_end(anyelement)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.target_end</a>, and<br><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-cigar-2c13a882e87557f3/" data-entity="sql:function:bioseq.cigar(anyelement)" data-entity-id="sql:function:bioseq.cigar(anyelement)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.cigar</a>:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-98e6a191c8731256-21" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-98e6a191c8731256-21" class="language-sql">SELECT read_id,
+       bioseq.query_start(read_id) AS query_start,
+       bioseq.query_end(read_id) AS query_end,
+       bioseq.target_start(read_id) AS target_start,
+       bioseq.target_end(read_id) AS target_end,
+       bioseq.cigar(read_id) AS cigar
+FROM sample_reads
+WHERE public.mmsearch(
+    sequence,
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32),
+    aligner_options(best_n =&gt; 3)
+)
+ORDER BY read_id, target_start, target_end;
+</code></pre></figure><p class="doc-paragraph">The <code>read_id</code> passed to each projection function is the result carrier for the<br>current alignment row. It ties the projected coordinate to the corresponding<br>match.</p><p class="doc-paragraph">Coordinates are zero-based and half-open. The start is included and the end is<br>excluded. The span length is therefore <code>end - start</code>.</p><p class="doc-paragraph">One stored target can produce more than one alignment row. <code>best_n =&gt; 3</code> limits<br>the secondary alignments retained for that target. It does not limit the number<br>of stored target rows that can match.</p><h2 class="hx" id="confirm-that-the-search-uses-bioseqscan" data-toc data-title="Confirm that the search uses BioseqScan">Confirm that the search uses BioseqScan<a data-hash href="#confirm-that-the-search-uses-bioseqscan" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Explain the same predicate that the application sends:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-b3d008ee87e6ace4-22" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-b3d008ee87e6ace4-22" class="language-sql">EXPLAIN (VERBOSE, COSTS OFF)
+SELECT read_id
+FROM sample_reads
+WHERE passed_qc
+  AND public.mmsearch(
+      sequence,
+      'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+  );
+</code></pre></figure><p class="doc-paragraph">Look for <code>Custom Scan (BioseqScan)</code>. Then read these parts of the plan:</p><ul><li><code>Bioseq Projected Columns</code> for the columns the scan produces</li><li><code>Bioseq Index Read Requirement</code> for the planned index need</li><li><code>Bioseq Match Operand Evaluation</code> for how the target and query are obtained</li><li><code>Bioseq Pipeline</code> for the selected search stages</li><li><code>Highway SIMD Dispatch</code> for compiled, runnable, and planned CPU targets</li></ul><p class="doc-paragraph"><code>EXPLAIN (ANALYZE, VERBOSE)</code> adds actual backend, target-index, prefilter,<br>cache, and pipeline counters. The EXPLAIN tutorial gives a field-by-field guide<br>to each Bioseq section.</p><p class="doc-paragraph">If PostgreSQL does not select <code>BioseqScan</code>, check these facts in order:</p><ol><li>The table was created with <code>USING bioseq</code></li><li>The first <code>mmsearch</code> argument is a stored sequence column</li><li>The query value has a compatible alphabet</li><li>If the query requires a persisted index, <code>bioseq.update_index</code> ran after the load committed</li><li>The predicate remains a top-level search condition</li><li>The session has not disabled the required custom-scan plan</li></ol><p class="doc-paragraph">Do not use elapsed time from a first tiny query as a throughput claim. The<br>first execution can include planner, scheduler, index, and dispatch setup. Use<br>the plan to confirm the route, check ordered results for correctness, then time<br>a representative batch with the same projection and filters as the<br>application.</p><h2 class="hx" id="update-sequence-and-metadata-together" data-toc data-title="Update sequence and metadata together">Update sequence and metadata together<a data-hash href="#update-sequence-and-metadata-together" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">An update can change ordinary columns and the sequence value in the same row:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-f10679a8186c0bf7-23" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-f10679a8186c0bf7-23" class="language-sql">SET bioseq.index.insert_maintenance.enabled = off;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-d6af91a4ce9de5fa-24" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-d6af91a4ce9de5fa-24" class="language-sql">UPDATE sample_reads
+SET passed_qc = true,
+    sequence = 'ACGTACGTACGTACGTACGTACGTACGTACGT'
+WHERE read_id = 3;
+</code></pre></figure><p class="doc-paragraph">After the update commits, run <code>bioseq.update_index</code> when subsequent searches<br>must use a persisted index for the updated target. Normal searches may use<br>transient preparation before publication.</p><p class="doc-paragraph">Delete through ordinary SQL:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-e5bb82f054e91ccf-25" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-e5bb82f054e91ccf-25" class="language-sql">DELETE FROM sample_reads
+WHERE read_id = 4;
+</code></pre></figure><p class="doc-paragraph">If you deliberately perform a maintenance-off batch of inserts or sequence<br>updates, finish with <code>bioseq.update_index</code> before reopening the relation to<br>search traffic.</p><h2 class="hx" id="keep-query-values-separate-from-sql-text" data-toc data-title="Keep query values separate from SQL text">Keep query values separate from SQL text<a data-hash href="#keep-query-values-separate-from-sql-text" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Applications should pass the query sequence as a parameter. A prepared<br>statement keeps data out of the SQL string while preserving the explicit<br>Bioseq cast:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-c1b65032f6a96727-26" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-c1b65032f6a96727-26" class="language-sql">PREPARE find_sample_reads(text, text) AS
+SELECT read_id,
+       sample_id,
+       bioseq.target_start(read_id) AS target_start,
+       bioseq.target_end(read_id) AS target_end
+FROM sample_reads
+WHERE sample_id = $1
+  AND public.mmsearch(
+      sequence,
+      $2::bioseq.seq('dna4', 32)
+  )
+ORDER BY read_id, target_start;
+</code></pre></figure><p class="doc-paragraph">Run it with application values:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-99f1e44bb8f93c68-27" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-99f1e44bb8f93c68-27" class="language-sql">EXECUTE find_sample_reads(
+    'sample-a',
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'
+);
+</code></pre></figure><p class="doc-paragraph">The cast validates the parameter against <code>dna4</code>. An invalid symbol fails as an<br>input error rather than being stored or searched under a different meaning.</p><p class="doc-paragraph">Release the prepared statement when the session no longer needs it:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-89bd252f7a7230fa-28" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-89bd252f7a7230fa-28" class="language-sql">DEALLOCATE find_sample_reads;
+</code></pre></figure><h2 class="hx" id="a-compact-end-to-end-example" data-toc data-title="A compact end-to-end example">A compact end-to-end example<a data-hash href="#a-compact-end-to-end-example" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The block below is suitable for a scratch database. It creates a relation,<br>writes targets, searches them, and cleans up:</p><figure class="doc-code" data-term data-sql-example="quick_read_search_write"><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-042b1f98e72e91b8-29" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-042b1f98e72e91b8-29" class="language-sql" data-entity-ranges="[{&quot;start&quot;:657,&quot;len&quot;:15,&quot;id&quot;:&quot;sql:function:$extension.mmsearch(bioseq.seq,bioseq.seq)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/extension-mmsearch-9b9a40378e3617b1/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;}]">INSERT INTO quick_reads VALUES
+    (1, 'alpha', 'TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA'),
+    (2, 'alpha', 'CCCCAACTTAGTCACTTCTCAAAAATTACTCTCTCATCATCATCTACTCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACACACACCCCAAA'),
+    (3, 'beta', 'GGGGGTCACTTCTCAAAAATTAGGGGGGGGGTAGTCACTGTAGCCTGATCGTAGCTAGGACACATATCATCATCTACTCCTATCATCATCTACTCCTA')
+RETURNING read_id,
+          sample_id,
+          bioseq.len(sequence) AS bases;
+
+SELECT read_id,
+       sample_id,
+       bioseq.len(sequence) AS bases,
+       bioseq.target_start(read_id) AS target_start,
+       bioseq.target_end(read_id) AS target_end
+FROM quick_reads
+WHERE public.mmsearch(
+    sequence,
+    'TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA'::bioseq.seq('dna4', 32)
+)
+ORDER BY read_id, target_start;</code></pre></figure><p class="doc-paragraph"><em>Result 1</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">read_id<br><code>integer</code></th><th scope="col">sample_id<br><code>text</code></th><th scope="col">bases<br><code>bigint</code></th></tr></thead><tbody><tr><td>1</td><td>alpha</td><td>93</td></tr><tr><td>2</td><td>alpha</td><td>93</td></tr><tr><td>3</td><td>beta</td><td>98</td></tr></tbody></table><p class="doc-paragraph"><em>Result 2</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">read_id<br><code>integer</code></th><th scope="col">sample_id<br><code>text</code></th><th scope="col">bases<br><code>bigint</code></th><th scope="col">target_start<br><code>bigint</code></th><th scope="col">target_end<br><code>bigint</code></th></tr></thead><tbody><tr><td>1</td><td>alpha</td><td>93</td><td>2</td><td>91</td></tr></tbody></table><p class="doc-paragraph"><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.11</em></p><p class="doc-paragraph">The first result confirms the three rows written and reports each stored length.<br>The second result searches for the full first read, including the match<br>coordinates needed to locate each alignment in its stored target. This longer<br>query exercises the default alignment settings; a short shared motif alone can<br>fall below the alignment filters even when that text occurs in a target. This<br>example uses transient index preparation; explicitly publish an index after the<br>load when persisted reuse is required.</p><h2 class="hx" id="what-to-carry-into-an-application" data-toc data-title="What to carry into an application">What to carry into an application<a data-hash href="#what-to-carry-into-an-application" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Keep legacy insert maintenance off with the optimized grouped-SoA defaults.<br>Commit the source writes, then run an explicit <code>bioseq.update_index</code> when a<br>persisted index is required. Batch that publication after a bulk load.</p><p class="doc-paragraph">Record the relation name, index recipe, and returned <code>update_index</code> value in<br>the import log. Publish the table only after that statement succeeds. This<br>makes a failed load distinguishable from a ready searchable generation.</p><p class="doc-paragraph">Read <code>bioseq.len</code>, <code>bioseq.unit_len</code>, symbol counts, or slices when those are<br>all the caller needs. Avoid returning full text payloads on metadata paths.</p><p class="doc-paragraph">Put the stored target first in <code>mmsearch</code>, cast the query to a compatible<br><code>bioseq.seq</code> type, and keep the predicate visible to the planner. Use the<br>coordinate functions when callers need the actual aligned span.</p><p class="doc-paragraph">Finally, inspect the real application statement with <code>EXPLAIN</code>. A short plan<br>check catches the common mistakes earlier than a performance investigation.</p><p class="doc-paragraph">Next: learn how alphabets and packed widths work in<br><a href="../sequence_column_type/">The bioseq.seq column type</a>.</p></div>
+
+  
+    
+    <nav class="dd-s0084" aria-label="Next tutorial"><div class="dd-s0085"><a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0086 dd-h005"><span class="dd-s0087">Next &#8594;</span><span class="dd-s0088">The bioseq.seq column type</span></a></div></nav>
+    
+  
+</section>
+
+    </main>
+
+    <!-- ===== RIGHT TOC ===== -->
+    <aside data-rightrail class="dd-s0234">
+      <div class="dd-s0235">On this page</div>
+      <div id="toc-list" class="dd-s0236">
+        <a data-toc-link data-level="2" href="#install-the-extension">Install the extension</a><a data-toc-link data-level="2" href="#create-a-table-for-sequences-and-metadata">Create a table for sequences and metadata</a><a data-toc-link data-level="2" href="#choose-a-write-strategy-before-loading-rows">Choose a write strategy before loading rows</a><a data-toc-link data-level="3" href="#search-ordinary-writes-with-the-optimized-defaults">Search ordinary writes with the optimized defaults</a><a data-toc-link data-level="3" href="#rebuild-once-after-a-bulk-load">Rebuild once after a bulk load</a><a data-toc-link data-level="2" href="#read-sequence-metadata-first">Read sequence metadata first</a><a data-toc-link data-level="2" href="#check-the-read-path-with-explain">Check the read path with EXPLAIN</a><a data-toc-link data-level="2" href="#search-stored-targets">Search stored targets</a><a data-toc-link data-level="2" href="#return-alignment-coordinates">Return alignment coordinates</a><a data-toc-link data-level="2" href="#confirm-that-the-search-uses-bioseqscan">Confirm that the search uses BioseqScan</a><a data-toc-link data-level="2" href="#update-sequence-and-metadata-together">Update sequence and metadata together</a><a data-toc-link data-level="2" href="#keep-query-values-separate-from-sql-text">Keep query values separate from SQL text</a><a data-toc-link data-level="2" href="#a-compact-end-to-end-example">A compact end-to-end example</a><a data-toc-link data-level="2" href="#what-to-carry-into-an-application">What to carry into an application</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ============ SITE FOOTER ============ -->
+  <footer data-screen-label="Docs · Footer" class="dd-s0237">
+    <div aria-hidden="true" class="dd-s0238">BioseqDB</div>
+
+    <div class="dd-s0239">
+      <div data-footcols class="dd-s0240">
+        <div>
+          <div class="dd-s0241">
+            <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="dd-s0007">
+            <span class="dd-s0242">Bioseq<span class="dd-s0243">DB</span></span>
+            <span class="dd-s0244">DOCS</span>
+          </div>
+          <p class="dd-s0245">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
+          <span class="dd-s0246"><span class="dd-s0247"></span>Free &amp; open source</span>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Documentation</div>
+          <div class="dd-s0249">
+            
+            <a href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Read, search, and write sequences quickly</a><a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0250 dd-h009">The bioseq.seq column type</a><a href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0250 dd-h009">Columnar storage and vectorized aggregates</a><a href="/v0.1/tutorials/sequence_generation/" class="dd-s0250 dd-h009">Generate deterministic sequence tables</a><a href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0250 dd-h009">Load FASTA, FASTQ, and gzip data</a><a href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0250 dd-h009">Index lifecycle, choices, and metadata</a><a href="/v0.1/tutorials/similarity_search/" class="dd-s0250 dd-h009">Searching sequences with mmsearch</a><a href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0250 dd-h009">Slice, concatenate, reverse, and measure sequences</a><a href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0250 dd-h009">Search multiple sequence columns and join by sequence</a><a href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0250 dd-h009">Highway runtime dispatch</a><a href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0250 dd-h009">Read every Bioseq EXPLAIN section</a><a href="/v0.1/tutorials/query_cache/" class="dd-s0250 dd-h009">Caching sequence-search results</a><a href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0250 dd-h009">Query remote providers, stage sequences, and search them</a><a href="/v0.1/reference/cpp/" class="dd-s0250 dd-h009">C++</a><a href="/v0.1/reference/sql/" class="dd-s0250 dd-h009">SQL</a>
+            
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Explore</div>
+          <div class="dd-s0249">
+            <a href="/" class="dd-s0250 dd-h009">Product home</a>
+            <a href="/#workflow" class="dd-s0250 dd-h009">Workflow</a>
+            <a href="/#examples" class="dd-s0250 dd-h009">Examples</a>
+            <a href="/#index" class="dd-s0250 dd-h009">Index</a>
+            <a href="/#scale" class="dd-s0250 dd-h009">Scale</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Project</div>
+          <div class="dd-s0249">
+            <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Documentation</a>
+            <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0251">GitHub</a>
+            <span class="dd-s0252">Alpha &middot; v0.1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-s0253">
+      <div class="dd-s0254"></div>
+      <div class="dd-s0255">
+        <span class="dd-s0256">&copy; 2026 Bioseq contributors &mdash; an independent open-source project.</span>
+        <nav class="dd-s0257">
+          <a href="https://github.com/styczynski/bioseqdb/blob/main/LICENSE" rel="noreferrer" class="dd-s0258 dd-h010">License (MIT)</a>
+          <a href="/versions/" class="dd-s0258 dd-h010">Versions</a>
+          <a data-totop href="#page-top" class="dd-s0258 dd-h010">Back to top ↑</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div data-backdrop class="dd-s0259"></div>
+
+  <!-- ===== ENTITY POPOVER ===== -->
+  <div id="entity-pop" class="dd-s0260"></div>
+
+</div>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"Read, search, and write sequences quickly","description":"Build a useful Bioseq table, load it safely, read compact values, and run an indexed search.","url":"https://bioseqdb.com/v0.1/tutorials/quick_read_search_write/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/quick_read_search_write/"},{"@type":"ListItem","position":4,"name":"Read, search, and write sequences quickly","item":"/v0.1/tutorials/quick_read_search_write/"}]}]}</script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/prism-init.js"></script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/main.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/docs-design.mjs"></script>
+</body>
+</html>

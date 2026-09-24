@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Index lifecycle, choices, and metadata</title>
+<meta name="description" content="Build and maintain Bioseq&#39;s persisted search forms, inspect public metadata, and verify actual index use.">
+<link rel="canonical" href="https://bioseqdb.com/v0.1/tutorials/index_lifecycle_and_metadata/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta property="og:title" content="Index lifecycle, choices, and metadata">
+<meta property="og:description" content="Build and maintain Bioseq&#39;s persisted search forms, inspect public metadata, and verify actual index use.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bioseqdb.com/v0.1/tutorials/index_lifecycle_and_metadata/">
+<meta property="og:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Index lifecycle, choices, and metadata">
+<meta name="twitter:description" content="Build and maintain Bioseq&#39;s persisted search forms, inspect public metadata, and verify actual index use.">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<link rel="icon" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/favicon.svg">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/site.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/docs-design.css">
+</head>
+<body id="page-top" class="docs-design-page">
+<a class="skip-link" href="#doc-main">Skip to main content</a>
+
+<div data-screen-label="BioseqDB documentation" class="dd-s0001">
+
+  <!-- ============ TOP NAV ============ -->
+  <header id="dnav" class="dd-s0002">
+    <div class="dd-s0003">
+      <button data-menu aria-label="Menu" class="dd-s0004">
+        <span class="dd-s0005"></span><span class="dd-s0005"></span><span class="dd-s0005"></span>
+      </button>
+      <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0006">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="30" height="30" alt="BioseqDB logo" class="dd-s0007">
+        <span class="dd-s0008">Bioseq<span class="dd-s0009">DB</span></span>
+        <span data-docsbadge class="dd-s0010">DOCS</span>
+      </a>
+
+      <nav data-topnav class="dd-s0011">
+        <a href="/v0.1/tutorials/quick_read_search_write/" data-nav class="dd-s0012">Docs</a>
+        <a href="/" class="dd-s0013">Product</a>
+        <a href="/benchmarks/" class="dd-s0014 dd-h001">Benchmarks</a>
+        <a href="/versions/" class="dd-s0013">Versions</a>
+      </nav>
+
+      <!-- SEARCH -->
+      <div data-search-wrap class="dd-s0015">
+        <div data-search-box class="dd-s0016">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" class="dd-s0017"><circle cx="7" cy="7" r="5" stroke="#7d94a6" stroke-width="1.6"/><line x1="10.6" y1="10.6" x2="14" y2="14" stroke="#7d94a6" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="doc-search" role="combobox" aria-autocomplete="list" aria-controls="search-dd" aria-expanded="false" data-search-index="/v0.1/search-index.json" type="text" placeholder="Search docs, functions, types…" autocomplete="off" spellcheck="false" class="dd-s0018">
+          <kbd class="dd-s0019">/</kbd>
+        </div>
+        <div id="search-dd" role="listbox" aria-label="Search results" class="dd-s0020"></div>
+      </div>
+
+      <!-- VERSION -->
+      <div data-ver-wrap class="dd-s0021">
+        <button id="ver-btn" class="dd-s0022">
+          <span class="dd-s0023"></span>v0.1 <span class="docs-version-status">Alpha</span>
+          <span data-caret class="dd-s0025"></span>
+        </button>
+        <div id="ver-menu" data-versions-url="/versions.json" class="dd-s0026">
+          <a data-ver href="/v0.1/tutorials/quick_read_search_write/" aria-current="page" class="dd-s0027">v0.1 <span class="docs-version-current">current</span></a>
+          <a data-ver-all href="/versions/" class="dd-s0029">All versions</a>
+        </div>
+      </div>
+
+      <a data-ghbtn href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0031">GitHub</a>
+    </div>
+  </header>
+
+  <!-- ============ BODY GRID ============ -->
+  <div data-bodygrid class="dd-s0032">
+
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <aside id="sidebar" class="dd-s0033">
+      
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Tutorials
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0037">Read, search, and write sequences quickly</a><a data-doc-link href="/v0.1/tutorials/sequence_column_type/" class="dd-s0037">The bioseq.seq column type</a><a data-doc-link href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0037">Columnar storage and vectorized aggregates</a><a data-doc-link href="/v0.1/tutorials/sequence_generation/" class="dd-s0037">Generate deterministic sequence tables</a><a data-doc-link href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0037">Load FASTA, FASTQ, and gzip data</a><a data-doc-link href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0037">Index lifecycle, choices, and metadata</a><a data-doc-link href="/v0.1/tutorials/similarity_search/" class="dd-s0037">Searching sequences with mmsearch</a><a data-doc-link href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0037">Slice, concatenate, reverse, and measure sequences</a><a data-doc-link href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0037">Search multiple sequence columns and join by sequence</a><a data-doc-link href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0037">Highway runtime dispatch</a><a data-doc-link href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0037">Read every Bioseq EXPLAIN section</a><a data-doc-link href="/v0.1/tutorials/query_cache/" class="dd-s0037">Caching sequence-search results</a><a data-doc-link href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0037">Query remote providers, stage sequences, and search them</a>
+        </div>
+      </div>
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Reference
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/reference/cpp/" class="dd-s0037">C++</a><a data-doc-link href="/v0.1/reference/sql/" class="dd-s0037">SQL</a>
+        </div>
+      </div>
+      
+      
+      <div class="dd-s0038">
+        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0039">Edit on GitHub</a>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="doc-main" class="dd-s0040">
+      
+<section data-page-panel data-screen-label="Docs · Tutorial" class="dd-s0040 design-page">
+  <header data-reveal class="dd-s0041 design-page-header">
+    <nav aria-label="Breadcrumb" class="dd-s0042 design-breadcrumb">
+      <a href="/">Home</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/">v0.1</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/quick_read_search_write/">Tutorials</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/index_lifecycle_and_metadata/">Index lifecycle, choices, and metadata</a><span class="dd-s0043" aria-hidden="true">/</span>
+    </nav>
+    <h1 class="dd-s0045">Index lifecycle, choices, and metadata</h1>
+    <p class="dd-s0046">Build and maintain Bioseq&#39;s persisted search forms, inspect public metadata, and verify actual index use.</p>
+  </header>
+
+  <div class="docs-content tutorial-body"><p class="doc-paragraph">Bioseq's persisted sequence indexes are not PostgreSQL <code>CREATE INDEX</code> objects.<br>They are registered storage forms attached to each <a class="entity-ref" href="/v0.1/reference/sql/type/bioseq-seq-8c069b667ce622ef/" data-entity="sql:type:bioseq.seq" data-entity-id="sql:type:bioseq.seq" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.seq</a> column of<br>a <code>USING bioseq</code> table. Use Bioseq's policy and maintenance functions to manage<br>them, then use <code>EXPLAIN ANALYZE</code> to verify what a search actually read.</p><p class="doc-paragraph">This tutorial covers the full lifecycle:</p><ol><li>Prepare a table and sequence column</li><li>Choose a persisted target form and write policy</li><li>Load or insert data</li><li>Build, inspect, and select an active read index</li><li>Run a strict or fallback-capable search</li><li>Respond to inserts, updates, deletes, and bulk reloads</li></ol><p class="doc-paragraph">Prerequisite: <a href="../fasta_fastq_gzip_and_io/">Load FASTA, FASTQ, and gzip data</a><br>explains the file-loading step. You can also follow this page with inserted or<br>generated rows.</p><h2 class="hx" id="start-with-the-three-registered-index-families" data-toc data-title="Start with the three registered index families">Start with the three registered index families<a data-hash href="#start-with-the-three-registered-index-families" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Every current Bioseq sequence column has these logical index entries:</p><table><tr><td>Index name</td><td>Logical content</td><td>Default policy</td><td>Main use</td></tr><tr><td><code>minimizers_per_fragment</code></td><td>Minimizer sketches retained in fragment-native target chunks</td><td><code>UPDATE_ON_INSERT</code></td><td>Default persisted target read for long or fragmented sequences</td></tr><tr><td><code>minimizers_per_sequence</code></td><td>One sequence-wide minimizer target form</td><td><code>UPDATE_MANUALLY</code></td><td>Selective repeated reads that benefit from one prepared sequence image</td></tr><tr><td><code>symbol_counts</code></td><td>Per-sequence counts for alphabet symbols</td><td><code>UPDATE_ON_INSERT</code></td><td><a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-symbol-count-57d215dc4755c7c6/" data-entity="sql:function:bioseq.symbol_count(bioseq.seq,text)" data-entity-id="sql:function:bioseq.symbol_count(bioseq.seq,text)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.symbol_count</a> and metadata-side projections</td></tr></table><p class="doc-paragraph"><code>minimizers_per_fragment</code> is the default active read index. It preserves the<br>storage fragment boundary so a reader can admit relevant chunks without first<br>assembling a sequence-wide image.</p><p class="doc-paragraph"><code>minimizers_per_sequence</code> represents the whole sequence as one logical target<br>preparation. It is heavier to maintain during write-heavy ingestion, so its<br>default policy is manual. The current metadata catalog reports both minimizer<br>families with physical layout name <code>CHUNKED_PER_FRAGMENT</code>. Do not use that<br>shared layout string to conclude that their logical preparation and read routes<br>are identical.</p><p class="doc-paragraph"><code>symbol_counts</code> is not an alignment index. It supports letter-count metadata<br>such as <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-symbol-count-57d215dc4755c7c6/" data-entity="sql:function:bioseq.symbol_count(bioseq.seq,text)" data-entity-id="sql:function:bioseq.symbol_count(bioseq.seq,text)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.symbol_count</a> and lets an owned scan report metadata work<br>without returning the sequence payload.</p><p class="doc-paragraph">A direct projection such as <code>bioseq.symbol_count(sequence, 'G')</code> is the current<br>recognized metadata lookup. Its plan lists the call under <code>Bioseq Fetched From Meta</code>. That field is separate from the minimizer index source because the query<br>does not run the alignment pipeline. When a compatible stored count is absent,<br>the function recomputes the exact tally from the sequence. A symbol-count<br>predicate does not become a conventional PostgreSQL index scan merely because<br>the stored tally exists.</p><h2 class="hx" id="prepare-a-searchable-table" data-toc data-title="Prepare a searchable table">Prepare a searchable table<a data-hash href="#prepare-a-searchable-table" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">A persisted Bioseq index requires a bound sequence column on a Bioseq table:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-60e609f4e0948795-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-60e609f4e0948795-0" class="language-sql">CREATE TABLE indexed_reads (
+    read_id bigint PRIMARY KEY,
+    sample_id text NOT NULL,
+    sequence bioseq.seq('dna4', 64) NOT NULL
+) USING bioseq;
+</code></pre></figure><p class="doc-paragraph">Creating the table registers all three families for <code>sequence</code>. It does not<br>materialize index rows for an empty table. A table with two sequence columns<br>gets a separate set of metadata entries for each column number.</p><p class="doc-paragraph">Alphabet, packed width, minimizer parameters, sketch scheme and format, source<br>identity, and accelerator compatibility are part of a persisted minimizer<br>generation's compatibility. Rebuilding after changing a relevant setting is<br>safer than assuming an older generation can be relabeled.</p><h2 class="hx" id="choose-continuous-or-bulk-maintenance" data-toc data-title="Choose continuous or bulk maintenance">Choose continuous or bulk maintenance<a data-hash href="#choose-continuous-or-bulk-maintenance" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">There are two layers of write policy.</p><p class="doc-paragraph"><code>bioseq.index.insert_maintenance.enabled</code> is the session-wide gate. When it is<br>on, INSERT maintains every family whose table policy is <code>UPDATE_ON_INSERT</code>.<br>When it is off, inserts write the source sequence without those index rows.</p><p class="doc-paragraph">The per-table policy is changed by <code>bioseq.set_index_policy</code>. In this release,<br>policy mutation uses the caller's internal <code>index_policy</code> catalog privileges;<br>table ownership and function EXECUTE alone do not suffice. The following is an<br>administrator/policy-manager operation, not an ordinary-role example:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-5e574e565039d1c5-1" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-5e574e565039d1c5-1" class="language-sql">SELECT bioseq.set_index_policy(
+    'indexed_reads'::regclass,
+    'minimizers_per_sequence',
+    'UPDATE_ON_INSERT'
+);
+</code></pre></figure><p class="doc-paragraph">The only policy spellings are <code>UPDATE_ON_INSERT</code> and <code>UPDATE_MANUALLY</code>.<br><code>minimizers_per_sequence</code> can opt into insert maintenance on the ordinary<br>layout. When <code>bioseq.aligner.grouped_soa_generation.enabled</code> is on, insert-time<br>minimizer publication is forbidden. The optimized defaults therefore leave<br>INSERT maintenance and asynchronous persistence off. Use one explicit<br><code>update_index</code> after the source transaction commits instead. Normal searches<br>can prepare transient indexes before that publication; a required-persisted<br>search cannot.</p><p class="doc-paragraph">For small steady writes, the defaults are a useful starting point. For a bulk<br>file or large generated table, use this sequence:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-576965d864a4334d-2" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-576965d864a4334d-2" class="language-sql">BEGIN;
+SET LOCAL bioseq.index.insert_maintenance.enabled = off;
+
+-- COPY, INSERT batches, bioseq.load, or a generator runs here
+COMMIT;
+
+SELECT bioseq.update_index(
+    'indexed_reads'::regclass,
+    'minimizers_per_fragment'
+);
+SELECT bioseq.update_index(
+    'indexed_reads'::regclass,
+    'symbol_counts'
+);
+-- ANALYZE currently has a sequence-hydration snapshot limitation; see below.
+</code></pre></figure><p class="doc-paragraph"><code>bioseq.update_index</code> rebuilds the named family and returns the number<br>of sequence values indexed. It applies to every sequence column registered for<br>the table. Run it again when the source or compatible index recipe changes.</p><p class="doc-paragraph"><code>ANALYZE</code> normally updates PostgreSQL statistics, but currently can fail on<br>sequence-bearing Bioseq tables because its sampling path lacks an explicit<br>hydration snapshot. It is omitted here; see the<br><a href="../columnar_storage_and_vectorized_aggregates/">storage limitation</a>.<br><code>VACUUM</code> reclaims ordinary dead-row<br>storage according to PostgreSQL rules. Neither command substitutes for<br><code>bioseq.update_index</code>. Likewise, conventional <code>CREATE INDEX</code> or <code>REINDEX</code><br>manages PostgreSQL indexes on scalar keys, not these three sequence forms.</p><h2 class="hx" id="read-the-public-metadata-catalog" data-toc data-title="Read the public metadata catalog">Read the public metadata catalog<a data-hash href="#read-the-public-metadata-catalog" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>bioseq.list_metadata</code> returns one row per table, sequence column, and index<br>family:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-b7aa4d4d8f10b638-3" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-b7aa4d4d8f10b638-3" class="language-sql">SELECT table_name,
+       column_attno,
+       column_name,
+       index_name,
+       index_type,
+       update_policy,
+       storage_size,
+       time_since_update
+FROM bioseq.list_metadata()
+WHERE table_name = 'indexed_reads'::regclass
+ORDER BY column_attno, index_name;
+</code></pre></figure><p class="doc-paragraph">A new empty table still lists the registered families. Their storage size is<br><code>0 bytes</code> and their update age is NULL. After a successful build, size and age<br>describe the persisted storage known to the catalog.</p><p class="doc-paragraph">Use <code>bioseq.index_table_row_count</code> when an operator needs a physical row count:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-16da9f9de2f6868f-4" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-16da9f9de2f6868f-4" class="language-sql">SELECT bioseq.index_table_row_count(
+    'indexed_reads'::regclass,
+    'minimizers_per_fragment'
+);
+</code></pre></figure><p class="doc-paragraph">For a current tuple, use <code>bioseq.column_row_number</code> to resolve its logical<br>column-store key and <code>bioseq.index_distinct_sub_keys</code> to count stored<br>fragment subkeys:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-b361ad8205325739-5" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-b361ad8205325739-5" class="language-sql">WITH source_row AS (
+    SELECT bioseq.column_row_number(
+               'indexed_reads'::regclass,
+               ctid
+           ) AS row_number
+    FROM indexed_reads
+    WHERE read_id = 42
+)
+SELECT bioseq.index_distinct_sub_keys(
+           'indexed_reads'::regclass,
+           'minimizers_per_fragment',
+           row_number
+       ) AS stored_fragments
+FROM source_row;
+</code></pre></figure><p class="doc-paragraph"><code>ctid</code> is a locator for the current row version, not an application identifier.<br>Resolve and use it in one short operation. Physical row and subkey counts are<br>useful observations, but a positive count alone does not establish<br>compatibility with the next search.</p><h2 class="hx" id="select-the-persisted-read-family" data-toc data-title="Select the persisted read family">Select the persisted read family<a data-hash href="#select-the-persisted-read-family" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Choose the active minimizer family explicitly with<br><code>bioseq.set_active_read_index</code> when an application depends on it. This mutation<br>also requires an administrator/policy-manager with internal <code>index_policy</code><br>write access; it is not implied by owning the source table:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-83dcfaa1e6a2c25c-6" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-83dcfaa1e6a2c25c-6" class="language-sql">SELECT bioseq.set_active_read_index(
+    'indexed_reads'::regclass,
+    'minimizers_per_fragment'
+);
+</code></pre></figure><p class="doc-paragraph"><code>bioseq.index.sequence_read.enabled</code> controls whether ordinary allow-mode<br>searches may use persisted sequence indexes. Turning it off forces a controlled<br>recompute comparison. It does not delete index storage.</p><p class="doc-paragraph">The per-call <code>aligner_options.index_read_requirement</code> is an integer enum:</p><table><tr><td>Value</td><td>Meaning</td></tr><tr><td><code>0</code></td><td>Allow a compatible persisted index or an eligible fallback</td></tr><tr><td><code>1</code></td><td>Require the persisted target index to be absent, forcing transient preparation</td></tr><tr><td><code>2</code></td><td>Require a compatible persisted target index and fail if it is unavailable</td></tr></table><p class="doc-paragraph">Use value <code>2</code> for a readiness check whose success must mean that persisted data<br>was accepted. Use value <code>0</code> for normal workloads that are allowed to recompute.<br>Use value <code>1</code> only for controlled comparisons and transformed logical targets.</p><p class="doc-paragraph">The native compatible-persisted CPU reader is currently owned by <code>BioseqBatchJoin</code>.<br>Use a query relation joined to the target table for value <code>2</code>, as below. Ordinary<br>column scans reject value <code>2</code>; with value <code>0</code> they may prepare transient indexes<br>instead. Do not infer a persisted read merely from having built an index.</p><h2 class="hx" id="build-and-verify-a-complete-index-lifecycle" data-toc data-title="Build and verify a complete index lifecycle">Build and verify a complete index lifecycle<a data-hash href="#build-and-verify-a-complete-index-lifecycle" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">This block begins with maintenance off, shows the empty metadata state, builds<br>all three forms, retains the default fragment-native read index, and requires a<br>compatible persisted index during the search. The isolated example role has the<br>explicit publication privileges used by the website fixture, but no policy<br>catalog write permission. It does not silently acquire administrator rights.</p><figure class="doc-code" data-term data-sql-example="index_lifecycle_metadata"><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-bc3aacb2781c65e5-7" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-bc3aacb2781c65e5-7" class="language-sql" data-entity-ranges="[{&quot;start&quot;:1350,&quot;len&quot;:19,&quot;id&quot;:&quot;sql:function:bioseq.target_start(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-target-start-7f5c101237c7c3f3/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;},{&quot;start&quot;:1403,&quot;len&quot;:17,&quot;id&quot;:&quot;sql:function:bioseq.target_end(anyelement)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/bioseq-target-end-360d292b54a6c2ca/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;},{&quot;start&quot;:1522,&quot;len&quot;:15,&quot;id&quot;:&quot;sql:function:$extension.mmsearch(bioseq.seq,bioseq.seq,$extension.bioseq_aligner_options)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/extension-mmsearch-37858759b2b5f46d/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;}]">SELECT column_name,
+       index_name,
+       index_type,
+       update_policy,
+       storage_size,
+       time_since_update IS NULL AS never_built
+FROM bioseq.list_metadata()
+WHERE table_name = 'tutorial_indexed_reads'::regclass
+ORDER BY column_attno, index_name;
+
+SELECT bioseq.update_index(
+    'tutorial_indexed_reads'::regclass,
+    'minimizers_per_fragment') AS fragment_indexed;
+SELECT bioseq.update_index(
+    'tutorial_indexed_reads'::regclass,
+    'minimizers_per_sequence') AS sequence_indexed;
+SELECT bioseq.update_index(
+    'tutorial_indexed_reads'::regclass,
+    'symbol_counts') AS symbol_counts_indexed;
+-- Keep the default MPF selection; changing policy requires administrator access.
+-- ANALYZE is omitted: the current sequence sampling path lacks its snapshot.
+
+SELECT index_name,
+       update_policy,
+       storage_size,
+       time_since_update IS NOT NULL AS has_update_time,
+       bioseq.index_table_row_count(
+           'tutorial_indexed_reads'::regclass,
+           index_name
+       ) AS physical_rows
+FROM bioseq.list_metadata()
+WHERE table_name = 'tutorial_indexed_reads'::regclass
+ORDER BY index_name;
+
+EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT read_id,
+       bioseq.symbol_count(seq0, 'A') AS adenines
+FROM tutorial_indexed_reads
+ORDER BY read_id;
+
+EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT read_id,
+       bioseq.target_start(read_id) AS target_start,
+       bioseq.target_end(read_id) AS target_end
+FROM tutorial_index_queries AS q CROSS JOIN tutorial_indexed_reads AS t
+WHERE public.mmsearch(
+    t.seq0,
+    q.seq0,
+    aligner_options(index_read_requirement =&gt; 2)
+)
+ORDER BY read_id, target_start;
+
+SELECT requested_target_index_source,
+       actual_target_index_source,
+       persisted_generation_id,
+       persisted_source_identity,
+       persisted_index_rows,
+       missing_persisted_index_rows,
+       recomputed_target_index_rows,
+       persisted_generation_read_sessions
+FROM bioseq.last_alignment_execution_stats()
+WHERE stage = 'query_sketch';</code></pre></figure><p class="doc-paragraph"><em>Result 1</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">column_name<br><code>text</code></th><th scope="col">index_name<br><code>text</code></th><th scope="col">index_type<br><code>text</code></th><th scope="col">update_policy<br><code>text</code></th><th scope="col">storage_size<br><code>text</code></th><th scope="col">never_built<br><code>boolean</code></th></tr></thead><tbody><tr><td>seq0</td><td>minimizers_per_fragment</td><td>CHUNKED_PER_FRAGMENT</td><td>UPDATE_ON_INSERT</td><td>0 bytes</td><td>t</td></tr><tr><td>seq0</td><td>minimizers_per_sequence</td><td>CHUNKED_PER_FRAGMENT</td><td>UPDATE_MANUALLY</td><td>0 bytes</td><td>t</td></tr><tr><td>seq0</td><td>symbol_counts</td><td>INLINE_PER_SEQUENCE</td><td>UPDATE_ON_INSERT</td><td>0 bytes</td><td>t</td></tr></tbody></table><p class="doc-paragraph"><em>Result 2</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">fragment_indexed<br><code>bigint</code></th></tr></thead><tbody><tr><td>3</td></tr></tbody></table><p class="doc-paragraph"><em>Result 3</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">sequence_indexed<br><code>bigint</code></th></tr></thead><tbody><tr><td>3</td></tr></tbody></table><p class="doc-paragraph"><em>Result 4</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">symbol_counts_indexed<br><code>bigint</code></th></tr></thead><tbody><tr><td>3</td></tr></tbody></table><p class="doc-paragraph"><em>Result 5</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">index_name<br><code>text</code></th><th scope="col">update_policy<br><code>text</code></th><th scope="col">storage_size<br><code>text</code></th><th scope="col">has_update_time<br><code>boolean</code></th><th scope="col">physical_rows<br><code>bigint</code></th></tr></thead><tbody><tr><td>minimizers_per_fragment</td><td>UPDATE_ON_INSERT</td><td>48 kB</td><td>t</td><td>15</td></tr><tr><td>minimizers_per_sequence</td><td>UPDATE_MANUALLY</td><td>48 kB</td><td>t</td><td>15</td></tr><tr><td>symbol_counts</td><td>UPDATE_ON_INSERT</td><td>48 kB</td><td>t</td><td>3</td></tr></tbody></table><p class="doc-paragraph"><em>Result 6</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">QUERY PLAN<br><code>text</code></th></tr></thead><tbody><tr><td>Sort (actual time=0.700..0.701 rows=3 loops=1)</td></tr><tr><td>  Output: read_id, (symbol_count(seq0, 'A'::text))</td></tr><tr><td>  Sort Key: tutorial_indexed_reads.read_id</td></tr><tr><td>  Sort Method: quicksort  Memory: 25kB</td></tr><tr><td>  -&gt;  Result (actual time=0.085..0.697 rows=3 loops=1)</td></tr><tr><td>        Output: read_id, (symbol_count(seq0, 'A'::text))</td></tr><tr><td>        -&gt;  Custom Scan (BioseqScan) on public.tutorial_indexed_reads (actual time=0.085..0.696 rows=3 loops=1)</td></tr><tr><td>              Output: read_id, seq0, symbol_count(seq0, 'A'::text)</td></tr><tr><td>              Bioseq Projected Columns: read_id, seq0</td></tr><tr><td>              Bioseq Fetched From Meta: seq0.symbol_count('A', rank=0)</td></tr><tr><td>              -&gt;  Cache</td></tr><tr><td>                    Cache Hits: 29</td></tr><tr><td>                    Cache Misses: 3</td></tr><tr><td>                    Cache Evictions: 0</td></tr><tr><td>                    Cache Writes: 3</td></tr><tr><td>                    Cache Maximum Size: 24804</td></tr><tr><td>                    Cache Ending Size: 24804</td></tr><tr><td>                    Total Cache Entries: 3</td></tr><tr><td>Planning Time: 0.129 ms</td></tr><tr><td>Execution Time: 0.933 ms</td></tr></tbody></table><p class="doc-paragraph"><em>Result 7</em></p><p class="doc-paragraph"><em>EXPLAIN excerpt: 4 internal implementation diagnostics omitted. Execution timings, algorithm selections and fallback counters are retained.</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">QUERY PLAN<br><code>text</code></th></tr></thead><tbody><tr><td>Sort (actual time=18.474..18.476 rows=14 loops=1)</td></tr><tr><td>  Output: t.read_id, (target_start(t.read_id)), (target_end(t.read_id))</td></tr><tr><td>  Sort Key: t.read_id, (target_start(t.read_id))</td></tr><tr><td>  Sort Method: quicksort  Memory: 25kB</td></tr><tr><td>  -&gt;  Custom Scan (BioseqBatchJoin) (actual time=10.586..18.465 rows=14 loops=1)</td></tr><tr><td>        Output: t.read_id, (target_start(t.read_id)), (target_end(t.read_id))</td></tr><tr><td>        Bioseq Query Batch Capacity: 8192</td></tr><tr><td>        Bioseq Residual Mmsearch Qual: absent</td></tr><tr><td>        Bioseq Honest Startup Cost: 4.30</td></tr><tr><td>        Bioseq Honest Total Cost: 5.67</td></tr><tr><td>        Bioseq Incumbent Cost Floor: 5.67</td></tr><tr><td>        Bioseq Index Read Requirement: require_compatible_persisted</td></tr><tr><td>        Bioseq Query Planner Rows: 1</td></tr><tr><td>        Bioseq Query Planner Width: 32 bytes</td></tr><tr><td>        Bioseq Query Planner Admission: 602 bytes</td></tr><tr><td>        Bioseq Query Actual Materialization: 286 bytes</td></tr><tr><td>        Bioseq Distinct Targets: 3</td></tr><tr><td>        Bioseq Query Batches: 3</td></tr><tr><td>        Planned Architecture: AVX3_SPR</td></tr><tr><td>        CPU-Supported Targets: AVX3_SPR, AVX3_DL, AVX3, AVX2, SSE4, SSSE3, SSE2, EMU128, SCALAR</td></tr><tr><td>        Highway Compiled Targets: AVX10_2, AVX3_SPR, AVX3_ZEN4, AVX3_DL, AVX3, AVX2, SSE4, SSSE3, SSE2, EMU128</td></tr><tr><td>        Runnable Targets: AVX3_SPR, AVX3_DL, AVX3, AVX2, SSE4, SSSE3, SSE2, EMU128</td></tr><tr><td>        Highway Function: minimizer::two_stack_nthash [planned architecture: AVX3_SPR] [stage: QuerySketchStage]</td></tr><tr><td>        Highway Function: chaining::chain_anchors_simd [planned architecture: AVX3_SPR] [stage: chain_stage]</td></tr><tr><td>        * Executed Architecture: AVX3_SPR</td></tr><tr><td>        | QuerySketchStage: Two-Stack nthash SIMD Minimizers</td></tr><tr><td>        | index_stage: pipeline configuration</td></tr><tr><td>          [cep.window_len: 0]</td></tr><tr><td>          [cep.kmer_len: 0]</td></tr><tr><td>          [cep.sequence_len_log2: 63]</td></tr><tr><td>          [cep.specialised: fallback]</td></tr><tr><td>        | seed_hit_stage: Seed hits + canonical CPU ordering</td></tr><tr><td>          max_occ: 500</td></tr><tr><td>          query_len: 0</td></tr><tr><td>          [reserved: 64]</td></tr><tr><td>        | chain_stage: Minimap2 SIMD</td></tr><tr><td>          min_chain_score: 40</td></tr><tr><td>          min_seed_count: 3</td></tr><tr><td>          max_chain_skip: 25</td></tr><tr><td>          max_chain_iter: 5000</td></tr><tr><td>          bandwidth: 500</td></tr><tr><td>          max_gap: 5000</td></tr><tr><td>          simd_chaining_policy: bounded_batch_approximate</td></tr><tr><td>          [vectorised: true]</td></tr><tr><td>          [requires_zero_skip_penalty: false]</td></tr><tr><td>          [specialised: fallback]</td></tr><tr><td>        | region_stage: Region generation</td></tr><tr><td>          query_len: 0</td></tr><tr><td>        | primary_secondary_stage: Classify primary/secondary</td></tr><tr><td>          mask_level: 0.500000</td></tr><tr><td>          mask_len: 2147483647</td></tr><tr><td>          sub_diff: 8</td></tr><tr><td>        | secondary_filter_stage: Filter secondary regions</td></tr><tr><td>          pri_ratio: 0.800000</td></tr><tr><td>          min_diff: 30</td></tr><tr><td>          best_n: 5</td></tr><tr><td>        | primary_secondary_stage: Classify primary/secondary</td></tr><tr><td>          mask_level: 0.500000</td></tr><tr><td>          mask_len: 2147483647</td></tr><tr><td>          sub_diff: 8</td></tr><tr><td>        | secondary_filter_stage: Filter secondary regions</td></tr><tr><td>          pri_ratio: 0.800000</td></tr><tr><td>          min_diff: 30</td></tr><tr><td>          best_n: 5</td></tr><tr><td>        * Execution statistics [requested_backend=simd_cpu actual_backend=mixed_invalid requested_index_source=persisted actual_index_source=persisted attempted=3 fully_attested=0 unattested=3 environment_mixed=false persisted_identity_mixed=true identity_conflict=true saturated=false]</td></tr><tr><td>        * First unattested [target_row=1 query_ordinal=0]</td></tr><tr><td>        * Index outcomes [targets=3 persisted=3 missing_persisted=0 recomputed=0]</td></tr><tr><td>        * GPU dispatch [seed=0 chain=0 chain_backtrack=0 coordinate_vote=0 extend=0 backend_declines=0 backend_fallbacks=0]</td></tr><tr><td>        GPU Chain Dispatches: 0</td></tr><tr><td>        GPU Chain Backtrack Dispatches: 0</td></tr><tr><td>        GPU Coordinate Vote Dispatches: 0</td></tr><tr><td>        * Host stats [query_sketch_ns=497036 target_index_build_ns=0 query_hash_readbacks=0 query_symbol_packing=0 target_symbol_packing=0 alignment_classification=0 cigar_construction=0]</td></tr><tr><td>        -&gt;  Custom Scan (BioseqScan) on public.tutorial_indexed_reads t (actual time=0.027..0.063 rows=3 loops=1)</td></tr><tr><td>              Output: t.read_id, t.seq0, '0'::bigint</td></tr><tr><td>              Bioseq Projected Columns: read_id, seq0</td></tr><tr><td>              -&gt;  Cache</td></tr><tr><td>                    Cache Hits: 3</td></tr><tr><td>                    Cache Misses: 4</td></tr><tr><td>                    Cache Evictions: 0</td></tr><tr><td>                    Cache Writes: 4</td></tr><tr><td>                    Cache Maximum Size: 8444</td></tr><tr><td>                    Cache Ending Size: 8444</td></tr><tr><td>                    Total Cache Entries: 4</td></tr><tr><td>        -&gt;  Custom Scan (BioseqScan) on public.tutorial_index_queries q (actual time=0.105..0.123 rows=1 loops=1)</td></tr><tr><td>              Output: q.seq0</td></tr><tr><td>              Bioseq Projected Columns: seq0</td></tr><tr><td>              -&gt;  Cache</td></tr><tr><td>                    Cache Hits: 3</td></tr><tr><td>                    Cache Misses: 4</td></tr><tr><td>                    Cache Evictions: 0</td></tr><tr><td>                    Cache Writes: 4</td></tr><tr><td>                    Cache Maximum Size: 8444</td></tr><tr><td>                    Cache Ending Size: 8444</td></tr><tr><td>                    Total Cache Entries: 4</td></tr><tr><td>Planning Time: 0.360 ms</td></tr><tr><td>Execution Time: 19.616 ms</td></tr></tbody></table><p class="doc-paragraph"><em>Result 8</em></p><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">requested_target_index_source<br><code>text</code></th><th scope="col">actual_target_index_source<br><code>text</code></th><th scope="col">persisted_generation_id<br><code>bigint</code></th><th scope="col">persisted_source_identity<br><code>text</code></th><th scope="col">persisted_index_rows<br><code>bigint</code></th><th scope="col">missing_persisted_index_rows<br><code>bigint</code></th><th scope="col">recomputed_target_index_rows<br><code>bigint</code></th><th scope="col">persisted_generation_read_sessions<br><code>bigint</code></th></tr></thead><tbody><tr><td>persisted</td><td>persisted</td><td>1</td><td>0000000000000001</td><td>3</td><td>0</td><td>0</td><td>3</td></tr></tbody></table><p class="doc-paragraph"><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.11</em></p><p class="doc-paragraph">The first result has three registered rows with zero storage. Each build returns<br>three indexed sequences. The post-build table shows nonzero physical storage.<br>The letter-count plan reports <code>Bioseq Fetched From Meta</code> for <code>seq0.symbol_count</code>.<br>The analyzed plan must report <code>Bioseq Index Read Requirement</code> as<br><code>require_compatible_persisted</code>; the batch-join execution summary reports<br><code>actual_index_source=persisted</code>. Its query is 372 bases long so the demonstration<br>uses the default minimizer recipe and clears the alignment filters.</p><p class="doc-paragraph">The final public <code>bioseq.last_alignment_execution_stats</code> snapshot supplies<br>generation identity fields and persisted-read counts. <code>missing_persisted_index_rows</code><br>and <code>recomputed_target_index_rows</code> should be zero for this strict query. Read<br>the snapshot immediately after the statement because it is backend-local<br>last-run state.</p><p class="doc-paragraph">For a multi-target statement, inspect the execution summary's<br><code>persisted_identity_mixed</code> and <code>identity_conflict</code> flags before interpreting the<br>aggregate identity fields as one unique generation. Persisted-read counts with<br>zero missing/recomputed rows prove the index route; they do not by themselves<br>prove one uniform backend or source identity for every alignment job.</p><h2 class="hx" id="verify-readiness-through-public-sql" data-toc data-title="Verify readiness through public SQL">Verify readiness through public SQL<a data-hash href="#verify-readiness-through-public-sql" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Use three layers of evidence:</p><ol><li><code>list_metadata()</code> shows registered policy, size, and update age</li><li>Row and subkey counts show that physical content exists</li><li>A strict analyzed search shows that the current recipe accepted a persisted<br>generation, while execution statistics identify that generation and source</li></ol><p class="doc-paragraph">Private generation inspectors and storage relations are not an application<br>interface. Do not grant them to an application to make a dashboard more<br>detailed. The three public checks above are the supported workflow.</p><h2 class="hx" id="understand-mutation-behavior" data-toc data-title="Understand mutation behavior">Understand mutation behavior<a data-hash href="#understand-mutation-behavior" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Sequence source identity changes with row versions.</p><ul><li>INSERT writes a new source and, when both policy layers allow it, builds the<br>default fragment and symbol-count entries</li><li>UPDATE retires the old source epoch, masks the old row version, and inserts a<br>new source through the current write policy</li><li>DELETE retires the old source identity and removes that row from visible<br>reads</li><li>A manual index does not become current for a new source merely because an old<br>physical generation still exists</li></ul><p class="doc-paragraph">This prevents a strict read from accepting index data for an earlier sequence<br>value. With requirement <code>2</code>, a missing compatible generation is an error. With<br>allow mode, the plan can recompute if the selected route permits it. Read<br><code>Persisted Index Rows</code>, <code>Missing Persisted Index Rows</code>, and<br><code>Recomputed Target Index Rows</code> instead of inferring the outcome from table age.</p><p class="doc-paragraph">After a bulk UPDATE or DELETE, run the explicit rebuilds required by the<br>application's active policies. Then run <code>ANALYZE</code> if scalar distributions or<br>row counts changed materially.</p><h2 class="hx" id="plan-for-concurrent-readers-and-writers" data-toc data-title="Plan for concurrent readers and writers">Plan for concurrent readers and writers<a data-hash href="#plan-for-concurrent-readers-and-writers" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Keep the initial load and index publication in one transaction when readers<br>must see either the old ready data set or the new ready data set. PostgreSQL<br>locks and snapshots govern row visibility. Bioseq source epochs keep a reader<br>from attaching a stale persisted generation to a newer row version.</p><p class="doc-paragraph">A concurrent writer can make an allow-mode query observe a mix of persisted<br>and recomputed target rows under its snapshot. That is valid when results are<br>the same. It is not a readiness check. Use a strict query after the writer<br>commits when deployment policy requires every visible target to have compatible<br>persisted data.</p><h2 class="hx" id="choose-a-family-for-the-workload" data-toc data-title="Choose a family for the workload">Choose a family for the workload<a data-hash href="#choose-a-family-for-the-workload" aria-label="Link to this section">#</a></h2><table><tr><td>Workload</td><td>Starting choice</td></tr><tr><td>Small table or one-off search</td><td>Allow transient preparation and measure before persisting every form</td></tr><tr><td>Long fragmented targets</td><td><code>minimizers_per_fragment</code></td></tr><tr><td>Repeated reads of stable whole sequences</td><td>Compare <code>minimizers_per_sequence</code> with the fragment route</td></tr><tr><td>Frequent inserts</td><td>Keep default MPF and symbol counts on insert, leave MPS manual</td></tr><tr><td>Bulk load</td><td>Disable insert maintenance, then rebuild selected families once</td></tr><tr><td>Strict serving tier</td><td>Build, select the active family, and run requirement <code>2</code> before publishing</td></tr><tr><td>Letter-composition filters</td><td>Maintain <code>symbol_counts</code></td></tr></table><p class="doc-paragraph">The best index is constrained by alphabet, width, query shape, minimizer<br>settings, target size, update rate, and repeated-read behavior. Do not choose<br>MPS only because its name sounds broader, or MPF only because it is the<br>default.</p><h2 class="hx" id="control-build-memory-without-promising-resident-execution" data-toc data-title="Control build memory without promising resident execution">Control build memory without promising resident execution<a data-hash href="#control-build-memory-without-promising-resident-execution" aria-label="Link to this section">#</a></h2><p class="doc-paragraph"><code>bioseq.index.memory_cap_mb</code> bounds admitted index-build memory. A value of zero<br>uses the runtime memory budget. A large manual build can spill sorted runs to<br>PostgreSQL temporary files and merge them. Read the backend-local count<br>immediately after the build with <code>bioseq.last_index_merge_run_count</code>:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-c7fdf66668e9a361-8" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-c7fdf66668e9a361-8" class="language-sql">SELECT bioseq.last_index_merge_run_count() AS merge_runs;
+</code></pre></figure><p class="doc-paragraph">A zero count means the last build in this backend had no runs to merge. A<br>positive count reports merge inputs, not a permanent table property. A later<br>build in the same backend replaces it.</p><p class="doc-paragraph">The public <code>bioseq.scheduler_stats</code> snapshot reports current index memory<br>reservation and queued jobs:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-fa4b31ee6355fcbe-9" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-fa4b31ee6355fcbe-9" class="language-sql">SELECT current_threads,
+       batches_awaiting,
+       async_persist_jobs_waiting,
+       index_memory_reserved_bytes
+FROM bioseq.scheduler_stats();
+</code></pre></figure><p class="doc-paragraph"><code>bioseq.index.async_persistence.enabled</code> and<br><code>bioseq.index.recompute_async_persistence.enabled</code> control optional background<br>publication after eligible work. Both are off by default and must remain off<br>with grouped-SoA publication. They belong to the legacy persistence path, not<br>the optimized default index format.</p><h2 class="hx" id="safe-operational-checklist" data-toc data-title="Safe operational checklist">Safe operational checklist<a data-hash href="#safe-operational-checklist" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Before serving indexed searches:</p><ol><li>Confirm the table uses <code>USING bioseq</code> and every target column has a bound<br>alphabet</li><li>Record the active minimizer settings and chosen family</li><li>Choose insert maintenance or a bulk manual build</li><li>Build symbol counts separately when composition queries need them</li><li>Run <code>ANALYZE</code> for PostgreSQL selectivity</li><li>Read public metadata and physical counts</li><li>Run the real query with <code>EXPLAIN ANALYZE</code></li><li>Compare requested and actual target-index source</li><li>For a readiness gate, require compatible persisted data and record the<br>accepted generation and source identity</li><li>Repeat the check after mutations or a recipe change</li></ol><p class="doc-paragraph">Next: <a href="../similarity_search/">Searching sequences with mmsearch</a> uses this<br>prepared table to interpret set-valued results, thresholds, coordinates,<br>strand, scores, and CIGAR.</p></div>
+
+  
+  <nav class="dd-s0084" aria-label="Previous and next tutorial">
+    <div class="dd-s0085">
+      <a href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0106 dd-h005"><span class="dd-s0087">&#8592; Previous</span><span class="dd-s0088">Load FASTA, FASTQ, and gzip data</span></a>
+      <a href="/v0.1/tutorials/similarity_search/" class="dd-s0086 dd-h005"><span class="dd-s0087">Next &#8594;</span><span class="dd-s0088">Searching sequences with mmsearch</span></a>
+    </div>
+  </nav>
+  
+</section>
+
+    </main>
+
+    <!-- ===== RIGHT TOC ===== -->
+    <aside data-rightrail class="dd-s0234">
+      <div class="dd-s0235">On this page</div>
+      <div id="toc-list" class="dd-s0236">
+        <a data-toc-link data-level="2" href="#start-with-the-three-registered-index-families">Start with the three registered index families</a><a data-toc-link data-level="2" href="#prepare-a-searchable-table">Prepare a searchable table</a><a data-toc-link data-level="2" href="#choose-continuous-or-bulk-maintenance">Choose continuous or bulk maintenance</a><a data-toc-link data-level="2" href="#read-the-public-metadata-catalog">Read the public metadata catalog</a><a data-toc-link data-level="2" href="#select-the-persisted-read-family">Select the persisted read family</a><a data-toc-link data-level="2" href="#build-and-verify-a-complete-index-lifecycle">Build and verify a complete index lifecycle</a><a data-toc-link data-level="2" href="#verify-readiness-through-public-sql">Verify readiness through public SQL</a><a data-toc-link data-level="2" href="#understand-mutation-behavior">Understand mutation behavior</a><a data-toc-link data-level="2" href="#plan-for-concurrent-readers-and-writers">Plan for concurrent readers and writers</a><a data-toc-link data-level="2" href="#choose-a-family-for-the-workload">Choose a family for the workload</a><a data-toc-link data-level="2" href="#control-build-memory-without-promising-resident-execution">Control build memory without promising resident execution</a><a data-toc-link data-level="2" href="#safe-operational-checklist">Safe operational checklist</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ============ SITE FOOTER ============ -->
+  <footer data-screen-label="Docs · Footer" class="dd-s0237">
+    <div aria-hidden="true" class="dd-s0238">BioseqDB</div>
+
+    <div class="dd-s0239">
+      <div data-footcols class="dd-s0240">
+        <div>
+          <div class="dd-s0241">
+            <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="dd-s0007">
+            <span class="dd-s0242">Bioseq<span class="dd-s0243">DB</span></span>
+            <span class="dd-s0244">DOCS</span>
+          </div>
+          <p class="dd-s0245">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
+          <span class="dd-s0246"><span class="dd-s0247"></span>Free &amp; open source</span>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Documentation</div>
+          <div class="dd-s0249">
+            
+            <a href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Read, search, and write sequences quickly</a><a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0250 dd-h009">The bioseq.seq column type</a><a href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0250 dd-h009">Columnar storage and vectorized aggregates</a><a href="/v0.1/tutorials/sequence_generation/" class="dd-s0250 dd-h009">Generate deterministic sequence tables</a><a href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0250 dd-h009">Load FASTA, FASTQ, and gzip data</a><a href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0250 dd-h009">Index lifecycle, choices, and metadata</a><a href="/v0.1/tutorials/similarity_search/" class="dd-s0250 dd-h009">Searching sequences with mmsearch</a><a href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0250 dd-h009">Slice, concatenate, reverse, and measure sequences</a><a href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0250 dd-h009">Search multiple sequence columns and join by sequence</a><a href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0250 dd-h009">Highway runtime dispatch</a><a href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0250 dd-h009">Read every Bioseq EXPLAIN section</a><a href="/v0.1/tutorials/query_cache/" class="dd-s0250 dd-h009">Caching sequence-search results</a><a href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0250 dd-h009">Query remote providers, stage sequences, and search them</a><a href="/v0.1/reference/cpp/" class="dd-s0250 dd-h009">C++</a><a href="/v0.1/reference/sql/" class="dd-s0250 dd-h009">SQL</a>
+            
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Explore</div>
+          <div class="dd-s0249">
+            <a href="/" class="dd-s0250 dd-h009">Product home</a>
+            <a href="/#workflow" class="dd-s0250 dd-h009">Workflow</a>
+            <a href="/#examples" class="dd-s0250 dd-h009">Examples</a>
+            <a href="/#index" class="dd-s0250 dd-h009">Index</a>
+            <a href="/#scale" class="dd-s0250 dd-h009">Scale</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Project</div>
+          <div class="dd-s0249">
+            <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Documentation</a>
+            <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0251">GitHub</a>
+            <span class="dd-s0252">Alpha &middot; v0.1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-s0253">
+      <div class="dd-s0254"></div>
+      <div class="dd-s0255">
+        <span class="dd-s0256">&copy; 2026 Bioseq contributors &mdash; an independent open-source project.</span>
+        <nav class="dd-s0257">
+          <a href="https://github.com/styczynski/bioseqdb/blob/main/LICENSE" rel="noreferrer" class="dd-s0258 dd-h010">License (MIT)</a>
+          <a href="/versions/" class="dd-s0258 dd-h010">Versions</a>
+          <a data-totop href="#page-top" class="dd-s0258 dd-h010">Back to top ↑</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div data-backdrop class="dd-s0259"></div>
+
+  <!-- ===== ENTITY POPOVER ===== -->
+  <div id="entity-pop" class="dd-s0260"></div>
+
+</div>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"Index lifecycle, choices, and metadata","description":"Build and maintain Bioseq&#39;s persisted search forms, inspect public metadata, and verify actual index use.","url":"https://bioseqdb.com/v0.1/tutorials/index_lifecycle_and_metadata/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/quick_read_search_write/"},{"@type":"ListItem","position":4,"name":"Index lifecycle, choices, and metadata","item":"/v0.1/tutorials/index_lifecycle_and_metadata/"}]}]}</script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/prism-init.js"></script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/main.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/docs-design.mjs"></script>
+</body>
+</html>

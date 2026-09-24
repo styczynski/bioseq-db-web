@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search multiple sequence columns and join by sequence</title>
+<meta name="description" content="Model paired sequences, search one column, use another as a query, and run one or two sequence joins.">
+<link rel="canonical" href="https://bioseqdb.com/v0.1/tutorials/multiple_sequence_columns_and_joins/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta property="og:title" content="Search multiple sequence columns and join by sequence">
+<meta property="og:description" content="Model paired sequences, search one column, use another as a query, and run one or two sequence joins.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bioseqdb.com/v0.1/tutorials/multiple_sequence_columns_and_joins/">
+<meta property="og:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Search multiple sequence columns and join by sequence">
+<meta name="twitter:description" content="Model paired sequences, search one column, use another as a query, and run one or two sequence joins.">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<link rel="icon" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/favicon.svg">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/site.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/docs-design.css">
+</head>
+<body id="page-top" class="docs-design-page">
+<a class="skip-link" href="#doc-main">Skip to main content</a>
+
+<div data-screen-label="BioseqDB documentation" class="dd-s0001">
+
+  <!-- ============ TOP NAV ============ -->
+  <header id="dnav" class="dd-s0002">
+    <div class="dd-s0003">
+      <button data-menu aria-label="Menu" class="dd-s0004">
+        <span class="dd-s0005"></span><span class="dd-s0005"></span><span class="dd-s0005"></span>
+      </button>
+      <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0006">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="30" height="30" alt="BioseqDB logo" class="dd-s0007">
+        <span class="dd-s0008">Bioseq<span class="dd-s0009">DB</span></span>
+        <span data-docsbadge class="dd-s0010">DOCS</span>
+      </a>
+
+      <nav data-topnav class="dd-s0011">
+        <a href="/v0.1/tutorials/quick_read_search_write/" data-nav class="dd-s0012">Docs</a>
+        <a href="/" class="dd-s0013">Product</a>
+        <a href="/benchmarks/" class="dd-s0014 dd-h001">Benchmarks</a>
+        <a href="/versions/" class="dd-s0013">Versions</a>
+      </nav>
+
+      <!-- SEARCH -->
+      <div data-search-wrap class="dd-s0015">
+        <div data-search-box class="dd-s0016">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" class="dd-s0017"><circle cx="7" cy="7" r="5" stroke="#7d94a6" stroke-width="1.6"/><line x1="10.6" y1="10.6" x2="14" y2="14" stroke="#7d94a6" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="doc-search" role="combobox" aria-autocomplete="list" aria-controls="search-dd" aria-expanded="false" data-search-index="/v0.1/search-index.json" type="text" placeholder="Search docs, functions, types…" autocomplete="off" spellcheck="false" class="dd-s0018">
+          <kbd class="dd-s0019">/</kbd>
+        </div>
+        <div id="search-dd" role="listbox" aria-label="Search results" class="dd-s0020"></div>
+      </div>
+
+      <!-- VERSION -->
+      <div data-ver-wrap class="dd-s0021">
+        <button id="ver-btn" class="dd-s0022">
+          <span class="dd-s0023"></span>v0.1 <span class="docs-version-status">Alpha</span>
+          <span data-caret class="dd-s0025"></span>
+        </button>
+        <div id="ver-menu" data-versions-url="/versions.json" class="dd-s0026">
+          <a data-ver href="/v0.1/tutorials/quick_read_search_write/" aria-current="page" class="dd-s0027">v0.1 <span class="docs-version-current">current</span></a>
+          <a data-ver-all href="/versions/" class="dd-s0029">All versions</a>
+        </div>
+      </div>
+
+      <a data-ghbtn href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0031">GitHub</a>
+    </div>
+  </header>
+
+  <!-- ============ BODY GRID ============ -->
+  <div data-bodygrid class="dd-s0032">
+
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <aside id="sidebar" class="dd-s0033">
+      
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Tutorials
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0037">Read, search, and write sequences quickly</a><a data-doc-link href="/v0.1/tutorials/sequence_column_type/" class="dd-s0037">The bioseq.seq column type</a><a data-doc-link href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0037">Columnar storage and vectorized aggregates</a><a data-doc-link href="/v0.1/tutorials/sequence_generation/" class="dd-s0037">Generate deterministic sequence tables</a><a data-doc-link href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0037">Load FASTA, FASTQ, and gzip data</a><a data-doc-link href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0037">Index lifecycle, choices, and metadata</a><a data-doc-link href="/v0.1/tutorials/similarity_search/" class="dd-s0037">Searching sequences with mmsearch</a><a data-doc-link href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0037">Slice, concatenate, reverse, and measure sequences</a><a data-doc-link href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0037">Search multiple sequence columns and join by sequence</a><a data-doc-link href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0037">Highway runtime dispatch</a><a data-doc-link href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0037">Read every Bioseq EXPLAIN section</a><a data-doc-link href="/v0.1/tutorials/query_cache/" class="dd-s0037">Caching sequence-search results</a><a data-doc-link href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0037">Query remote providers, stage sequences, and search them</a>
+        </div>
+      </div>
+      
+      <div data-chapter>
+        <button type="button" data-chap-toggle aria-expanded="true" class="dd-s0034">
+          <span data-caret class="dd-s0035"></span>Reference
+        </button>
+        <div data-chap-list class="dd-s0036">
+          <a data-doc-link href="/v0.1/reference/cpp/" class="dd-s0037">C++</a><a data-doc-link href="/v0.1/reference/sql/" class="dd-s0037">SQL</a>
+        </div>
+      </div>
+      
+      
+      <div class="dd-s0038">
+        <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0039">Edit on GitHub</a>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="doc-main" class="dd-s0040">
+      
+<section data-page-panel data-screen-label="Docs · Tutorial" class="dd-s0040 design-page">
+  <header data-reveal class="dd-s0041 design-page-header">
+    <nav aria-label="Breadcrumb" class="dd-s0042 design-breadcrumb">
+      <a href="/">Home</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/">v0.1</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/quick_read_search_write/">Tutorials</a><span class="dd-s0043" aria-hidden="true">/</span><a href="/v0.1/tutorials/multiple_sequence_columns_and_joins/">Search multiple sequence columns and join by sequence</a><span class="dd-s0043" aria-hidden="true">/</span>
+    </nav>
+    <h1 class="dd-s0045">Search multiple sequence columns and join by sequence</h1>
+    <p class="dd-s0046">Model paired sequences, search one column, use another as a query, and run one or two sequence joins.</p>
+  </header>
+
+  <div class="docs-content tutorial-body"><p class="doc-paragraph">A <code>USING bioseq</code> table can contain more than one sequence column. That is useful<br>for paired reads, references and probes stored together, assembled and raw<br>forms, or forward and reverse-oriented values.</p><p class="doc-paragraph">The same columns can also take different roles in a query. One alias can supply<br>stored targets while another alias supplies query sequences. Bioseq then plans<br>the <a class="entity-ref" href="/v0.1/reference/sql/overload_group/extension-mmsearch-3425d4d7993bfdd8/" data-entity="sql:overload_group:$extension.mmsearch" data-entity-id="sql:overload_group:$extension.mmsearch" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.mmsearch</a> predicate as a parameterized sequence join.</p><p class="doc-paragraph">This tutorial covers four shapes:</p><ol><li>A literal search against one of several sequence columns</li><li>A self join where one row's <code>seq1</code> searches another row's <code>seq0</code></li><li>A join between separate target and query tables</li><li>A three-table query with two independent sequence searches</li></ol><p class="doc-paragraph">It ends with the unsupported stacked-search shape so an application can fail<br>early instead of building ambiguous SQL.</p><p class="doc-paragraph">Prerequisite: complete<br><a href="../slice_concat_reverse/">Slice, concatenate, reverse, and measure sequences</a><br>and be comfortable with PostgreSQL aliases and joins.</p><h2 class="hx" id="create-a-table-with-two-sequence-columns" data-toc data-title="Create a table with two sequence columns">Create a table with two sequence columns<a data-hash href="#create-a-table-with-two-sequence-columns" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Both columns below use the same <a class="entity-ref" href="/v0.1/reference/sql/type/bioseq-seq-8c069b667ce622ef/" data-entity="sql:type:bioseq.seq" data-entity-id="sql:type:bioseq.seq" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.seq</a> alphabet and packed width. That makes either<br>column valid as a query for the other:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-218c1cc413d2c669-0" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-218c1cc413d2c669-0" class="language-sql">CREATE TABLE paired_reads (
+    pk integer PRIMARY KEY,
+    sample_id text NOT NULL,
+    seq0 bioseq.seq('dna4', 32) NOT NULL,
+    seq1 bioseq.seq('dna4', 32) NOT NULL
+) USING bioseq;
+</code></pre></figure><p class="doc-paragraph">Use names that communicate roles in the application. Generic <code>seq0</code> and <code>seq1</code><br>are compact for a tutorial. A production table might use <code>reference_sequence</code><br>and <code>probe_sequence</code>, or <code>read_one</code> and <code>read_two</code>.</p><p class="doc-paragraph">Use the optimized defaults' explicit-publication policy during this small insert:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-f10679a8186c0bf7-1" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-f10679a8186c0bf7-1" class="language-sql">SET bioseq.index.insert_maintenance.enabled = off;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-d1ccc844aa560b43-2" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-d1ccc844aa560b43-2" class="language-sql">SET bioseq.vectorization.enabled = on;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-847d37583258998c-3" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-847d37583258998c-3" class="language-sql">INSERT INTO paired_reads (pk, sample_id, seq0, seq1) VALUES
+    (1, 'alpha',
+     'TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA',
+     'GCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA'),
+    (2, 'alpha',
+     'CCCCAACTTAGTCACTTCTCAAAAATTACTCTCTCATCATCATCTACTCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACACACACCCCAAA',
+     'TCTCAAAAATTACTCTCTCATCATCATCTACTCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACACACACCCCAAA'),
+    (3, 'beta',
+     'GGGGGTCACTTCTCAAAAATTAGGGGGGGGGTAGTCACTGTAGCCTGATCGTAGCTAGGACACATATCATCATCTACTCCTATCATCATCTACTCCTA',
+     'TCAAAAATTAGGGGGGGGGTAGTCACTGTAGCCTGATCGTAGCTAGGACACATATCATCATCTACTCCTATCATCATCTACTCCTA'),
+    (4, 'beta',
+     'TTTCATCATCATCATCTACTCCTATCTATCATCATCATCATCTACTCCTATCTACTCTCATCATCCTGATCGTAGCTATACTCCTACTATCCTATT',
+     'CATCATCATCTACTCCTATCTATCATCATCATCATCTACTCCTATCTACTCTCATCATCCTGATCGTAGCTATACTCCTACTATCCTATT'),
+    (5, 'gamma',
+     'ACGTCTAGTCACTGTAGCCTGATCGTAGCTAGTGTACTCTAGTCACTGTAGCCTGATCGTAGCTAGTTGATCCCCATATCTTCACTAGTCACTGTAGCCTGATCGTAGCTAGTTTTTTTA',
+     'TCTAGTCACTGTAGCCTGATCGTAGCTAGTTGATCCCCATATCTTCACTAGTCACTGTAGCCTGATCGTAGCTAGTTTTTTTA');
+</code></pre></figure><h2 class="hx" id="read-each-column-independently" data-toc data-title="Read each column independently">Read each column independently<a data-hash href="#read-each-column-independently" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Sequence functions take the column explicitly. There is no table-wide implicit<br>current sequence:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-c1addd18d5835ffc-4" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-c1addd18d5835ffc-4" class="language-sql">SELECT pk,
+       bioseq.len(seq0) AS target_bases,
+       bioseq.len(seq1) AS probe_bases
+FROM paired_reads
+ORDER BY pk;
+</code></pre></figure><p class="doc-paragraph">The two lengths can follow different distributions. Keep their names and units<br>separate in application models. <a class="entity-ref" href="/v0.1/reference/sql/function/bioseq-len-0347ee6e6a415910/" data-entity="sql:function:bioseq.len(bioseq.seq)" data-entity-id="sql:function:bioseq.len(bioseq.seq)" data-entity-data-url="/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json">bioseq.len</a> returns the biological<br>symbol count for the column passed to it.</p><p class="doc-paragraph">Read only the needed sequence payload:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-9fd44c3ee9156a2f-5" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-9fd44c3ee9156a2f-5" class="language-sql">SELECT pk,
+       seq1::text AS probe
+FROM paired_reads
+WHERE sample_id = 'alpha'
+ORDER BY pk;
+</code></pre></figure><p class="doc-paragraph">This does not ask the client for <code>seq0</code>.</p><p class="doc-paragraph">Take different slices from each column:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-fb5edc1df1b3bca7-6" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-fb5edc1df1b3bca7-6" class="language-sql">SELECT pk,
+       seq0[:12]::text AS target_prefix,
+       seq1[-8:]::text AS probe_suffix
+FROM paired_reads
+ORDER BY pk;
+</code></pre></figure><p class="doc-paragraph">Each expression retains its own source column and alphabet.</p><h2 class="hx" id="search-one-selected-column" data-toc data-title="Search one selected column">Search one selected column<a data-hash href="#search-one-selected-column" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Put the stored target column first:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-37998c9a8f8d1559-7" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-37998c9a8f8d1559-7" class="language-sql">SELECT pk, sample_id
+FROM paired_reads
+WHERE public.mmsearch(
+    seq0,
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+)
+ORDER BY pk;
+</code></pre></figure><p class="doc-paragraph">Searching <code>seq1</code> instead is a different statement:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-2404338576937784-8" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-2404338576937784-8" class="language-sql">SELECT pk, sample_id
+FROM paired_reads
+WHERE public.mmsearch(
+    seq1,
+    'TCATCATCTACTCCTA'::bioseq.seq('dna4', 32)
+)
+ORDER BY pk;
+</code></pre></figure><p class="doc-paragraph">The first argument tells the planner which stored sequence owns the search.<br>That ownership also connects alignment projections to the result rows.</p><h2 class="hx" id="return-the-matching-column-beside-metadata" data-toc data-title="Return the matching column beside metadata">Return the matching column beside metadata<a data-hash href="#return-the-matching-column-beside-metadata" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The aligned coordinates refer to the first <code>mmsearch</code> argument. For the <code>seq0</code><br>search, project the result with the target row's key:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-540f0309d03be080-9" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-540f0309d03be080-9" class="language-sql">SELECT pk,
+       sample_id,
+       bioseq.target_start(pk) AS target_start,
+       bioseq.target_end(pk) AS target_end,
+       bioseq.query_start(pk) AS query_start,
+       bioseq.query_end(pk) AS query_end,
+       bioseq.cigar(pk) AS cigar
+FROM paired_reads
+WHERE public.mmsearch(
+    seq0,
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32),
+    aligner_options(best_n =&gt; 3)
+)
+ORDER BY pk, target_start, target_end;
+</code></pre></figure><p class="doc-paragraph">One target can produce several rows. Do not treat <code>pk</code> alone as a unique key for<br>the result set. A client can use <code>pk</code>, coordinate columns, and CIGAR together to<br>identify an alignment.</p><h2 class="hx" id="use-a-self-join-for-stored-probes" data-toc data-title="Use a self join for stored probes">Use a self join for stored probes<a data-hash href="#use-a-self-join-for-stored-probes" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">A self join gives the same physical table two SQL identities. Alias <code>targets</code><br>supplies <code>seq0</code> and alias <code>probes</code> supplies <code>seq1</code>:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ec811f5aa260755a-10" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ec811f5aa260755a-10" class="language-sql">SELECT targets.pk AS target_pk,
+       probes.pk AS probe_pk
+FROM paired_reads AS targets
+CROSS JOIN paired_reads AS probes
+WHERE public.mmsearch(targets.seq0, probes.seq1)
+ORDER BY targets.pk, probes.pk;
+</code></pre></figure><p class="doc-paragraph">For each probe row, Bioseq can rebind <code>probes.seq1</code> as the query for target<br>rows. The aliases are not cosmetic. They define separate range-table entries<br>and make the target and query roles visible to PostgreSQL.</p><p class="doc-paragraph">Keep the sequence join itself simple, then apply pair filters across a real SQL<br>boundary. A materialized CTE is useful when the filter depends on both sides:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-a6b61bc62d2c5276-11" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-a6b61bc62d2c5276-11" class="language-sql">WITH raw_matches AS MATERIALIZED (
+    SELECT targets.pk AS target_pk,
+           probes.pk AS probe_pk,
+           targets.sample_id AS target_sample,
+           probes.sample_id AS probe_sample
+    FROM paired_reads AS targets
+    CROSS JOIN paired_reads AS probes
+    WHERE public.mmsearch(targets.seq0, probes.seq1)
+)
+SELECT target_pk,
+       probe_pk,
+       target_sample,
+       probe_sample
+FROM raw_matches
+WHERE target_sample &lt;&gt; probe_sample
+  AND probe_pk IN (1, 3, 5)
+ORDER BY target_pk, probe_pk;
+</code></pre></figure><p class="doc-paragraph">This boundary makes the order explicit. Bioseq first produces alignment rows.<br>PostgreSQL then filters those rows. Do not assume that an ordinary predicate<br>combined with <code>mmsearch</code> inside the same custom join condition will be used as<br>a query-side or target-side admission filter.</p><p class="doc-paragraph">If a metadata filter must reduce alignment work, stage the selected rows in a<br>separate <code>USING bioseq</code> target or query table, maintain its index, and join those<br>relations. A materialized CTE of sequence values is not a replacement for a<br>Bioseq relation because the search predicate needs an executor owner.</p><h2 class="hx" id="project-alignment-data-from-a-self-join" data-toc data-title="Project alignment data from a self join">Project alignment data from a self join<a data-hash href="#project-alignment-data-from-a-self-join" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The target carrier comes from the target alias:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-f34300ec5d897715-12" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-f34300ec5d897715-12" class="language-sql">SELECT targets.pk AS target_pk,
+       probes.pk AS probe_pk,
+       bioseq.target_start(targets.pk) AS target_start,
+       bioseq.target_end(targets.pk) AS target_end,
+       bioseq.cigar(targets.pk) AS cigar
+FROM paired_reads AS targets
+CROSS JOIN paired_reads AS probes
+WHERE public.mmsearch(targets.seq0, probes.seq1)
+ORDER BY target_pk, probe_pk, target_start;
+</code></pre></figure><p class="doc-paragraph">Keep projection helpers close to the search they describe. In a query with<br>several independent searches, a bare carrier can become ambiguous if more than<br>one match owner could supply it.</p><p class="doc-paragraph">If you do not need alignment details, omit the helpers. A simple pair list is<br>smaller to transfer and easier to aggregate.</p><h2 class="hx" id="avoid-the-diagonal-when-needed" data-toc data-title="Avoid the diagonal when needed">Avoid the diagonal when needed<a data-hash href="#avoid-the-diagonal-when-needed" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">A self join includes each row paired with itself unless another predicate<br>removes it. Filter the produced pairs outside the custom join:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-aaecf7228b6bf737-13" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-aaecf7228b6bf737-13" class="language-sql">WITH raw_matches AS MATERIALIZED (
+    SELECT targets.pk AS target_pk,
+           probes.pk AS probe_pk
+    FROM paired_reads AS targets
+    CROSS JOIN paired_reads AS probes
+    WHERE public.mmsearch(targets.seq0, probes.seq1)
+)
+SELECT target_pk,
+       probe_pk
+FROM raw_matches
+WHERE target_pk &lt;&gt; probe_pk
+ORDER BY target_pk, probe_pk;
+</code></pre></figure><p class="doc-paragraph">Use <code>&lt;</code> instead of <code>&lt;&gt;</code> when the relationship is symmetric and each unordered<br>pair should appear once:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-20258fff7c74bb31-14" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-20258fff7c74bb31-14" class="language-sql">WITH raw_matches AS MATERIALIZED (
+    SELECT left_read.pk AS left_pk,
+           right_read.pk AS right_pk
+    FROM paired_reads AS left_read
+    CROSS JOIN paired_reads AS right_read
+    WHERE public.mmsearch(left_read.seq0, right_read.seq1)
+)
+SELECT left_pk,
+       right_pk
+FROM raw_matches
+WHERE left_pk &lt; right_pk
+ORDER BY left_pk, right_pk;
+</code></pre></figure><p class="doc-paragraph">Only use this reduction when swapping sides has the meaning your application<br>expects. <code>mmsearch(target, query)</code> has directional target and query roles.</p><h2 class="hx" id="separate-targets-and-queries-into-two-tables" data-toc data-title="Separate targets and queries into two tables">Separate targets and queries into two tables<a data-hash href="#separate-targets-and-queries-into-two-tables" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">When probes have their own lifecycle, store them separately:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-08c4b524a2e6d1ff-15" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-08c4b524a2e6d1ff-15" class="language-sql">CREATE TABLE search_targets (
+    target_id integer PRIMARY KEY,
+    cohort text NOT NULL,
+    sequence bioseq.seq('dna4', 32) NOT NULL
+) USING bioseq;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-3743687cbf2f8c15-16" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-3743687cbf2f8c15-16" class="language-sql">CREATE TABLE search_queries (
+    query_id integer PRIMARY KEY,
+    query_name text NOT NULL,
+    sequence bioseq.seq('dna4', 32) NOT NULL
+) USING bioseq;
+</code></pre></figure><p class="doc-paragraph">Load targets and queries under the write policy appropriate for each relation.<br>Then join them with the target relation first in <code>mmsearch</code>:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-bbcf492bb80ef30c-17" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-bbcf492bb80ef30c-17" class="language-sql">SELECT queries.query_id,
+       targets.target_id
+FROM search_queries AS queries
+JOIN search_targets AS targets
+  ON public.mmsearch(targets.sequence, queries.sequence)
+ORDER BY queries.query_id, targets.target_id;
+</code></pre></figure><p class="doc-paragraph">This query shape can plan as <code>Custom Scan (BioseqBatchJoin)</code> when its ownership<br>and parameterization requirements are met.</p><h2 class="hx" id="read-a-bioseqbatchjoin-plan" data-toc data-title="Read a BioseqBatchJoin plan">Read a BioseqBatchJoin plan<a data-hash href="#read-a-bioseqbatchjoin-plan" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Explain the join without running it first:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-4419ce02cedcd057-18" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-4419ce02cedcd057-18" class="language-sql">EXPLAIN (VERBOSE, COSTS OFF)
+SELECT queries.query_id,
+       targets.target_id
+FROM search_queries AS queries
+JOIN search_targets AS targets
+  ON public.mmsearch(targets.sequence, queries.sequence);
+</code></pre></figure><p class="doc-paragraph">For a <code>BioseqBatchJoin</code>, the join-specific properties answer these questions:</p><table><tr><td>Property</td><td>Question it answers</td></tr><tr><td><code>Bioseq Query Batch Capacity</code></td><td>How many query rows can be prepared in a batch</td></tr><tr><td><code>Bioseq Residual Mmsearch Qual</code></td><td>Whether an unowned search predicate remains</td></tr><tr><td><code>Bioseq Index Read Requirement</code></td><td>Which persisted-target policy the join captured</td></tr><tr><td><code>Bioseq Query Planner Width</code></td><td>What width PostgreSQL estimated for query rows</td></tr><tr><td><code>Bioseq Distinct Targets</code></td><td>How many target identities execution observed</td></tr><tr><td><code>Bioseq Query Batches</code></td><td>How many query batches execution processed</td></tr></table><p class="doc-paragraph">Some counters appear only with <code>EXPLAIN ANALYZE</code>. The node also contains the<br>normal Bioseq pipeline, SIMD dispatch, prefilter, index-source, and execution<br>sections described in the EXPLAIN tutorial.</p><p class="doc-paragraph">A join filter that still prints as a raw <code>mmsearch</code> expression is worth<br>investigating. In the owned batch-join path, the search is represented by the<br>custom node rather than left as an ordinary Boolean function call.</p><h2 class="hx" id="use-lateral-when-the-query-role-is-easier-to-read-that-way" data-toc data-title="Use LATERAL when the query role is easier to read that way">Use LATERAL when the query role is easier to read that way<a data-hash href="#use-lateral-when-the-query-role-is-easier-to-read-that-way" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">A lateral subquery can express one search per outer query row:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-5e65daa6fe9a9e0a-19" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-5e65daa6fe9a9e0a-19" class="language-sql">SELECT queries.query_id,
+       matches.target_id,
+       bioseq.cigar(matches.target_id) AS cigar
+FROM search_queries AS queries
+CROSS JOIN LATERAL (
+    SELECT targets.target_id
+    FROM search_targets AS targets
+    WHERE public.mmsearch(targets.sequence, queries.sequence)
+) AS matches
+ORDER BY queries.query_id, matches.target_id;
+</code></pre></figure><p class="doc-paragraph">The inner search is parameterized by <code>queries.sequence</code>. This form is useful<br>when the inner query also needs a limit, target-side metadata predicates, or<br>additional projections.</p><p class="doc-paragraph">For example, restrict each query to one cohort:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-ea2f2c456fa77587-20" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-ea2f2c456fa77587-20" class="language-sql">SELECT queries.query_id,
+       matches.target_id
+FROM search_queries AS queries
+CROSS JOIN LATERAL (
+    SELECT targets.target_id
+    FROM search_targets AS targets
+    WHERE targets.cohort = 'case'
+      AND public.mmsearch(targets.sequence, queries.sequence)
+) AS matches
+ORDER BY queries.query_id, matches.target_id;
+</code></pre></figure><p class="doc-paragraph">Compare the flat join and lateral form with <code>EXPLAIN</code>. Choose the one that<br>expresses the application rule clearly and produces the intended custom plan.</p><h2 class="hx" id="run-two-searches-with-separate-target-frontiers" data-toc data-title="Run two searches with separate target frontiers">Run two searches with separate target frontiers<a data-hash href="#run-two-searches-with-separate-target-frontiers" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Two searches are supported when each belongs to a separate join frontier. A<br>three-table chain makes that separation explicit:</p><p class="doc-paragraph">Create the second target relation with the same sequence type:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-acc6e81a9f8192e2-21" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-acc6e81a9f8192e2-21" class="language-sql">CREATE TABLE second_search_targets (
+    target_id integer PRIMARY KEY,
+    cohort text NOT NULL,
+    sequence bioseq.seq('dna4', 32) NOT NULL
+) USING bioseq;
+</code></pre></figure><p class="doc-paragraph">Load and index it under the same write rules used for <code>search_targets</code>.</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-8790feeae5ed653e-22" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-8790feeae5ed653e-22" class="language-sql">SELECT first_stage.query_id,
+       middle_targets.target_id AS middle_target_id,
+       final_targets.target_id AS final_target_id
+FROM search_queries AS first_stage
+JOIN search_targets AS middle_targets
+  ON public.mmsearch(
+      middle_targets.sequence,
+      first_stage.sequence
+  )
+JOIN second_search_targets AS final_targets
+  ON public.mmsearch(
+      final_targets.sequence,
+      middle_targets.sequence
+  )
+ORDER BY first_stage.query_id,
+         middle_target_id,
+         final_target_id;
+</code></pre></figure><p class="doc-paragraph">The first search owns <code>middle_targets.sequence</code> as its target. The second owns<br><code>final_targets.sequence</code> as a different target. The middle sequence becomes the<br>query for the second stage.</p><p class="doc-paragraph">Explain the chain before using it on large relations:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-fb7a61864ffe2597-23" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-fb7a61864ffe2597-23" class="language-sql">EXPLAIN (ANALYZE, VERBOSE, COSTS OFF)
+SELECT first_stage.query_id,
+       middle_targets.target_id,
+       final_targets.target_id
+FROM search_queries AS first_stage
+JOIN search_targets AS middle_targets
+  ON public.mmsearch(
+      middle_targets.sequence,
+      first_stage.sequence
+  )
+JOIN second_search_targets AS final_targets
+  ON public.mmsearch(
+      final_targets.sequence,
+      middle_targets.sequence
+  );
+</code></pre></figure><p class="doc-paragraph">Read each custom join node as its own search. Check its target column,<br>parameterized query input, batch counters, pipeline, and actual backend. Do not<br>collapse the two nodes into one performance number.</p><h2 class="hx" id="keep-projected-match-state-unambiguous" data-toc data-title="Keep projected match state unambiguous">Keep projected match state unambiguous<a data-hash href="#keep-projected-match-state-unambiguous" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">When two searches share a lineage, a helper such as <code>bioseq.cigar(t.pk)</code> may<br>have more than one possible owner. Bioseq rejects that ambiguity instead of<br>returning a CIGAR from an arbitrary search.</p><p class="doc-paragraph">For multi-stage statements, project alignment details inside the stage where<br>the owner is unique. A lateral subquery is often the clearest boundary:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-8a4fc4904ae472dc-24" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-8a4fc4904ae472dc-24" class="language-sql">SELECT q.query_id,
+       first_match.target_id,
+       first_match.target_start,
+       first_match.target_end
+FROM search_queries AS q
+CROSS JOIN LATERAL (
+    SELECT t.target_id,
+           bioseq.target_start(t.target_id) AS target_start,
+           bioseq.target_end(t.target_id) AS target_end
+    FROM search_targets AS t
+    WHERE public.mmsearch(t.sequence, q.sequence)
+) AS first_match
+ORDER BY q.query_id, first_match.target_id, first_match.target_start;
+</code></pre></figure><p class="doc-paragraph">The helper carrier belongs to <code>t</code>, and the subquery has one <code>mmsearch</code> owner.</p><h2 class="hx" id="do-not-stack-two-searches-on-one-target" data-toc data-title="Do not stack two searches on one target">Do not stack two searches on one target<a data-hash href="#do-not-stack-two-searches-on-one-target" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">This shape is unsupported:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-428e125686c6e988-25" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-428e125686c6e988-25" class="language-sql">SELECT pk
+FROM paired_reads
+WHERE public.mmsearch(
+        seq0,
+        'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+      )
+  AND public.mmsearch(
+        seq0,
+        'TCATCATCTACTCCTA'::bioseq.seq('dna4', 32)
+      );
+</code></pre></figure><p class="doc-paragraph">Both predicates ask one target frontier to own different match state. Bioseq<br>fails with SQLSTATE <code>0A000</code> and a <code>stacked mmsearch</code> message.</p><p class="doc-paragraph">If the application needs targets that match two probes, run two searches with<br>a clear relational boundary and intersect their keys. One simple approach is<br>two materialized result tables:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-de56594c2580f8e3-26" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-de56594c2580f8e3-26" class="language-sql">CREATE TEMP TABLE first_matches AS
+SELECT DISTINCT pk
+FROM paired_reads
+WHERE public.mmsearch(
+    seq0,
+    'CTAGTCACTGTAGCCTGATCGTAGCTAGT'::bioseq.seq('dna4', 32)
+);
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-0a10cf3dc8c4f9dd-27" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-0a10cf3dc8c4f9dd-27" class="language-sql">CREATE TEMP TABLE second_matches AS
+SELECT DISTINCT pk
+FROM paired_reads
+WHERE public.mmsearch(
+    seq0,
+    'TCATCATCTACTCCTA'::bioseq.seq('dna4', 32)
+);
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-8ae6a7a919055d1a-28" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-8ae6a7a919055d1a-28" class="language-sql">SELECT a.pk
+FROM first_matches AS a
+JOIN second_matches AS b USING (pk)
+ORDER BY a.pk;
+</code></pre></figure><p class="doc-paragraph">Each statement has one search owner. The final join is ordinary relational<br>work. This also lets the application decide whether it needs alignment details<br>from the first search, the second search, or both.</p><h2 class="hx" id="use-slices-in-a-join-deliberately" data-toc data-title="Use slices in a join deliberately">Use slices in a join deliberately<a data-hash href="#use-slices-in-a-join-deliberately" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">A target expression can be a slice when the query should search only a defined<br>region:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-c8b719d6eee93e39-29" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-c8b719d6eee93e39-29" class="language-sql">SELECT targets.pk AS target_pk,
+       probes.pk AS probe_pk
+FROM paired_reads AS targets
+JOIN paired_reads AS probes
+  ON public.mmsearch(targets.seq0[16:-16], probes.seq1)
+ORDER BY target_pk, probe_pk;
+</code></pre></figure><p class="doc-paragraph">Coordinates then describe the sliced target expression. Keep the slice visible<br>in the SQL and in any result metadata so callers do not confuse slice-relative<br>positions with full-record positions. Add the slice offset when converting a<br>relative target coordinate back to the stored sequence coordinate system.</p><p class="doc-paragraph">For the <code>[16:-16]</code> example:</p><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-d175cdd0e686e14e-30" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-d175cdd0e686e14e-30" class="language-sql">WITH relative_matches AS MATERIALIZED (
+    SELECT targets.pk AS target_pk,
+           probes.pk AS probe_pk,
+           16 AS slice_origin,
+           bioseq.target_start(targets.pk) AS relative_target_start,
+           bioseq.target_end(targets.pk) AS relative_target_end
+    FROM paired_reads AS targets
+    CROSS JOIN paired_reads AS probes
+    WHERE public.mmsearch(targets.seq0[16:-16], probes.seq1)
+)
+SELECT target_pk,
+       probe_pk,
+       slice_origin + relative_target_start AS stored_target_start,
+       slice_origin + relative_target_end AS stored_target_end
+FROM relative_matches
+ORDER BY target_pk, probe_pk, stored_target_start;
+</code></pre></figure><p class="doc-paragraph">Project the match helpers as plain columns in the search level. Perform<br>coordinate arithmetic in the outer level. This lets the custom node associate<br>each helper with its owned search and keeps coordinate conversion ordinary SQL.</p><p class="doc-paragraph">Only apply a fixed offset when the lower slice bound is fixed and nonnegative.<br>For negative or row-dependent bounds, compute the resolved origin explicitly.</p><h2 class="hx" id="a-runnable-self-join-example" data-toc data-title="A runnable self-join example">A runnable self-join example<a data-hash href="#a-runnable-self-join-example" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">The following block uses the five-row fixture from this tutorial and returns<br>stored target and probe pairs. Its probes are long enough for the default<br><code>k=15</code>, <code>w=10</code> sketch window and chaining score. The current bounded SIMD route<br>rejects undersized query regions (for example, the former 12-base probe) rather<br>than silently switching algorithms. Use suitable query lengths and parameters;<br>this example does not claim support for shorter-than-window probes.</p><figure class="doc-code" data-term data-sql-example="multiple_sequence_self_join"><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-25c2ab1aa66de978-31" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-25c2ab1aa66de978-31" class="language-sql" data-entity-ranges="[{&quot;start&quot;:256,&quot;len&quot;:15,&quot;id&quot;:&quot;sql:function:$extension.mmsearch(bioseq.seq,bioseq.seq)&quot;,&quot;route&quot;:&quot;/v0.1/reference/sql/function/extension-mmsearch-9b9a40378e3617b1/&quot;,&quot;tooltip&quot;:&quot;/v0.1/entities.bf2a17c3d2ec0d21a8dbbad81a2d82c8c10e31c0f3e87fdbfc0646e871db7ba2.json&quot;}]">SELECT targets.pk AS target_pk,
+       probes.pk AS probe_pk,
+       bioseq.target_start(targets.pk) AS target_start,
+       bioseq.target_end(targets.pk) AS target_end
+FROM tutorial_paired_reads AS targets
+CROSS JOIN tutorial_paired_reads AS probes
+WHERE public.mmsearch(targets.seq0, probes.seq1)
+ORDER BY target_pk, probe_pk, target_start;</code></pre><div class="terminal-result" data-result><div class="terminal-result-label">Result · 6 rows</div><table class="result-table" aria-label="Executed SQL result"><thead><tr><th scope="col">target_pk<br><code>integer</code></th><th scope="col">probe_pk<br><code>integer</code></th><th scope="col">target_start<br><code>bigint</code></th><th scope="col">target_end<br><code>bigint</code></th></tr></thead><tbody><tr><td>1</td><td>1</td><td>23</td><td>91</td></tr><tr><td>2</td><td>2</td><td>23</td><td>86</td></tr><tr><td>3</td><td>3</td><td>21</td><td>96</td></tr><tr><td>4</td><td>4</td><td>7</td><td>92</td></tr><tr><td>5</td><td>5</td><td>0</td><td>0</td></tr><tr><td>5</td><td>5</td><td>0</td><td>0</td></tr></tbody></table></div></figure><p class="doc-paragraph"><em>Executed against Bioseq extension 1.0 on PostgreSQL 17.11</em></p><h2 class="hx" id="plan-and-capacity-checks" data-toc data-title="Plan and capacity checks">Plan and capacity checks<a data-hash href="#plan-and-capacity-checks" aria-label="Link to this section">#</a></h2><p class="doc-paragraph">Sequence joins can multiply work quickly. Before moving from a literal search<br>to stored probes, answer these questions:</p><ol><li>How many query rows survive ordinary metadata filters</li><li>How many target rows survive target-side filters</li><li>Whether <code>BioseqBatchJoin</code> was selected</li><li>What <code>Bioseq Query Batch Capacity</code> the plan reports</li><li>How many <code>Bioseq Query Batches</code> and <code>Bioseq Distinct Targets</code> execution saw</li><li>Which index source and execution backend each custom node actually used</li><li>Whether the result needs every alignment or only distinct key pairs</li><li>Whether pair filters run after a materialized match boundary or on staged<br>Bioseq input relations</li></ol><p class="doc-paragraph">Use <code>SELECT DISTINCT</code> only when duplicate alignments are not meaningful to the<br>caller. It changes result semantics and may add a sort or hash step.</p><p class="doc-paragraph">Use limits carefully. A global <code>LIMIT</code> applies after join order and matching.<br>If the requirement is a fixed number of targets per probe, put the boundary in<br>a lateral subquery and verify the resulting plan and ordering.</p><h2 class="hx" id="clean-up-the-examples" data-toc data-title="Clean up the examples">Clean up the examples<a data-hash href="#clean-up-the-examples" aria-label="Link to this section">#</a></h2><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-9acb009c1a9ee0e3-32" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-9acb009c1a9ee0e3-32" class="language-sql">DROP TABLE IF EXISTS search_queries;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-431b2c405d285b25-33" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-431b2c405d285b25-33" class="language-sql">DROP TABLE IF EXISTS search_targets;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-5ea3be29044f6a0e-34" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-5ea3be29044f6a0e-34" class="language-sql">DROP TABLE IF EXISTS second_search_targets;
+</code></pre></figure><figure class="doc-code" data-term><figcaption class="doc-code-bar"><span class="term-dot term-dot-red" aria-hidden="true"></span><span class="term-dot term-dot-amber" aria-hidden="true"></span><span class="term-dot term-dot-blue" aria-hidden="true"></span><span class="doc-code-lang">SQL</span><button type="button" class="copy-button" data-copy data-copy-target="code-24e922c8fd82ccbf-35" aria-label="Copy code to clipboard">Copy</button></figcaption><pre data-code><code id="code-24e922c8fd82ccbf-35" class="language-sql">DROP TABLE IF EXISTS paired_reads;
+</code></pre></figure><p class="doc-paragraph">Next: inspect which CPU or GPU execution route those workloads actually use in<br><a href="../highway_runtime_dispatch/">Highway runtime dispatch</a>.</p></div>
+
+  
+  <nav class="dd-s0084" aria-label="Previous and next tutorial">
+    <div class="dd-s0085">
+      <a href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0106 dd-h005"><span class="dd-s0087">&#8592; Previous</span><span class="dd-s0088">Slice, concatenate, reverse, and measure sequences</span></a>
+      <a href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0086 dd-h005"><span class="dd-s0087">Next &#8594;</span><span class="dd-s0088">Highway runtime dispatch</span></a>
+    </div>
+  </nav>
+  
+</section>
+
+    </main>
+
+    <!-- ===== RIGHT TOC ===== -->
+    <aside data-rightrail class="dd-s0234">
+      <div class="dd-s0235">On this page</div>
+      <div id="toc-list" class="dd-s0236">
+        <a data-toc-link data-level="2" href="#create-a-table-with-two-sequence-columns">Create a table with two sequence columns</a><a data-toc-link data-level="2" href="#read-each-column-independently">Read each column independently</a><a data-toc-link data-level="2" href="#search-one-selected-column">Search one selected column</a><a data-toc-link data-level="2" href="#return-the-matching-column-beside-metadata">Return the matching column beside metadata</a><a data-toc-link data-level="2" href="#use-a-self-join-for-stored-probes">Use a self join for stored probes</a><a data-toc-link data-level="2" href="#project-alignment-data-from-a-self-join">Project alignment data from a self join</a><a data-toc-link data-level="2" href="#avoid-the-diagonal-when-needed">Avoid the diagonal when needed</a><a data-toc-link data-level="2" href="#separate-targets-and-queries-into-two-tables">Separate targets and queries into two tables</a><a data-toc-link data-level="2" href="#read-a-bioseqbatchjoin-plan">Read a BioseqBatchJoin plan</a><a data-toc-link data-level="2" href="#use-lateral-when-the-query-role-is-easier-to-read-that-way">Use LATERAL when the query role is easier to read that way</a><a data-toc-link data-level="2" href="#run-two-searches-with-separate-target-frontiers">Run two searches with separate target frontiers</a><a data-toc-link data-level="2" href="#keep-projected-match-state-unambiguous">Keep projected match state unambiguous</a><a data-toc-link data-level="2" href="#do-not-stack-two-searches-on-one-target">Do not stack two searches on one target</a><a data-toc-link data-level="2" href="#use-slices-in-a-join-deliberately">Use slices in a join deliberately</a><a data-toc-link data-level="2" href="#a-runnable-self-join-example">A runnable self-join example</a><a data-toc-link data-level="2" href="#plan-and-capacity-checks">Plan and capacity checks</a><a data-toc-link data-level="2" href="#clean-up-the-examples">Clean up the examples</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ============ SITE FOOTER ============ -->
+  <footer data-screen-label="Docs · Footer" class="dd-s0237">
+    <div aria-hidden="true" class="dd-s0238">BioseqDB</div>
+
+    <div class="dd-s0239">
+      <div data-footcols class="dd-s0240">
+        <div>
+          <div class="dd-s0241">
+            <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="dd-s0007">
+            <span class="dd-s0242">Bioseq<span class="dd-s0243">DB</span></span>
+            <span class="dd-s0244">DOCS</span>
+          </div>
+          <p class="dd-s0245">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
+          <span class="dd-s0246"><span class="dd-s0247"></span>Free &amp; open source</span>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Documentation</div>
+          <div class="dd-s0249">
+            
+            <a href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Read, search, and write sequences quickly</a><a href="/v0.1/tutorials/sequence_column_type/" class="dd-s0250 dd-h009">The bioseq.seq column type</a><a href="/v0.1/tutorials/columnar_storage_and_vectorized_aggregates/" class="dd-s0250 dd-h009">Columnar storage and vectorized aggregates</a><a href="/v0.1/tutorials/sequence_generation/" class="dd-s0250 dd-h009">Generate deterministic sequence tables</a><a href="/v0.1/tutorials/fasta_fastq_gzip_and_io/" class="dd-s0250 dd-h009">Load FASTA, FASTQ, and gzip data</a><a href="/v0.1/tutorials/index_lifecycle_and_metadata/" class="dd-s0250 dd-h009">Index lifecycle, choices, and metadata</a><a href="/v0.1/tutorials/similarity_search/" class="dd-s0250 dd-h009">Searching sequences with mmsearch</a><a href="/v0.1/tutorials/slice_concat_reverse/" class="dd-s0250 dd-h009">Slice, concatenate, reverse, and measure sequences</a><a href="/v0.1/tutorials/multiple_sequence_columns_and_joins/" class="dd-s0250 dd-h009">Search multiple sequence columns and join by sequence</a><a href="/v0.1/tutorials/highway_runtime_dispatch/" class="dd-s0250 dd-h009">Highway runtime dispatch</a><a href="/v0.1/tutorials/reading_bioseq_explain/" class="dd-s0250 dd-h009">Read every Bioseq EXPLAIN section</a><a href="/v0.1/tutorials/query_cache/" class="dd-s0250 dd-h009">Caching sequence-search results</a><a href="/v0.1/tutorials/remote_provider_to_search/" class="dd-s0250 dd-h009">Query remote providers, stage sequences, and search them</a><a href="/v0.1/reference/cpp/" class="dd-s0250 dd-h009">C++</a><a href="/v0.1/reference/sql/" class="dd-s0250 dd-h009">SQL</a>
+            
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Explore</div>
+          <div class="dd-s0249">
+            <a href="/" class="dd-s0250 dd-h009">Product home</a>
+            <a href="/#workflow" class="dd-s0250 dd-h009">Workflow</a>
+            <a href="/#examples" class="dd-s0250 dd-h009">Examples</a>
+            <a href="/#index" class="dd-s0250 dd-h009">Index</a>
+            <a href="/#scale" class="dd-s0250 dd-h009">Scale</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="dd-s0248">Project</div>
+          <div class="dd-s0249">
+            <a data-nav href="/v0.1/tutorials/quick_read_search_write/" class="dd-s0250 dd-h009">Documentation</a>
+            <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="dd-s0251">GitHub</a>
+            <span class="dd-s0252">Alpha &middot; v0.1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-s0253">
+      <div class="dd-s0254"></div>
+      <div class="dd-s0255">
+        <span class="dd-s0256">&copy; 2026 Bioseq contributors &mdash; an independent open-source project.</span>
+        <nav class="dd-s0257">
+          <a href="https://github.com/styczynski/bioseqdb/blob/main/LICENSE" rel="noreferrer" class="dd-s0258 dd-h010">License (MIT)</a>
+          <a href="/versions/" class="dd-s0258 dd-h010">Versions</a>
+          <a data-totop href="#page-top" class="dd-s0258 dd-h010">Back to top ↑</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div data-backdrop class="dd-s0259"></div>
+
+  <!-- ===== ENTITY POPOVER ===== -->
+  <div id="entity-pop" class="dd-s0260"></div>
+
+</div>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","name":"Search multiple sequence columns and join by sequence","description":"Model paired sequences, search one column, use another as a query, and run one or two sequence joins.","url":"https://bioseqdb.com/v0.1/tutorials/multiple_sequence_columns_and_joins/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/"},{"@type":"ListItem","position":2,"name":"v0.1","item":"/v0.1/"},{"@type":"ListItem","position":3,"name":"Tutorials","item":"/v0.1/tutorials/quick_read_search_write/"},{"@type":"ListItem","position":4,"name":"Search multiple sequence columns and join by sequence","item":"/v0.1/tutorials/multiple_sequence_columns_and_joins/"}]}]}</script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/prism-init.js"></script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/main.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/docs-design.mjs"></script>
+</body>
+</html>

@@ -11,15 +11,15 @@
 <meta property="og:description" content="Load FASTA and FASTQ data, store sequences beside metadata, and search them with ordinary SQL.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bioseqdb.com/">
-<meta property="og:image" content="https://bioseqdb.com/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/media/social_card.png">
+<meta property="og:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BioseqDB">
 <meta name="twitter:description" content="Load FASTA and FASTQ data, store sequences beside metadata, and search them with ordinary SQL.">
-<meta name="twitter:image" content="https://bioseqdb.com/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/media/social_card.png">
-<link rel="icon" href="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/favicon.svg">
-<link rel="stylesheet" href="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/vendor/prism/prism.min.css">
-<link rel="stylesheet" href="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/css/site.css">
-<link rel="stylesheet" href="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/css/landing-design.css">
+<meta name="twitter:image" content="https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png">
+<link rel="icon" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/favicon.svg">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/site.css">
+<link rel="stylesheet" href="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/css/landing-design.css">
 </head>
 <body id="page-top" class="landing-design-page">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -30,7 +30,7 @@
   <header id="nav" class="ld-s0002">
     <div class="ld-s0003">
       <div class="ld-s0004">
-        <img src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/bioseq-mark.svg" width="34" height="34" alt="BioseqDB logo" class="ld-s0005">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="34" height="34" alt="BioseqDB logo" class="ld-s0005">
         <span class="ld-s0006">Bioseq<span class="ld-s0007">DB</span></span>
       </div>
       <nav class="ld-s0008">
@@ -41,7 +41,7 @@
       </nav>
       <div class="ld-s0010">
         <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="ld-s0011">GitHub</a>
-        <a href="/v0.1/tutorials/sequence_column_type/" class="ld-s0012">Read the docs</a>
+        <a href="/v0.1/tutorials/quick_read_search_write/" class="ld-s0012">Read the docs</a>
       </div>
     </div>
   </header>
@@ -51,7 +51,7 @@
   <!-- HERO with background video -->
   <section id="top" class="ld-s0013">
     <video data-autobg autoplay muted loop playsinline preload="auto" aria-hidden="true" class="ld-s0014">
-      <source src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/media/vials.mp4" type="video/mp4">
+      <source src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/vials.mp4" type="video/mp4">
     </video>
     <div class="ld-s0015"></div>
     <div class="ld-s0016"></div>
@@ -65,7 +65,7 @@
         <h1 class="ld-s0022">Search biological sequences with plain <span class="ld-s0023">SQL</span>.</h1>
         <p class="ld-s0024">BioseqDB is a SQL-native system for biological sequence data. Load FASTA and FASTQ files, store sequences beside their metadata, and search them with one query.</p>
         <div class="ld-s0025">
-          <a href="/v0.1/tutorials/sequence_column_type/" class="ld-s0026">Read the docs</a>
+          <a href="/v0.1/tutorials/quick_read_search_write/" class="ld-s0026">Read the docs</a>
           <a href="#examples" class="ld-s0027 ld-h002">See the examples</a>
         </div>
         <div class="ld-s0028">
@@ -112,7 +112,7 @@
           </div>
           <pre class="ld-s0055"><code id="hero-query-code" class="language-sql" data-annotated-query>SELECT id, accession
 FROM landing_hero_sequences
-WHERE public.mmsearch(seq, &#39;CTAGTCACTGTAGCCTGATCGTAGCTAGT&#39;::bioseq.seq(&#39;dna4&#39;, 64))
+WHERE public.mmsearch(seq, &#39;TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA&#39;::bioseq.seq(&#39;dna4&#39;, 64))
 ORDER BY id;</code></pre>
           
 <div data-live-result="hero_query" class="ld-s0064">
@@ -155,11 +155,11 @@ ORDER BY id;</code></pre>
     <div data-reveal class="ld-s0083">
       <p class="ld-s0084"><span class="ld-s0085">Free and open source, forever.</span> Built by a single maintainer, with experience from</p>
       <div class="ld-s0086">
-        <img src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/logos/google.png" alt="Google" class="ld-s0087 ld-h004">
-        <img src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/logos/bytedance.png" alt="ByteDance" class="ld-s0088 ld-h004">
-        <img src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/logos/goldman.png" alt="Goldman Sachs" class="ld-s0089 ld-h004">
-        <img src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/logos/sumo.png" alt="Sumo Logic" class="ld-s0090 ld-h004">
-        <img src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/logos/ef.png" alt="Entrepreneur First" class="ld-s0091 ld-h004">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/logos/google.png" alt="Google" class="ld-s0087 ld-h004">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/logos/bytedance.png" alt="ByteDance" class="ld-s0088 ld-h004">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/logos/goldman.png" alt="Goldman Sachs" class="ld-s0089 ld-h004">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/logos/sumo.png" alt="Sumo Logic" class="ld-s0090 ld-h004">
+        <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/logos/ef.png" alt="Entrepreneur First" class="ld-s0091 ld-h004">
       </div>
     </div>
   </section>
@@ -248,7 +248,7 @@ ORDER BY id;</code></pre>
             <div data-example-panel="0" data-sql-example-code="hero_query">
               <pre class="ld-s0124"><code id="landing-example-0" class="language-sql">SELECT id, accession
 FROM landing_hero_sequences
-WHERE public.mmsearch(seq, &#39;CTAGTCACTGTAGCCTGATCGTAGCTAGT&#39;::bioseq.seq(&#39;dna4&#39;, 64))
+WHERE public.mmsearch(seq, &#39;TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA&#39;::bioseq.seq(&#39;dna4&#39;, 64))
 ORDER BY id;</code></pre>
             </div>
             <div data-example-panel="1" data-sql-example-code="similarity_search" hidden>
@@ -263,13 +263,13 @@ ORDER BY id;</code></pre>
 
 INSERT INTO reference_reads VALUES
   (5521, &#39;NR_046018.2&#39;, &#39;Homo sapiens&#39;, DATE &#39;2026-06-10&#39;, 99.5,
-   (repeat(&#39;A&#39;, 600) || &#39;CTAGTCACTGTAGCCTGATCGTAGCTAGT&#39; || repeat(&#39;C&#39;, 600))::bioseq.seq(&#39;dna4&#39;, 64)),
+   (repeat(&#39;A&#39;, 600) || &#39;TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA&#39; || repeat(&#39;C&#39;, 600))::bioseq.seq(&#39;dna4&#39;, 64)),
   (4410, &#39;NC_000913.3&#39;, &#39;Homo sapiens&#39;, DATE &#39;2025-11-04&#39;, 97.0,
-   (repeat(&#39;C&#39;, 520) || &#39;CTAGTCACTGTAGCCTGATCGTAGCTAGT&#39; || repeat(&#39;G&#39;, 540))::bioseq.seq(&#39;dna4&#39;, 64)),
+   (repeat(&#39;C&#39;, 520) || &#39;TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA&#39; || repeat(&#39;G&#39;, 540))::bioseq.seq(&#39;dna4&#39;, 64)),
   (6193, &#39;CP041828.1&#39;, &#39;Homo sapiens&#39;, DATE &#39;2025-02-18&#39;, 94.5,
-   (repeat(&#39;G&#39;, 500) || &#39;CTAGTCACTGTAGCCTGATCGTAGCTAGT&#39; || repeat(&#39;T&#39;, 700))::bioseq.seq(&#39;dna4&#39;, 64)),
+   (repeat(&#39;G&#39;, 500) || &#39;TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA&#39; || repeat(&#39;T&#39;, 700))::bioseq.seq(&#39;dna4&#39;, 64)),
   (7102, &#39;FILTERED.1&#39;, &#39;Mus musculus&#39;, DATE &#39;2026-07-01&#39;, 100.0,
-   (repeat(&#39;T&#39;, 600) || &#39;CTAGTCACTGTAGCCTGATCGTAGCTAGT&#39; || repeat(&#39;A&#39;, 600))::bioseq.seq(&#39;dna4&#39;, 64));
+   (repeat(&#39;T&#39;, 600) || &#39;TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA&#39; || repeat(&#39;A&#39;, 600))::bioseq.seq(&#39;dna4&#39;, 64));
 
 SELECT id,
        accession,
@@ -281,7 +281,7 @@ WHERE organism = &#39;Homo sapiens&#39;
   AND bioseq.len(seq) &gt;= 1000
   AND public.mmsearch(
         seq,
-        &#39;CTAGTCACTGTAGCCTGATCGTAGCTAGT&#39;::bioseq.seq(&#39;dna4&#39;, 64)
+        &#39;TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA&#39;::bioseq.seq(&#39;dna4&#39;, 64)
       )
 ORDER BY quality_score DESC, accession
 LIMIT 25;</code></pre>
@@ -296,7 +296,7 @@ LIMIT 25;</code></pre>
   seq           bioseq.seq(&#39;dna4&#39;, 64)
 ) USING bioseq;
 
-SET bioseq.update_index_on_insert = on;
+SET bioseq.index.insert_maintenance.enabled = off;
 
 SELECT bioseq.load(
   &#39;run_reads&#39;::regclass,
@@ -313,8 +313,10 @@ VALUES (
   &#39;manual_read_001&#39;,
   &#39;validation_batch&#39;,
   &#39;run_042&#39;,
-  &#39;CTAGTCACTGTAGCCTGATCGTAGCTAGT&#39;::bioseq.seq(&#39;dna4&#39;, 64)
+  &#39;TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA&#39;::bioseq.seq(&#39;dna4&#39;, 64)
 );
+
+SELECT bioseq.update_index(&#39;run_reads&#39;::regclass, &#39;minimizers_per_fragment&#39;);
 
 SELECT read_id,
        sample_id,
@@ -323,7 +325,7 @@ SELECT read_id,
 FROM run_reads
 WHERE public.mmsearch(
         seq,
-        &#39;CTAGTCACTGTAGCCTGATCGTAGCTAGT&#39;::bioseq.seq(&#39;dna4&#39;, 64)
+        &#39;TCACTGTAGGATCGTAGCTAGTCCGTACTGTAGCTGATCGTAGCCCTAGTCACTGTAGCCTGATCGTAGCTAGTCACTGTAGCCATACCTGAA&#39;::bioseq.seq(&#39;dna4&#39;, 64)
       )
 ORDER BY collected_on DESC, read_id;</code></pre>
             </div>
@@ -374,11 +376,11 @@ ORDER BY collected_on DESC, read_id;</code></pre>
     <thead><tr><th scope="col" class="ld-s0133">id<span class="landing-result-column-type"> (bigint)</span></th><th scope="col" class="ld-s0133">accession<span class="landing-result-column-type"> (text)</span></th><th scope="col" class="ld-s0133">organism<span class="landing-result-column-type"> (text)</span></th><th scope="col" class="ld-s0133">bases<span class="landing-result-column-type"> (bigint)</span></th></tr></thead>
     <tbody>
     
-      <tr><td class="ld-s0068">5521</td><td class="ld-s0068">NR_046018.2</td><td class="ld-s0068">Homo sapiens</td><td class="ld-s0068">1229</td></tr>
+      <tr><td class="ld-s0068">5521</td><td class="ld-s0068">NR_046018.2</td><td class="ld-s0068">Homo sapiens</td><td class="ld-s0068">1293</td></tr>
     
-      <tr><td class="ld-s0068">4410</td><td class="ld-s0068">NC_000913.3</td><td class="ld-s0068">Homo sapiens</td><td class="ld-s0068">1089</td></tr>
+      <tr><td class="ld-s0068">4410</td><td class="ld-s0068">NC_000913.3</td><td class="ld-s0068">Homo sapiens</td><td class="ld-s0068">1153</td></tr>
     
-      <tr><td class="ld-s0068">6193</td><td class="ld-s0068">CP041828.1</td><td class="ld-s0068">Homo sapiens</td><td class="ld-s0068">1229</td></tr>
+      <tr><td class="ld-s0068">6193</td><td class="ld-s0068">CP041828.1</td><td class="ld-s0068">Homo sapiens</td><td class="ld-s0068">1293</td></tr>
     
     </tbody>
   </table>
@@ -408,9 +410,9 @@ ORDER BY collected_on DESC, read_id;</code></pre>
     <thead><tr><th scope="col" class="ld-s0133">read_id<span class="landing-result-column-type"> (text)</span></th><th scope="col" class="ld-s0133">sample_id<span class="landing-result-column-type"> (text)</span></th><th scope="col" class="ld-s0133">match_start<span class="landing-result-column-type"> (bigint)</span></th><th scope="col" class="ld-s0133">match_end<span class="landing-result-column-type"> (bigint)</span></th></tr></thead>
     <tbody>
     
-      <tr><td class="ld-s0068">LDR001</td><td class="ld-s0068">validation_batch</td><td class="ld-s0068">16</td><td class="ld-s0068">36</td></tr>
+      <tr><td class="ld-s0068">LDR001</td><td class="ld-s0068">validation_batch</td><td class="ld-s0068">10</td><td class="ld-s0068">99</td></tr>
     
-      <tr><td class="ld-s0068">manual_read_001</td><td class="ld-s0068">validation_batch</td><td class="ld-s0068">8</td><td class="ld-s0068">28</td></tr>
+      <tr><td class="ld-s0068">manual_read_001</td><td class="ld-s0068">validation_batch</td><td class="ld-s0068">2</td><td class="ld-s0068">91</td></tr>
     
     </tbody>
   </table>
@@ -425,7 +427,7 @@ ORDER BY collected_on DESC, read_id;</code></pre>
   <!-- CINEMATIC BAND : small_vid.mp4 -->
   <section data-reveal="fade" class="ld-s0148">
     <video data-autobg autoplay muted loop playsinline preload="auto" aria-hidden="true" class="ld-s0149">
-      <source src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/media/small_vid.mp4" type="video/mp4">
+      <source src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/small_vid.mp4" type="video/mp4">
     </video>
     <div class="ld-s0150"></div>
     <div class="ld-s0151"></div>
@@ -867,7 +869,7 @@ ORDER BY collected_on DESC, read_id;</code></pre>
           <h2 class="ld-s0275">Query biological sequences with SQL you already know.</h2>
           <p class="ld-s0276">Load your reads and references, keep them beside their metadata, and search everything in one place.</p>
           <div class="ld-s0277">
-            <a href="/v0.1/tutorials/sequence_column_type/" class="ld-s0278">Read the docs</a>
+            <a href="/v0.1/tutorials/quick_read_search_write/" class="ld-s0278">Read the docs</a>
             <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="ld-s0278">View on GitHub</a>
             <div class="ld-s0279">
               <span class="ld-s0280"></span>
@@ -887,7 +889,7 @@ ORDER BY collected_on DESC, read_id;</code></pre>
       <div class="ld-s0285">
         <div>
           <div class="ld-s0004">
-            <img src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="ld-s0005">
+            <img src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/bioseq-mark.svg" width="32" height="32" alt="BioseqDB logo" class="ld-s0005">
             <span class="ld-s0286">Bioseq<span class="ld-s0287">DB</span></span>
           </div>
           <p class="ld-s0288">SQL-native search for biological sequence data. Load, store, and query FASTA and FASTQ beside their metadata.</p>
@@ -905,7 +907,7 @@ ORDER BY collected_on DESC, read_id;</code></pre>
         <div>
           <div class="ld-s0291">Project</div>
           <div class="ld-s0292">
-            <a href="/v0.1/tutorials/sequence_column_type/" class="ld-s0294">Documentation</a>
+            <a href="/v0.1/tutorials/quick_read_search_write/" class="ld-s0294">Documentation</a>
             <a href="https://github.com/styczynski/bioseqdb" rel="noreferrer" class="ld-s0294">GitHub</a>
             <span class="ld-s0295">Alpha &middot; v0.1</span>
           </div>
@@ -918,7 +920,7 @@ ORDER BY collected_on DESC, read_id;</code></pre>
       <div class="ld-s0298">
         <span class="ld-s0299">&copy; 2026 Bioseq contributors &mdash; an independent open-source project.</span>
         <nav class="ld-s0300">
-          <a href="https://github.com/styczynski/bioseqdb/blob/main/__main/LICENSE" rel="noreferrer" class="ld-s0301 ld-h005">License (MIT)</a>
+          <a href="https://github.com/styczynski/bioseqdb/blob/main/LICENSE" rel="noreferrer" class="ld-s0301 ld-h005">License (MIT)</a>
           <a href="/versions/" class="ld-s0301 ld-h005">Versions</a>
           <a href="#top" class="ld-s0301 ld-h005">Back to top</a>
         </nav>
@@ -929,10 +931,10 @@ ORDER BY collected_on DESC, read_id;</code></pre>
 
 </div>
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"BioseqDB","description":"Load FASTA and FASTQ data, store sequences beside metadata, and search them with ordinary SQL.","url":"https://bioseqdb.com/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/media/social_card.png"}</script>
-<script src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/js/prism-init.js"></script>
-<script src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/vendor/prism/prism.min.js"></script>
-<script type="module" src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/js/main.js"></script>
-<script type="module" src="/assets/93998fc1e521007400681993f3bf85e54c1087d6f9c9652e00ab5f032533c4f3/js/landing-design.mjs"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"BioseqDB","description":"Load FASTA and FASTQ data, store sequences beside metadata, and search them with ordinary SQL.","url":"https://bioseqdb.com/","isPartOf":"BioseqDB","image":"https://bioseqdb.com/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/media/social_card.png"}</script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/prism-init.js"></script>
+<script src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/vendor/prism/prism.min.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/main.js"></script>
+<script type="module" src="/assets/1059dd74d26a3f4b8efcfb12a2e871a12d9323d70fc3963a1ffe7e03ed4805b4/js/landing-design.mjs"></script>
 </body>
 </html>
